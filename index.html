@@ -1,1979 +1,1021 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Pedidos Online</title>
+    <title>Ultra Fibra - Provedor de Internet</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Swiper CSS --><link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            overflow-x: hidden; /* Evita scroll horizontal */
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            background-color: #0d1128; /* Azul marinho escuro */
         }
-        * {
-            -webkit-tap-highlight-color: transparent;
+        .hero-gradient {
+            background: linear-gradient(90deg, #1e1b4b 0%, #4c1d95 100%);
+            position: relative;
+            overflow: hidden;
         }
-        /* Estilo para a barra de rolagem */
-        #cart-items::-webkit-scrollbar, #admin-product-list::-webkit-scrollbar, #pizza-flavors-list::-webkit-scrollbar, .menu-category-container::-webkit-scrollbar, #polpa-flavor-options::-webkit-scrollbar {
-            width: 8px;
-            height: 8px; /* Altura da barra horizontal */
+        .plan-gradient {
+            background: linear-gradient(160deg, #1e40af, #1e293b);
         }
-        #cart-items::-webkit-scrollbar-track, #admin-product-list::-webkit-scrollbar-track, #pizza-flavors-list::-webkit-scrollbar-track, .menu-category-container::-webkit-scrollbar-track, #polpa-flavor-options::-webkit-scrollbar-track {
-            background: #2d3748; /* bg-gray-800 */
+        /* Estilo para placeholder do formulário no tema escuro */
+        ::placeholder {
+            color: #64748b;
         }
-        #cart-items::-webkit-scrollbar-thumb, #admin-product-list::-webkit-scrollbar-thumb, #pizza-flavors-list::-webkit-scrollbar-thumb, .menu-category-container::-webkit-scrollbar-thumb, #polpa-flavor-options::-webkit-scrollbar-thumb {
-            background: #4a5568; /* bg-gray-600 */
-            border-radius: 4px;
+        /* Cor da data no input date */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
         }
-        #cart-items::-webkit-scrollbar-thumb:hover, #admin-product-list::-webkit-scrollbar-thumb:hover, #pizza-flavors-list::-webkit-scrollbar-thumb:hover, .menu-category-container::-webkit-scrollbar-thumb:hover, #polpa-flavor-options::-webkit-scrollbar-thumb:hover {
-            background: #718096; /* bg-gray-500 */
+        /* Swiper custom overrides */
+        .swiper-pagination-bullet {
+            background: #fff; /* Cor das bolinhas de paginação */
+            opacity: 0.5;
         }
-        .modal {
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        .modal-content {
-            transition: transform 0.3s ease;
-        }
-        /* Estilos para o Carrossel de Sabores (Modal Pizza) */
-        #pizza-flavors-container {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-        }
-        #pizza-flavors-container::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera */
-        }
-        .flavor-card {
-            flex: 0 0 70%; /* Cada cartão ocupa 70% */
-            scroll-snap-align: center;
-            transition: transform 0.2s ease;
-            max-width: 280px; /* Largura máxima */
-        }
-        .flavor-card:active {
-             transform: scale(0.98); /* Efeito de clique */
-        }
-        @media (min-width: 640px) { /* sm */
-            .flavor-card {
-                flex-basis: 45%; /* Mantém para telas maiores */
-                max-width: none; /* Remove largura máxima em telas maiores */
-            }
-        }
-
-        /* Estilos Carrossel Menu Principal */
-         .menu-category-container {
-             display: flex;
-             overflow-x: auto;
-             scroll-snap-type: x mandatory;
-             gap: 1rem;
-             padding: 0.5rem 1rem 1rem 1rem;
-             margin: 0 -1rem;
-             -ms-overflow-style: none;  /* Esconde scrollbar IE/Edge */
-             scrollbar-width: none; /* Esconde scrollbar Firefox */
-             cursor: grab; /* Indica que é arrastável */
-             scroll-behavior: smooth; /* Rolagem suave */
-             -webkit-overflow-scrolling: touch; /* Melhora scroll em iOS */
-             user-select: none;
-             -webkit-user-select: none;
-             -moz-user-select: none;
-             -ms-user-select: none;
-         }
-         /* Esconde scrollbar Chrome/Safari */
-         .menu-category-container::-webkit-scrollbar {
-             display: none;
-         }
-         .menu-item-card {
-            flex: 0 0 80%; /* Tamanho mobile */
-            scroll-snap-align: center;
-            max-width: 300px;
-            flex-shrink: 0; /* Impede que o item encolha */
-         }
-
-         @media (min-width: 768px) { /* md - Tablet */
-            .menu-item-card {
-                 flex-basis: 60%; /* Ocupa mais espaço, mostrando menos itens */
-                 max-width: 380px;
-            }
-            .menu-category-container {
-                gap: 1.5rem;
-            }
-         }
-         @media (min-width: 1024px) { /* lg - Desktop */
-             .menu-item-card {
-                  flex-basis: 45%; /* Mostra pouco mais de 2 */
-                  max-width: 420px;
-             }
-         }
-
-
-        /* Estilos para o Painel do Carrinho Deslizante */
-        #cart-panel {
-            transition: transform 0.3s ease-in-out;
-            transform: translateX(100%); /* Começa escondido */
-        }
-        #cart-panel.open {
-            transform: translateX(0); /* Desliza para a posição visível */
-        }
-        /* CSS controla a visibilidade do overlay via classe 'open' */
-        #cart-overlay {
-            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-            opacity: 0;
-            visibility: hidden; /* Começa invisível */
-            position: fixed; /* Garante que cubra tudo */
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.6); /* bg-black bg-opacity-60 */
-            z-index: 30; /* Abaixo do painel */
-        }
-         #cart-overlay.open {
+        .swiper-pagination-bullet-active {
+            background: #a78bfa; /* Cor da bolinha ativa */
             opacity: 1;
-            visibility: visible; /* Torna visível quando tem a classe 'open' */
         }
-
-        /* Estilo para botão adicionado */
-        .added-to-cart {
-            background-color: #38a169 !important; /* bg-green-600 */
-            cursor: default !important;
+        .swiper-button-next, .swiper-button-prev {
+            color: #a78bfa;
         }
-        
-        /* Estilo para sabor de suco selecionado */
-        .juice-flavor-selected {
-            background-color: #38a169 !important; /* bg-green-600 */
-            border-color: #38a169 !important;
-            font-weight: bold;
+        /* Garante que o swiper ocupe a largura correta */
+        .swiper-container {
+            width: 100%;
+            overflow: hidden;
         }
-
+        .swiper-slide {
+            height: auto; /* Permite que o slide ajuste a altura ao conteúdo */
+        }
+        .app-icon-btn {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 0.75rem;
+            padding: 0.5rem;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .app-icon-btn:hover {
+            transform: scale(1.1);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        /* Estilo para os selects de apps dinâmicos */
+        .app-select-label {
+            display: block;
+            text-gray-300 font-medium mb-1 text-sm;
+        }
+        .app-select {
+            w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white;
+        }
     </style>
 </head>
-<body class="bg-gray-900 text-white antialiased relative">
+<body class="text-gray-200">
 
-    <!-- Ecrã de Seleção de Tema (Removido, vai direto para a pizzaria) -->
-    <div id="theme-selection" class="hidden min-h-screen flex flex-col items-center justify-center p-4">
-        <!-- ... (código inalterado) ... -->
-    </div>
-
-    <!-- Aplicação Principal -->
-    <div id="main-app" class="pb-24">
-         <!-- Container para botões Admin e Carrinho -->
-        <div class="fixed top-4 right-4 z-50 flex items-center gap-3">
-            <!-- Botão Flutuante do Carrinho (AGORA VEM PRIMEIRO) -->
-            <button id="floating-cart-button" onclick="toggleCartPanel()" title="Ver Carrinho" class="relative bg-green-600 hover:bg-green-700 text-white p-3 rounded-full shadow-lg flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-green-500">
-               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-               <span id="cart-item-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
-            </button>
-           <!-- Botão de Admin (AGORA VEM DEPOIS) -->
-            <button onclick="showAdminLoginModal()" title="Painel Admin" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-            </button>
-        </div>
-        <!-- Adicionado max-w-7xl para limitar largura em telas grandes -->
-        <div class="container mx-auto p-4 md:p-8 max-w-7xl">
-            <!-- Coluna do Menu -->
-            <div>
-                <header class="mb-8 mt-16 md:mt-0"> <!-- Adicionado mt-16 para mobile -->
-                   <h1 id="restaurant-name" class="text-4xl font-bold"></h1>
-                   <p class="text-gray-400">Escolha os seus produtos favoritos e adicione ao carrinho.</p>
-                   <p class="text-yellow-400 mt-2 font-semibold">Promoção válida de Segunda a Quarta-feira!</p>
-                </header>
-                <main id="menu-items" class="flex flex-col gap-8">
-                    <!-- Categorias e Cards de produto serão inseridos aqui via JS -->
-                </main>
+    <!-- Cabeçalho --><header class="bg-slate-900/70 backdrop-blur-sm shadow-lg sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white">
+               ULTRA FIBRA
+            </a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="#planos" class="text-gray-300 hover:text-violet-400 transition duration-300">Nossos Planos</a>
+                <a href="#contato" class="text-gray-300 hover:text-violet-400 transition duration-300">Contato</a>
+                <a href="#" class="bg-violet-600 text-white px-4 py-2 rounded-md hover:bg-violet-700 transition duration-300 shadow">
+                    Área do Cliente
+                </a>
             </div>
+            <button class="md:hidden flex items-center" id="mobile-menu-button">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <!-- Menu Mobile --><div class="hidden md:hidden bg-slate-900" id="mobile-menu">
+            <a href="#planos" class="block py-2 px-4 text-sm text-gray-300 hover:bg-slate-800">Nossos Planos</a>
+            <a href="#contato" class="block py-2 px-4 text-sm text-gray-300 hover:bg-slate-800">Contato</a>
+            <a href="#" class="block py-2 px-4 text-sm text-white bg-violet-600 hover:bg-violet-700">Área do Cliente</a>
         </div>
-    </div>
+    </header>
 
-    <!-- Overlay para o Carrinho -->
-    <div id="cart-overlay" onclick="toggleCartPanel()"></div>
-
-    <!-- Painel Lateral do Carrinho -->
-    <div id="cart-panel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-gray-800 shadow-2xl p-6 z-40 flex flex-col">
-       <div class="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
-             <h2 class="text-2xl font-bold">🛒 Seu Carrinho</h2>
-             <button onclick="toggleCartPanel()" class="text-gray-400 hover:text-white text-2xl focus:outline-none focus:ring-2 focus:ring-gray-500 rounded-full">×</button>
-        </div>
-        <div id="cart-items" class="flex-grow overflow-y-auto pr-2"> <!-- Itens do carrinho -->
-            <p id="empty-cart-message" class="text-gray-400 text-center py-8">O seu carrinho está vazio.</p>
-        </div>
-        
-        <!-- Rodapé do Carrinho com novo botão -->
-        <div class="mt-6 border-t border-gray-700 pt-4"> <!-- Rodapé do carrinho -->
-             
-             <!-- *** NOVO: Seletor de Tipo de Pedido *** -->
-            <div class="mb-4">
-                <label class="block text-gray-400 mb-2 text-sm font-medium">Tipo de Pedido</label>
-                <div class="flex gap-4">
-                    <div>
-                        <input type="radio" id="order-type-delivery" name="order-type" value="delivery" class="hidden peer" checked onchange="renderCart()">
-                        <label for="order-type-delivery" class="px-4 py-2 rounded-lg cursor-pointer bg-gray-700 peer-checked:bg-green-600 peer-checked:font-bold transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-green-500">
-                            Entrega (Delivery)
-                        </label>
+    <main>
+        <!-- Seção Hero --><section class="hero-gradient text-white py-20">
+            <div class="container mx-auto px-6 text-center relative z-10">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">A melhor conexão da sua região</h1>
+                <p class="text-lg md:text-xl mb-8 text-violet-200">Internet 100% Fibra Óptica com ultravelocidade e estabilidade para você e sua família.</p>
+                <a href="#planos" class="bg-white text-violet-600 font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition duration-300 transform hover:scale-105">
+                    Conheça os Planos
+                </a>
+                
+                <!-- Galeria de Apps Inclusos --><div class="mt-16">
+                    <p class="text-sm text-violet-300 mb-6">Aproveite seus apps favoritos:</p>
+                    <!-- 5 Principais Apps -->
+                    <div class="flex justify-center items-center gap-4 md:gap-6 flex-wrap px-4 max-w-lg mx-auto">
+                        <button class="app-icon-btn" data-app-id="sky"><img src="https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png" alt="Logo Sky+" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                        <button class="app-icon-btn" data-app-id="disney"><img src="https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" alt="Logo Disney+" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                        <button class="app-icon-btn" data-app-id="max"><img src="https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" alt="Logo Max" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                        <button class="app-icon-btn" data-app-id="nba"><img src="https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png" alt="Logo NBA" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                        <button class="app-icon-btn" data-app-id="deezer"><img src="https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" alt="Logo Deezer" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
                     </div>
-                    <div>
-                        <input type="radio" id="order-type-pickup" name="order-type" value="pickup" class="hidden peer" onchange="renderCart()">
-                        <label for="order-type-pickup" class="px-4 py-2 rounded-lg cursor-pointer bg-gray-700 peer-checked:bg-green-600 peer-checked:font-bold transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-green-500">
-                            Retirada
-                        </label>
-                    </div>
-                </div>
-            </div>
-             <!-- *** FIM DO NOVO SELETOR *** -->
-
-             <div class="flex justify-between items-center text-sm mb-2">
-                <span>Subtotal:</span>
-                <span id="cart-subtotal">R$ 0,00</span>
-            </div>
-             <div class="flex justify-between items-center text-sm mb-4">
-                <span>Taxa de Entrega:</span>
-                <span id="cart-delivery-fee">R$ 0,00</span>
-            </div>
-            <div class="flex justify-between items-center text-xl font-bold mb-4"> <!-- Adicionado mb-4 -->
-                <span>Total:</span>
-                <span id="cart-total">R$ 0,00</span>
-            </div>
-            <!-- BOTÃO MODIFICADO: Adicionado cor e foco -->
-            <button type="button" onclick="toggleCartPanel()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 mb-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500">
-                ← Voltar e escolher mais
-            </button>
-            <button id="checkout-button" onclick="showCheckoutModal()" class="bg-green-600 hover:bg-green-700 w-full text-white font-bold py-3 rounded-lg shadow-lg disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-green-500" disabled>
-                Finalizar Pedido
-            </button>
-        </div>
-    </div>
-
-    <!-- Modal de Checkout -->
-    <div id="checkout-modal" class="modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 invisible opacity-0 z-50">
-       <div class="modal-content bg-gray-800 rounded-2xl shadow-xl w-full max-w-md p-8 transform scale-95 max-h-[90vh] overflow-y-auto">
-            <h2 class="text-2xl font-bold mb-6">Finalizar Pedido</h2>
-            <form id="checkout-form">
-                <div class="mb-4">
-                    <label for="name" class="block text-gray-400 mb-2">Seu Nome</label>
-                    <input type="text" id="name" name="name" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required>
-                </div>
-                <div class="mb-4">
-                    <label for="phone" class="block text-gray-400 mb-2">Seu Telefone (WhatsApp)</label>
-                    <input type="tel" id="phone" name="phone" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required>
-                </div>
-                 <!-- *** MODIFICADO: Adicionado ID ao wrapper *** -->
-                 <div id="address-field-wrapper" class="mb-4">
-                    <label for="address" class="block text-gray-400 mb-2">Endereço Completo (Rua, Nº, Bairro)</label>
-                    <input type="text" id="address" name="address" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Ex: Rua das Flores, 123, Centro" required>
-                </div>
-                 <!-- *** MODIFICADO: Adicionado ID ao wrapper *** -->
-                <div id="location-field-wrapper" class="mb-6">
-                    <label class="block text-gray-400 mb-2">Geolocalização (Opcional)</label>
-                    <button type="button" onclick="getLocation()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mb-2 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500">
-                        📍 Usar Minha Localização Atual
+                    <!-- Botão para ver todos -->
+                    <button id="open-all-apps-btn" class="mt-8 text-violet-300 font-semibold hover:text-white transition duration-300 underline">
+                        Conhecer todos os aplicativos
                     </button>
-                    <div id="location-info" class="text-sm text-gray-400 mt-2 p-3 bg-gray-700 rounded-lg min-h-[50px]">
-                        Opcional. Clique no botão para obter a sua localização precisa.
-                    </div>
-                    <input type="hidden" id="latitude" name="latitude">
-                    <input type="hidden" id="longitude" name="longitude">
                 </div>
-                <div class="mb-4">
-                    <label class="block text-gray-400 mb-2">Forma de Pagamento</label>
-                    <div class="flex flex-wrap gap-x-4 gap-y-2" id="payment-method">
-                        <div><input type="radio" id="dinheiro" name="payment" value="Dinheiro" class="hidden peer" checked><label for="dinheiro" class="px-4 py-2 rounded-lg cursor-pointer bg-gray-700 peer-checked:bg-green-600 peer-checked:font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500">Dinheiro</label></div>
-                        <div><input type="radio" id="cartao" name="payment" value="Cartão" class="hidden peer"><label for="cartao" class="px-4 py-2 rounded-lg cursor-pointer bg-gray-700 peer-checked:bg-green-600 peer-checked:font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500">Cartão</label></div>
-                        <div><input type="radio" id="pix" name="payment" value="PIX" class="hidden peer"><label for="pix" class="px-4 py-2 rounded-lg cursor-pointer bg-gray-700 peer-checked:bg-green-600 peer-checked:font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500">PIX</label></div>
-                    </div>
-                </div>
-                <div id="troco-div" class="mb-6">
-                    <label for="troco" class="block text-gray-400 mb-2">Precisa de troco para quanto?</label>
-                    <input type="text" id="troco" name="troco" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Deixe em branco se não precisar">
-                </div>
+            </div>
+        </section>
+
+        <!-- Seção Planos --><section id="planos" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-12 text-white">Os melhores planos que combinam com você</h2>
                 
-                <!-- Bloco de Informação PIX -->
-                <div id="pix-info-div" class="mb-6 hidden"> <!-- Começa escondido -->
-                    <label class="block text-gray-400 mb-2">Chave PIX (Telefone)</label>
-                    <div class="w-full bg-gray-900 border border-gray-600 rounded-lg px-4 py-3">
-                        <span class="font-mono text-lg text-green-400 tracking-wider">7599804-3792</span>
-                    </div>
-                    <p class="text-xs text-gray-400 mt-2">Por favor, envie o comprovativo pelo WhatsApp após o pagamento.</p>
-                </div>
+                <div class="swiper-container group">
+                    <div class="swiper-wrapper">
+                    
+                        <!-- Plano 8: Ultra Premium WiFi 6 (R$ 149,99) --><div class="swiper-slide">
+                            <div class="plan-gradient border-2 border-violet-500 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
+                                <span class="bg-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase absolute -top-4 left-6">Premium WiFi 6</span>
+                                <h3 class="text-xl font-bold my-2 pt-8 text-white">Plano Ultra Premium</h3>
+                                <p class="text-gray-400 font-medium mb-2">WiFi 6</p>
+                                <p class="text-5xl font-bold text-violet-400">825<span class="text-2xl align-baseline">Mbps</span></p>
+                                <div class="my-4 text-white">
+                                    <span class="text-xl align-top">R$</span>
+                                    <span class="text-4xl font-bold">149</span>
+                                    <span class="text-xl">,99</span>
+                                    <span class="text-gray-400 text-sm">/mês</span>
+                                </div>
+                                <ul class="text-left mb-6 space-y-2 text-gray-300 text-sm flex-grow">
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador WiFi 6</li>
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>App de TV (Canais Abertos)</li>
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>1 App Premium Incluso</li>
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>2 Apps Standard Inclusos</li>
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>1 App Advanced Incluso</li>
+                                </ul>
+                                <button data-plan="ultra_premium_wifi6" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4">Ver Apps Inclusos</button>
+                                <a href="#contato" class="w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</a>
+                            </div>
+                        </div>
 
-                <div class="flex gap-4">
-                    <button type="button" onclick="hideCheckoutModal()" class="w-full bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-gray-500">Voltar</button>
-                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-green-500">Enviar Pedido via WhatsApp</button>
+                        <!-- Plano 7: Ultra Gold WiFi 6 (R$ 119,99) --><div class="swiper-slide">
+                            <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
+                                <span class="bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase absolute -top-4 left-6">WiFi 6</span>
+                                <h3 class="text-xl font-bold my-2 pt-8 text-white">Plano Ultra Gold</h3>
+                                <p class="text-gray-400 font-medium mb-2">WiFi 6</p>
+                                <p class="text-5xl font-bold text-violet-400">825<span class="text-2xl align-baseline">Mbps</span></p>
+                                <div class="my-4 text-white">
+                                    <span class="text-xl align-top">R$</span>
+                                    <span class="text-4xl font-bold">119</span>
+                                    <span class="text-xl">,99</span>
+                                    <span class="text-gray-400 text-sm">/mês</span>
+                                </div>
+                                <ul class="text-left mb-6 space-y-2 text-gray-300 text-sm flex-grow">
+                                     <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador WiFi 6</li>
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>App de TV (Canais Abertos)</li>
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>1 App Premium Incluso</li>
+                                </ul>
+                                <button data-plan="ultra_gold_wifi6" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4">Ver Apps Inclusos</button>
+                                <a href="#contato" class="w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</a>
+                            </div>
+                        </div>
+                        
+                        <!-- Plano 6: Gold+ (R$ 109,99) --><div class="swiper-slide">
+                            <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
+                                <h3 class="text-xl font-bold my-2 text-white">Plano Gold+</h3>
+                                <p class="text-5xl font-bold text-violet-400">625<span class="text-2xl align-baseline">Mbps</span></p>
+                                <div class="my-4 text-white">
+                                    <span class="text-xl align-top">R$</span>
+                                    <span class="text-4xl font-bold">109</span>
+                                    <span class="text-xl">,99</span>
+                                    <span class="text-gray-400 text-sm">/mês</span>
+                                </div>
+                                <ul class="text-left mb-6 space-y-2 text-gray-300 text-sm flex-grow">
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador em Comodato</li>
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>App de TV (Canais Abertos)</li>
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>1 App Standard Incluso</li>
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>1 App Advanced Incluso</li>
+                                </ul>
+                                <button data-plan="gold_plus" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4">Ver Apps Inclusos</button>
+                                <a href="#contato" class="w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</a>
+                            </div>
+                        </div>
+
+                        <!-- Plano 5: Gold (R$ 89,99) --><div class="swiper-slide">
+                            <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
+                                <h3 class="text-xl font-bold my-2 text-white">Plano Gold</h3>
+                                <p class="text-5xl font-bold text-violet-400">625<span class="text-2xl align-baseline">Mbps</span></p>
+                                <div class="my-4 text-white">
+                                    <span class="text-xl align-top">R$</span>
+                                    <span class="text-4xl font-bold">89</span>
+                                    <span class="text-xl">,99</span>
+                                    <span class="text-gray-400 text-sm">/mês</span>
+                                </div>
+                                <ul class="text-left mb-6 space-y-2 text-gray-300 text-sm flex-grow">
+                                     <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador em Comodato</li>
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>App de TV (Canais Abertos)</li>
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>1 App Advanced Incluso</li>
+                                </ul>
+                                <button data-plan="gold" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4">Ver Apps Inclusos</button>
+                                <a href="#contato" class="w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</a>
+                            </div>
+                        </div>
+
+                        <!-- Plano 4: Ultra+ (R$ 79,99) --><div class="swiper-slide">
+                            <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
+                                <span class="bg-violet-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase absolute -top-4 left-1/2 -translate-x-1/2">Mais Popular</span>
+                                <h3 class="text-xl font-bold my-2 pt-8 text-white">Plano Ultra+</h3>
+                                <p class="text-5xl font-bold text-violet-400">425<span class="text-2xl align-baseline">Mbps</span></p>
+                                 <div class="my-4 text-white">
+                                    <span class="text-xl align-top">R$</span>
+                                    <span class="text-4xl font-bold">79</span>
+                                    <span class="text-xl">,99</span>
+                                    <span class="text-gray-400 text-sm">/mês</span>
+                                </div>
+                                <ul class="text-left mb-6 space-y-2 text-gray-300 text-sm flex-grow">
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador em Comodato</li>
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>App de TV (Canais Abertos)</li>
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>1 App Standard Incluso</li>
+                                </ul>
+                                 <button data-plan="ultra_plus" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4">Ver Apps Inclusos</button>
+                                <a href="#contato" class="w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</a>
+                            </div>
+                        </div>
+
+                        <!-- Plano 3: Básico Prata (R$ 74,99) --><div class="swiper-slide">
+                             <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
+                                <h3 class="text-xl font-bold my-2 text-white">Plano Básico Prata</h3>
+                                <p class="text-5xl font-bold text-violet-400">275<span class="text-2xl align-baseline">Mbps</span></p>
+                                 <div class="my-4 text-white">
+                                    <span class="text-xl align-top">R$</span>
+                                    <span class="text-4xl font-bold">74</span>
+                                    <span class="text-xl">,99</span>
+                                    <span class="text-gray-400 text-sm">/mês</span>
+                                </div>
+                                <ul class="text-left mb-6 space-y-2 text-gray-300 text-sm flex-grow">
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador em Comodato</li>
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>App de TV (Canais Abertos)</li>
+                                </ul>
+                                 <button data-plan="basico_prata" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4">Ver Apps Inclusos</button>
+                                <a href="#contato" class="w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</a>
+                            </div>
+                        </div>
+
+                        <!-- Plano 2: Básico+ (R$ 69,99) --><div class="swiper-slide">
+                            <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
+                                <h3 class="text-xl font-bold my-2 text-white">Plano Básico+</h3>
+                                <p class="text-5xl font-bold text-violet-400">225<span class="text-2xl align-baseline">Mbps</span></p>
+                                 <div class="my-4 text-white">
+                                    <span class="text-xl align-top">R$</span>
+                                    <span class="text-4xl font-bold">69</span>
+                                    <span class="text-xl">,99</span>
+                                    <span class="text-gray-400 text-sm">/mês</span>
+                                </div>
+                                <ul class="text-left mb-6 space-y-2 text-gray-300 text-sm flex-grow">
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador em Comodato</li>
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>App de TV (Canais Abertos)</li>
+                                </ul>
+                                <button data-plan="basico_plus" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4">Ver Apps Inclusos</button>
+                                <a href="#contato" class="w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</a>
+                            </div>
+                        </div>
+
+                        <!-- Plano 1: Básico (R$ 65,00) --><div class="swiper-slide">
+                            <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
+                                <h3 class="text-xl font-bold my-2 text-white">Plano Básico</h3>
+                                <p class="text-5xl font-bold text-violet-400">125<span class="text-2xl align-baseline">Mbps</span></p>
+                                <div class="my-4 text-white">
+                                    <span class="text-xl align-top">R$</span>
+                                    <span class="text-4xl font-bold">65</span>
+                                    <span class="text-xl">,00</span>
+                                    <span class="text-gray-400 text-sm">/mês</span>
+                                </div>
+                                <ul class="text-left mb-6 space-y-2 text-gray-300 text-sm flex-grow">
+                                    <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador em Comodato</li>
+                                </ul>
+                                <button data-plan="basico" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4 invisible">Ver Apps Inclusos</button> <!-- Botão oculto pois não tem apps -->
+                                <a href="#contato" class="w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Add Pagination --><div class="swiper-pagination md:hidden mt-8 !relative"></div>
+                    <!-- Add Navigation --><div class="swiper-button-next hidden md:block opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="swiper-button-prev hidden md:block opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-            </form>
-        </div>
-    </div>
-    
-    <!-- Modal de Confirmação -->
-    <div id="confirmation-modal" class="modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 invisible opacity-0 z-50">
-       <div class="modal-content bg-gray-800 rounded-2xl shadow-xl w-full max-w-md p-8 text-center transform scale-95">
-            <h2 class="text-3xl font-bold text-green-400 mb-4">Obrigado!</h2>
-            <p class="text-gray-300 mb-6">O seu pedido foi enviado. Finalize a conversa no WhatsApp para confirmar.</p>
-            <div id="order-summary" class="text-left bg-gray-700 p-4 rounded-lg mb-6"></div>
-            <div class="flex flex-col gap-3">
-                <button onclick="resendWhatsapp()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-green-500">Reenviar via WhatsApp</button>
-                <button id="copy-button" onclick="copyOrder()" class="w-full bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-gray-500">Copiar Pedido</button>
-                <button onclick="resetApp()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500">Fazer Novo Pedido</button>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- Modal de Login do Admin -->
-    <div id="admin-login-modal" class="modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 invisible opacity-0 z-50">
-      <div class="modal-content bg-gray-800 rounded-2xl shadow-xl w-full max-w-sm p-8 transform scale-95">
-            <h2 class="text-2xl font-bold mb-6">Acesso Restrito</h2>
-            <form id="admin-login-form">
-                <div class="mb-4">
-                    <label for="password" class="block text-gray-400 mb-2">Senha</label>
-                    <input type="password" id="password" name="password" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    <p id="login-error" class="text-red-400 text-sm mt-2 hidden">Senha incorreta!</p>
-                </div>
-                <div class="flex gap-4">
-                    <button type="button" onclick="hideAdminLoginModal()" class="w-full bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-gray-500">Cancelar</button>
-                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500">Entrar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <!-- Modal de Montagem de Pizza -->
-    <div id="pizza-modal" class="modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 invisible opacity-0 z-50">
-       <div class="modal-content bg-gray-800 rounded-2xl shadow-xl w-full max-w-2xl p-6 md:p-8 transform scale-95 max-h-[90vh] flex flex-col"> 
-            <h2 class="text-3xl font-bold mb-6">Monte sua Pizza</h2>
-            <div class="flex-grow overflow-y-auto pr-4">
-                
-                <!-- Passo 1: Seleção de Tamanho -->
-                <div class="mb-6">
-                    <h3 class="text-xl font-semibold text-yellow-400 mb-3">1. Escolha o Tamanho</h3>
-                    <div id="pizza-size-options" class="flex flex-wrap gap-4">
-                        <!-- Opções de tamanho inseridas via JS -->
-                    </div>
-                </div>
-
-                <!-- Passo 2: Seleção de Sabores (Misto) -->
-                <div id="flavor-section-wrapper" class="mb-4 hidden"> 
-                    <h3 id="flavor-section-title" class="text-xl font-semibold text-yellow-400 mb-3">2. Misture Sabores (Opcional)</h3> 
-                    <p id="flavor-limit-message" class="text-gray-400 mb-4 text-sm">Selecione um tamanho.</p> 
-
-                    <!-- Carrossel de Sabores -->
-                    <div id="pizza-flavors-container" class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4" style="scroll-behavior: smooth;">
-                        <!-- Cartões de sabor inseridos via JS -->
-                    </div>
-                    <!-- Botões de Navegação do Carrossel -->
-                    <div class="flex justify-center gap-4 mt-4">
-                        <button type="button" onclick="scrollFlavors(-1)" class="bg-gray-700 hover:bg-gray-600 p-2 rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-gray-500"><</button>
-                        <button type="button" onclick="scrollFlavors(1)" class="bg-gray-700 hover:bg-gray-600 p-2 rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-gray-500">></button>
-                    </div>
-
-                </div>
-            </div>
-            <!-- Rodapé do Modal -->
-            <div class="mt-auto pt-6 border-t border-gray-700">
-                <div class="flex justify-between items-center mb-4">
-                    <span class="text-lg font-medium" id="pizza-total-label">Total:</span> 
-                    <span id="pizza-total-price" class="text-3xl font-bold text-green-400">R$ 0,00</span>
-                </div>
-                <div class="flex gap-4">
-                    <button type="button" onclick="hidePizzaModal()" class="w-full bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-gray-500">Cancelar</button>
-                    <button type="button" id="add-pizza-to-cart-btn" onclick="addPizzaToCart()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-green-500" disabled>Adicionar ao Carrinho</button> 
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para Escolher Sabor do Refrigerante -->
-    <div id="item-flavor-modal" class="modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 invisible opacity-0 z-50">
-        <div class="modal-content bg-gray-800 rounded-2xl shadow-xl w-full max-w-sm p-6 transform scale-95">
-             <h2 class="text-2xl font-bold mb-4">Escolha o Sabor</h2>
-             <div id="item-flavor-options" class="grid grid-cols-2 gap-3 mb-6">
-                 <!-- Botões de sabor serão inseridos aqui -->
+        <!-- Seção Verifica Viabilidade --><section id="viabilidade" class="py-10 bg-slate-800">
+             <div class="container mx-auto px-6 text-center">
+                 <h2 class="text-2xl font-bold mb-6 text-white">Verifique a Viabilidade na sua Localização</h2>
+                 <p class="text-gray-400 mb-6">Clique no botão abaixo para obter suas coordenadas e envie para análise.</p>
+                 <button id="locate-me-viability-btn" class="mb-4 bg-violet-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-violet-700 transition duration-300 flex items-center justify-center mx-auto shadow-md">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    Obter Minha Localização
+                 </button>
+                 <div id="location-display-viability" class="mt-4 p-4 bg-slate-700 rounded-lg max-w-md mx-auto text-center hidden">
+                     <p class="text-gray-300 font-medium">Suas coordenadas:</p>
+                     <div class="flex items-center justify-center mt-2">
+                         <code id="coordinates-viability" class="text-lg font-mono bg-slate-600 text-white p-2 rounded-l-md w-full text-center"></code>
+                         <button id="copy-coords-viability-btn" class="bg-violet-600 text-white p-3 rounded-r-md hover:bg-violet-700" disabled>
+                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                         </button>
+                     </div>
+                     <p id="copy-feedback-viability" class="text-green-400 text-sm mt-2 hidden">Copiado!</p>
+                     <button id="send-location-btn" class="mt-4 w-full bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-600 transition duration-300 flex items-center justify-center shadow-md" disabled>
+                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.626-2.957 6.584-6.591 6.584zm-1.13-4.243c-.225.084-1.295.64-1.492.72-.192.08-.343.12-.478.24-.135.12-.27.24-.27.42s-.012.51.05.59c.06.08.27.31.576.62.308.308.552.53.81.73.26.19.51.3.81.42.3.12.57.1.76.02.19-.08 1.13-0.47 1.29-1.26.16-.8.16-1.48.12-1.62-.04-.14-.12-.22-.24-.3s-.27-.24-.42-.32c-.15-.08-.27-.12-.42-.2-.15-.08-.34-.12-.48-.04s-.42.48-.52.56c-.1.08-.2.12-.28.12s-.16-.04-.24-.08c-.08-.04-.36-.12-.66-.36-.3-.24-.55-.52-.66-.73-.11-.21-.03-.33.04-.42.08-.08.16-.2.24-.28.08-.08.12-.16.16-.24.04-.08.02-.16-.02-.24s-.42-1.02-.56-1.4c-.15-.38-.3-.32-.43-.32-.12 0-.27-.01-.4-.01z"/>
+                         </svg>
+                         Enviar Localização para Análise
+                     </button>
+                 </div>
              </div>
-             <button type="button" onclick="hideItemFlavorModal()" class="w-full bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-gray-500">Cancelar</button>
-         </div>
-     </div>
+        </section>
 
-    <!-- *** MODIFICADO: Este modal agora é usado para TODOS os sucos com ML *** -->
-    <div id="polpa-modal" class="modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 invisible opacity-0 z-50">
-       <div class="modal-content bg-gray-800 rounded-2xl shadow-xl w-full max-w-lg p-6 md:p-8 transform scale-95 max-h-[90vh] flex flex-col">
-            <h2 id="polpa-modal-title" class="text-3xl font-bold mb-6">Suco</h2> <!-- Título Dinâmico -->
-            <div class="flex-grow overflow-y-auto pr-2">
-                <!-- 1. Escolha o Tamanho -->
-                <div class="mb-6">
-                    <h3 class="text-xl font-semibold text-yellow-400 mb-3">1. Escolha o Tamanho</h3>
-                    <div id="polpa-size-options" class="flex flex-wrap gap-4">
-                        <!-- Opções de tamanho 300ml/500ml via JS -->
+        <!-- Seção Contato --><section id="contato" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-12 text-white">Faça seu Cadastro Completo</h2>
+                <div class="max-w-2xl mx-auto">
+                    <!-- Formulário de Cadastro --><div class="w-full bg-slate-800 p-8 rounded-lg shadow-lg">
+                        
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-2xl font-bold text-white">Ficha do Cliente</h3>
+                            <button type="button" id="unlock-gift-btn" class="text-3xl hover:opacity-75 transition-opacity" title="Desbloquear Bônus">🎁</button>
+                        </div>
+
+                        <form id="cadastro-form" class="space-y-4">
+                            
+                            <div>
+                                <label for="full_name" class="block text-gray-300 font-medium mb-1">🆔 Nome completo:</label>
+                                <input type="text" id="full_name" name="full_name" placeholder="Digite seu nome completo" class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white" required>
+                            </div>
+
+                            <div>
+                                <label for="nickname" class="block text-gray-300 font-medium mb-1">🏷️ Apelido:</label>
+                                <input type="text" id="nickname" name="nickname" placeholder="Como gostaria de ser chamado" class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white">
+                            </div>
+
+                            <div>
+                                <label for="cpf" class="block text-gray-300 font-medium mb-1">🪪 CPF:</label>
+                                <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white" required>
+                            </div>
+                            
+                            <div>
+                                <label for="birth_date" class="block text-gray-300 font-medium mb-1">🎂 Data de nascimento:</label>
+                                <input type="date" id="birth_date" name="birth_date" class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white" required>
+                            </div>
+                            
+                            <div>
+                                <label for="whatsapp" class="block text-gray-300 font-medium mb-1">💬 WhatsApp:</label>
+                                <input type="tel" id="whatsapp" name="whatsapp" placeholder="(XX) 9XXXX-XXXX" class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white" required>
+                            </div>
+
+                            <div>
+                                <label for="email" class="block text-gray-300 font-medium mb-1">✉️ E-mail:</label>
+                                <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white" required>
+                            </div>
+
+                            <div>
+                                <label for="address" class="block text-gray-300 font-medium mb-1">🏡 Endereço:</label>
+                                <input type="text" id="address" name="address" placeholder="Rua, Nº, Bairro" class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white" required>
+                            </div>
+
+                            <div>
+                                <label for="geolocation" class="block text-gray-300 font-medium mb-1">📍 Geolocalização:</label>
+                                <div class="flex items-center">
+                                    <input type="text" id="geolocation" name="geolocation" placeholder="Clique no botão ao lado ou preencha" class="w-full px-4 py-2 border border-slate-600 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white">
+                                    <button type="button" id="locate-me-form-btn" class="bg-violet-600 text-white p-3 rounded-r-lg hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                             <div>
+                                <label for="reference" class="block text-gray-300 font-medium mb-1">📌 Ponto de referência:</label>
+                                <input type="text" id="reference" name="reference" placeholder="Próximo a..." class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white">
+                            </div>
+                            
+                             <div>
+                                <label for="plan" class="block text-gray-300 font-medium mb-1">📃 Plano escolhido:</label>
+                                <select id="plan" name="plan" class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white" required>
+                                    <option value="" disabled selected>Selecione um plano</option>
+                                    <option value="Plano Ultra Premium WiFi 6 - 825 Mbps">Plano Ultra Premium WiFi 6 - 825 Mbps</option>
+                                    <option value="Plano Ultra Gold WiFi 6 - 825 Mbps">Plano Ultra Gold WiFi 6 - 825 Mbps</option>
+                                    <option value="Plano Gold+ - 625 Mbps">Plano Gold+ - 625 Mbps</option>
+                                    <option value="Plano Gold - 625 Mbps">Plano Gold - 625 Mbps</option>
+                                    <option value="Plano Ultra+ - 425 Mbps">Plano Ultra+ - 425 Mbps</option>
+                                    <option value="Plano Básico Prata - 275 Mbps">Plano Básico Prata - 275 Mbps</option>
+                                    <option value="Plano Básico+ - 225 Mbps">Plano Básico+ - 225 Mbps</option>
+                                    <option value="Plano Básico - 125 Mbps">Plano Básico - 125 Mbps</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Apps Inclusos (dinâmico) -->
+                            <div id="included-apps-container" class="hidden space-y-3">
+                                <label class="block text-gray-300 font-medium">📱 Apps Inclusos (Escolha):</label>
+                                <div id="included-apps-list" class="space-y-3 p-3 bg-slate-700 rounded-lg">
+                                    <!-- Dropdowns de apps serão inseridos aqui via JS -->
+                                </div>
+                                <input type="hidden" id="included_apps_text" name="included_apps_text">
+                            </div>
+
+                            <div>
+                                <label for="devices" class="block text-gray-300 font-medium mb-1">📱 Nº de aparelhos conectados:</label>
+                                <input type="number" id="devices" name="devices" placeholder="Ex: 3" class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white" min="1">
+                            </div>
+
+                            <div>
+                                <label for="due_date" class="block text-gray-300 font-medium mb-1">🗓️ Dia de vencimento:</label>
+                                <select id="due_date" name="due_date" class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white" required>
+                                    <option value="" disabled selected>Selecione uma data</option>
+                                    <option value="05">Dia 05</option>
+                                    <option value="10">Dia 10</option>
+                                    <option value="15">Dia 15</option>
+                                    <option value="20">Dia 20</option>
+                                    <option value="25">Dia 25</option>
+                                </select>
+                            </div>
+
+                            <!-- Campo de Teste Grátis (Escondido) -->
+                             <div id="free-trial-container" class="hidden">
+                                <label for="free_trial" class="block text-gray-300 font-medium mb-1">🎁 Teste grátis (Bônus)</label>
+                                <select id="free_trial" name="free_trial" class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white">
+                                    <option value="Não">Não</option>
+                                    <option value="15 dias">15 dias</option>
+                                    <option value="1 mês">1 mês</option>
+                                    <option value="2 meses">2 meses</option>
+                                    <option value="3 meses">3 meses</option>
+                                </select>
+                            </div>
+
+                             <div>
+                                <label for="obs" class="block text-gray-300 font-medium mb-1">📝 Observações:</label>
+                                <textarea id="obs" name="obs" rows="3" placeholder="Alguma observação?" class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-600 transition duration-300 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.626-2.957 6.584-6.591 6.584zm-1.13-4.243c-.225.084-1.295.64-1.492.72-.192.08-.343.12-.478.24-.135.12-.27.24-.27.42s-.012.51.05.59c.06.08.27.31.576.62.308.308.552.53.81.73.26.19.51.3.81.42.3.12.57.1.76.02.19-.08 1.13-0.47 1.29-1.26.16-.8.16-1.48.12-1.62-.04-.14-.12-.22-.24-.3s-.27-.24-.42-.32c-.15-.08-.27-.12-.42-.2-.15-.08-.34-.12-.48-.04s-.42.48-.52.56c-.1.08-.2.12-.28.12s-.16-.04-.24-.08c-.08-.04-.36-.12-.66-.36-.3-.24-.55-.52-.66-.73-.11-.21-.03-.33.04-.42.08-.08.16-.2.24-.28.08-.08.12-.16.16-.24.04-.08.02-.16-.02-.24s-.42-1.02-.56-1.4c-.15-.38-.3-.32-.43-.32-.12 0-.27-.01-.4-.01z"/>
+                                </svg>
+                                Enviar Cadastro Completo
+                            </button>
+                        </form>
                     </div>
                 </div>
-                <!-- 2. Escolha o Sabor (Escondido/Mostrado via JS) -->
-                <div id="polpa-flavor-section" class="mb-4 hidden"> 
-                    <h3 class="text-xl font-semibold text-yellow-400 mb-3">2. Escolha o Sabor</h3>
-                    <div id="polpa-flavor-options" class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-48 overflow-y-auto pr-2">
-                        <!-- Opções de sabor via JS -->
-                    </div>
-                </div>
+                 <div class="mt-12 text-center text-gray-400">
+                    <p class="mb-2"><strong>Endereço:</strong> Rua MAJ. PRAZERES 2-110 - São Felipe/BA</p>
+                    <p class="mb-2"><strong>WhatsApp:</strong> (75) 3199-9981</p>
+                    <p><strong>CNPJ:</strong> 36.712.901/0001-53</p>
+                 </div>
             </div>
-            <!-- Rodapé do Modal -->
-            <div class="mt-auto pt-6 border-t border-gray-700">
-                <div class="flex justify-between items-center mb-4">
-                    <span class="text-lg font-medium">Total:</span>
-                    <span id="polpa-total-price" class="text-3xl font-bold text-green-400">R$ 0,00</span>
-                </div>
-                <div class="flex gap-4">
-                    <button type="button" onclick="hidePolpaModal()" class="w-full bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-gray-500">Cancelar</button>
-                    <button type="button" id="add-polpa-to-cart-btn" onclick="addPolpaToCart()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-green-500" disabled>Adicionar Suco</button>
-                </div>
+        </section>
+
+    </main>
+
+    <!-- Rodapé --><footer class="bg-slate-900 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+             <p class="text-gray-400 text-sm">Ultra Fibra</p>
+             <p class="text-gray-400 text-sm">Rua MAJ. PRAZERES 2-110 - São Felipe/BA</p>
+             <p class="text-gray-400 text-sm mb-6">CNPJ: 36.712.901/0001-53</p>
+             <div class="border-t border-slate-700 pt-6">
+                <p>&copy; 2024 Ultra Fibra. Todos os direitos reservados.</p>
             </div>
         </div>
-    </div>
-
-    <!-- *** REMOVIDO: Modal 'juice-size-modal' não é mais necessário *** -->
+    </footer>
     
-    <!-- Modal Painel do Admin -->
-    <div id="admin-panel-modal" class="modal fixed inset-0 bg-black bg-opacity-80 p-4 sm:p-8 invisible opacity-0 z-50">
-       <div class="modal-content bg-gray-800 rounded-2xl shadow-xl w-full h-full p-6 sm:p-8 transform scale-95 flex flex-col">
-            <div class="flex justify-between items-center border-b border-gray-700 pb-4 mb-6">
-                <h2 class="text-3xl font-bold">Painel do Administrador</h2>
-                <button onclick="hideAdminPanel()" class="bg-gray-700 hover:bg-gray-600 p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-500">×</button>
-            </div>
-
-             <!-- Configurações de Entrega -->
-            <div class="mb-6 bg-gray-900 p-6 rounded-lg">
-                <h3 class="text-xl font-bold mb-4">Configurações de Entrega</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label for="deliveryFee" class="block text-sm font-medium text-gray-400">Taxa de Entrega (R$)</label>
-                        <input type="number" id="deliveryFee" step="0.01" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500" placeholder="Ex: 5.00">
-                    </div>
-                    <div>
-                        <label for="freeDeliveryThreshold" class="block text-sm font-medium text-gray-400">Valor Mínimo para Frete Grátis (R$)</label>
-                        <input type="number" id="freeDeliveryThreshold" step="0.01" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500" placeholder="Deixe 0 para sempre cobrar">
-                    </div>
-                </div>
-                 <button onclick="saveDeliverySettings()" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500">Salvar Configurações de Entrega</button>
-            </div>
-
-            <div class="flex-grow grid grid-cols-1 md:grid-cols-2 gap-8 overflow-y-auto pr-2"><!-- Adicionado pr-2 -->
-                <!-- Coluna de Gerir Produtos -->
-                <div class="flex flex-col">
-                    <h3 class="text-xl font-bold mb-4">Gerir Produtos</h3>
-                    <div id="admin-product-list" class="flex-grow bg-gray-900 p-4 rounded-lg overflow-y-auto">
-                        <!-- Lista de produtos aqui -->
-                    </div>
-                </div>
-                <!-- Coluna de Adicionar/Editar Produto -->
-                <div class="bg-gray-900 p-6 rounded-lg h-fit">
-                    <h3 id="form-title" class="text-xl font-bold mb-4">Adicionar Novo Produto/Sabor</h3>
-                    <form id="admin-product-form">
-                        <input type="hidden" id="productId">
-                        <div class="mb-4">
-                            <label for="productType" class="block text-sm font-medium text-gray-400">Tipo</label>
-                            <select id="productType" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
-                                <option value="pizzaria_salgada">Sabor de Pizza Salgada</option>
-                                <option value="pizzaria_doce">Sabor de Pizza Doce</option>
-                                <option value="bebidas">Bebida</option>
-                                <option value="sucos">Suco</option>
-                            </select>
-                        </div>
-                        <div class="mb-4"><label for="productName" class="block text-sm font-medium text-gray-400">Nome</label><input type="text" id="productName" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500" required></div>
-                        <div class="mb-4"><label for="productDesc" class="block text-sm font-medium text-gray-400">Descrição</label><textarea id="productDesc" rows="3" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500" required></textarea></div>
-
-                        <div id="price-fields">
-                            <!-- Campos de preço dinâmicos aqui -->
-                        </div>
-
-                        <div class="mb-4"><label for="productImage" class="block text-sm font-medium text-gray-400">URL da Imagem</label><input type="url" id="productImage" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500" placeholder="https://..." required></div> <!-- Mudado para type="url" e adicionado placeholder -->
-                        <div class="flex gap-4 mt-6">
-                            <button type="button" onclick="resetProductForm()" class="w-full bg-gray-600 hover:bg-gray-500 font-bold py-2 px-4 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-gray-500">Limpar</button>
-                            <button type="submit" class="w-full bg-green-600 hover:bg-green-700 font-bold py-2 px-4 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-green-500">Salvar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-<script>
-    // --- DADOS INICIAIS (FALLBACK) ---
-    const defaultMenuData = {
-        pizzaria_salgada: [
-            // ... (sabores salgados inalterados) ...
-            { id: 1, name: '4 Queijos', description: 'Mussarela, provolone, queijo do reino, catupiry.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/F6E05E/000000?text=4+Queijos' },
-            { id: 2, name: '5 Queijos', description: 'Mussarela, provolone, gorgonzola, queijo do reino, catupiry.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/F6E05E/000000?text=5+Queijos' },
-            { id: 3, name: 'Americana', description: 'Calabresa, frango, presunto, milho, catupiry.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/4299E1/FFFFFF?text=Americana' },
-            { id: 4, name: 'Amazonas', description: 'Palmito, ovos, catupiry.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/48BB78/FFFFFF?text=Amazonas' },
-            { id: 5, name: 'Atum', description: 'Atum. (Opcional: cheddar ou catupiry).', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/A0AEC0/FFFFFF?text=Atum' },
-            { id: 6, name: 'Baiana', description: 'Calabresa picada, pimenta calabresa, cebola.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/ED8936/FFFFFF?text=Baiana' },
-            { id: 7, name: 'Bauru', description: 'Tomates, presunto, milho.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/F56565/FFFFFF?text=Bauru' },
-            { id: 8, name: 'Brasileira', description: 'Tomates, cebola, pimentão, milho.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/68D391/000000?text=Brasileira' },
-            { id: 9, name: 'Calabacon', description: 'Calabresa, bacon, cebola.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/E53E3E/FFFFFF?text=Calabacon' },
-            { id: 10, name: 'Calabresa', description: 'Calabresa. (Opcional: milho, ched ou catupiry, cebola).', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/E53E3E/FFFFFF?text=Calabresa' },
-            { id: 11, name: 'Frango', description: 'Frango. (Opcional: milho, ched ou catupiry, cebola).', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/ECC94B/000000?text=Frango' },
-            { id: 12, name: 'Litoral', description: 'Presunto, ovos, catupiry.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/3182CE/FFFFFF?text=Litoral' },
-            { id: 13, name: 'Mafiosa', description: 'Presunto, pimenta calabresa, cebola.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/718096/FFFFFF?text=Mafiosa' },
-            { id: 14, name: 'Marguerita', description: 'Tomate, molho de tomate, folhas de manjericão.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/48BB78/FFFFFF?text=Marguerita' },
-            { id: 15, name: 'Mexicana', description: 'Calabresa, frango, presunto, milho, cheddar.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/DD6B20/FFFFFF?text=Mexicana' },
-            { id: 16, name: 'Milho', description: 'Milho. (Opcional: catupiry ou cheeder).', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/F6E05E/000000?text=Milho' },
-            { id: 17, name: 'Mistão', description: 'Calabresa, frango, presunto, milho.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/A0AEC0/FFFFFF?text=Mistão' },
-            { id: 18, name: 'Mussarela', description: 'Tomate, mussarela.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/F7FAFC/000000?text=Mussarela' },
-            { id: 19, name: 'Napolitana', description: 'Tomate, molho de tomate.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/E53E3E/FFFFFF?text=Napolitana' },
-            { id: 20, name: 'Nordestina', description: 'Tomate, calabresa, charque, milho, cebola.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/975A16/FFFFFF?text=Nordestina' },
-            { id: 21, name: 'Palmito', description: 'Palmito.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/FAF089/000000?text=Palmito' },
-            { id: 22, name: 'Presunto', description: 'Presunto. (Opcional: milho, ched ou catupiry).', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/FBB6CE/000000?text=Presunto' },
-            { id: 23, name: 'Portuguesa', description: 'Tomates, presunto, milho, ovos.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/4299E1/FFFFFF?text=Portuguesa' },
-            { id: 24, name: 'Tentação', description: 'Calabresa picada, pimenta calabresa, cheddar, cebola.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/C53030/FFFFFF?text=Tentação' }
-        ],
-        pizzaria_doce: [
-            // ... (sabores doces inalterados) ...
-            { id: 25, name: 'Chocolate', description: 'Pizza doce coberta com chocolate.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/7B341E/FFFFFF?text=Chocolate' },
-            { id: 26, name: 'Doce de Leite', description: 'Pizza doce coberta com doce de leite.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/D69E2E/FFFFFF?text=Doce+de+Leite' },
-            { id: 27, name: 'Brigadeiro', description: 'Pizza doce coberta com chocolate e granulado.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/667EEA/FFFFFF?text=Brigadeiro' },
-            { id: 28, name: 'Prestígio', description: 'Pizza doce coberta com chocolate e coco ralado.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/EDF2F7/000000?text=Prestígio' },
-            { id: 29, name: 'Romeu e Julieta', description: 'Pizza doce coberta com goiabada e queijo.', prices: { grande: 30.00, familia: 40.00 }, image: 'https://placehold.co/600x400/D53F8C/FFFFFF?text=Romeu+e+Julieta' }
-        ],
-        hamburgueria: [],
-        acompanhamentos: [],
-        bebidas: [
-            { id: 30, name: 'Refrigerante', description: 'Antártica, Soda, Sukita, Pepsi, Coca-Cola, H2OH.', price: 5.00, image: 'https://placehold.co/600x400/A0AEC0/FFFFFF?text=Refrigerante' },
-            { id: 31, name: 'Água com Gás', description: 'Garrafa de 500ml.', price: 4.00, image: 'https://placehold.co/600x400/4299E1/FFFFFF?text=Água+com+Gás' },
-            { id: 32, name: 'Água sem Gás', description: 'Garrafa de 500ml.', price: 3.00, image: 'https://placehold.co/600x400/3182CE/FFFFFF?text=Água+sem+Gás' }
-        ],
-        sucos: [
-            // *** MODIFICADO: Itens agrupados por sabor com múltiplos preços ***
-            { id: 33, name: 'Suco de Laranja', description: 'Suco natural feito na hora.', prices: { '300ml': 4.00, '500ml': 6.00 }, image: 'https://placehold.co/600x400/F6AD55/000000?text=Suco' },
-            { id: 35, name: 'Suco de Limão', description: 'Suco natural feito na hora.', prices: { '300ml': 4.00, '500ml': 6.00 }, image: 'https://placehold.co/600x400/9AE6B4/000000?text=Suco' },
-            { id: 37, name: 'Suco de Maracujá', description: 'Suco natural feito na hora.', prices: { '300ml': 4.00, '500ml': 6.00 }, image: 'https://placehold.co/600x400/F6E05E/000000?text=Suco' },
-            { 
-                id: 39, 
-                name: 'Suco de Polpa', 
-                description: 'Cajá, Acerola, Manga, Uva, Goiaba.', 
-                prices: { '300ml': 3.00, '500ml': 5.00 }, 
-                image: 'https://placehold.co/600x400/D53F8C/FFFFFF?text=Suco+Polpa' 
-            },
-            { id: 41, name: 'Suco de Morango', description: 'Suco natural feito na hora.', prices: { '300ml': 8.00, '500ml': 10.00 }, image: 'https://placehold.co/600x400/F56565/FFFFFF?text=Suco' },
-        ]
-    };
-     const defaultDeliverySettings = {
-        fee: 5.00, // Taxa de entrega padrão
-        freeThreshold: 50.00 // Valor mínimo para frete grátis
-    };
-
-    // --- ESTADO DA APLICAÇÃO ---
-    
-     let menuData = {};
-    let deliverySettings = {};
-    let currentTheme = 'pizzaria';
-    let cart = [];
-    let currentPizza = {
-        size: null,
-        flavors: [],
-        price: 0,
-        originalFlavor: null, 
-        originalFlavorType: null,
-        selectionType: 'single' 
-    };
-    let currentItem = { 
-        productId: null, 
-        type: null 
-    };
-    let currentPolpa = {
-        item: null, 
-        size: null,
-        flavor: null,
-        price: 0,
-        isNatural: false // *** NOVO: Flag para diferenciar suco natural de polpa ***
-    };
-    // *** REMOVIDO: Estado 'currentJuice' não é mais necessário ***
-    let lastOrderMessage = '';
-    let lastWhatsappUrl = '';
-
-
-    // --- SELETORES DE DOM ---
-    
-     const mainAppDiv = document.getElementById('main-app');
-    const restaurantNameH1 = document.getElementById('restaurant-name');
-    const menuItemsDiv = document.getElementById('menu-items');
-    const cartPanel = document.getElementById('cart-panel');
-    const cartOverlay = document.getElementById('cart-overlay');
-    const cartItemsDiv = document.getElementById('cart-items');
-    const emptyCartMessage = document.getElementById('empty-cart-message');
-    const cartSubtotalSpan = document.getElementById('cart-subtotal');
-    const cartDeliveryFeeSpan = document.getElementById('cart-delivery-fee');
-    const cartTotalSpan = document.getElementById('cart-total');
-    const checkoutButton = document.getElementById('checkout-button');
-    const cartItemCountSpan = document.getElementById('cart-item-count');
-    const checkoutModal = document.getElementById('checkout-modal');
-    const confirmationModal = document.getElementById('confirmation-modal');
-    const checkoutForm = document.getElementById('checkout-form');
-    const nameInput = document.getElementById('name');
-    const phoneInput = document.getElementById('phone');
-    const addressInput = document.getElementById('address');
-    // *** NOVO: Seletores para wrappers de campos de checkout ***
-    const addressFieldWrapper = document.getElementById('address-field-wrapper');
-    const locationFieldWrapper = document.getElementById('location-field-wrapper');
-    const locationInfoDiv = document.getElementById('location-info');
-    const pizzaModal = document.getElementById('pizza-modal');
-    const pizzaSizeOptions = document.getElementById('pizza-size-options');
-    const flavorLimitMessage = document.getElementById('flavor-limit-message');
-    const pizzaFlavorsContainer = document.getElementById('pizza-flavors-container');
-    const pizzaTotalPrice = document.getElementById('pizza-total-price'); 
-    const addPizzaToCartBtn = document.getElementById('add-pizza-to-cart-btn'); 
-    const adminLoginModal = document.getElementById('admin-login-modal');
-    const adminPanelModal = document.getElementById('admin-panel-modal');
-    const adminLoginForm = document.getElementById('admin-login-form');
-    const adminProductForm = document.getElementById('admin-product-form');
-    const adminProductList = document.getElementById('admin-product-list');
-    const productTypeSelect = document.getElementById('productType');
-    const priceFieldsDiv = document.getElementById('price-fields');
-    const deliveryFeeInput = document.getElementById('deliveryFee');
-    const freeDeliveryThresholdInput = document.getElementById('freeDeliveryThreshold');
-    const flavorSectionWrapper = document.getElementById('flavor-section-wrapper'); 
-    const flavorSectionTitle = document.getElementById('flavor-section-title'); 
-    const pizzaTotalLabel = document.getElementById('pizza-total-label');
-    const itemFlavorModal = document.getElementById('item-flavor-modal');
-    const itemFlavorOptionsDiv = document.getElementById('item-flavor-options');
-    const polpaModal = document.getElementById('polpa-modal');
-    const polpaModalTitle = document.getElementById('polpa-modal-title');
-    const polpaSizeOptions = document.getElementById('polpa-size-options');
-    const polpaFlavorSection = document.getElementById('polpa-flavor-section');
-    const polpaFlavorOptions = document.getElementById('polpa-flavor-options');
-    const polpaTotalPrice = document.getElementById('polpa-total-price');
-    const addPolpaToCartBtn = document.getElementById('add-polpa-to-cart-btn');
-    // *** REMOVIDO: Seletores do juice-size-modal ***
-
-
-    // --- FUNÇÕES DE DADOS (LocalStorage) ---
-    
-     function loadMenuData() {
-        const savedData = localStorage.getItem('restaurantMenuData');
-        menuData = savedData ? JSON.parse(savedData) : JSON.parse(JSON.stringify(defaultMenuData));
-    }
-    function saveMenuData() { localStorage.setItem('restaurantMenuData', JSON.stringify(menuData)); }
-
-    function loadDeliverySettings() {
-        const savedSettings = localStorage.getItem('restaurantDeliverySettings');
-        deliverySettings = savedSettings ? JSON.parse(savedSettings) : JSON.parse(JSON.stringify(defaultDeliverySettings));
-    }
-    function saveDeliverySettingsToStorage() {
-        localStorage.setItem('restaurantDeliverySettings', JSON.stringify(deliverySettings));
-    }
-
-    // Funções para Salvar/Carregar Info do Checkout
-    const CHECKOUT_INFO_KEY = 'restaurantCheckoutInfo';
-
-    function saveCheckoutInfo() {
-        if (!nameInput || !phoneInput || !addressInput) return;
-        const info = {
-            name: nameInput.value,
-            phone: phoneInput.value,
-            address: addressInput.value,
-        };
-        localStorage.setItem(CHECKOUT_INFO_KEY, JSON.stringify(info));
-    }
-
-    function loadCheckoutInfo() {
-        const savedInfo = localStorage.getItem(CHECKOUT_INFO_KEY);
-        if (savedInfo) {
-            const info = JSON.parse(savedInfo);
-            if (nameInput) nameInput.value = info.name || '';
-            if (phoneInput) phoneInput.value = info.phone || '';
-            if (addressInput) addressInput.value = info.address || '';
-        }
-    }
-    
-    function clearCheckoutInfo() {
-        localStorage.removeItem(CHECKOUT_INFO_KEY);
-    }
-
-
-    // --- FUNÇÕES PRINCIPAIS ---
-    
-    function selectTheme(theme) {
-        currentTheme = theme;
-        mainAppDiv.classList.remove('hidden');
-        restaurantNameH1.textContent = "🍕 Pizzaria e Calzoneria K'pricho";
-        renderMenu(); // Chama renderMenu que agora renderiza o HTML
-        // A função addDragScrollListeners será chamada em window.onload
-    }
-
-    // *** MODIFICADO: Lógica de botões para sucos ***
-    function createProductCard(item, type) { 
-        let priceDisplay = '';
-        let actionButton = '';
-
-        if (type.startsWith('pizzaria')) {
-            priceDisplay = `<span class="text-lg font-bold text-green-400">A partir de R$ ${item.prices.grande.toFixed(2).replace('.', ',')}</span>`;
-            actionButton = `<button onclick="openPizzaModal(${item.id}, '${type}', null)" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-red-500">Montar Pizza</button>`;
-        
-        } else if (type === 'sucos' && item.id === 39) { // Suco de Polpa (ID 39)
-             priceDisplay = `<span class="text-lg font-bold text-green-400">A partir de R$ ${item.prices['300ml'].toFixed(2).replace('.', ',')}</span>`;
-             actionButton = `<button onclick="openPolpaModal(${item.id})" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-green-500">Escolher</button>`;
-        
-        } else if (type === 'sucos' && item.prices) { // Outros Sucos (Laranja, Limão, etc.)
-             priceDisplay = `<span class="text-lg font-bold text-green-400">A partir de R$ ${item.prices['300ml'].toFixed(2).replace('.', ',')}</span>`;
-             // *** MODIFICADO: Chama openPolpaModal, mas com flag 'isNatural' ***
-             actionButton = `<button onclick="openPolpaModal(${item.id}, true)" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-green-500">Escolher Tamanho</button>`;
-
-        } else if (type === 'bebidas' && item.id === 30) { // Refrigerante (ID 30)
-            priceDisplay = `<span class="text-2xl font-bold text-green-400">R$ ${item.price.toFixed(2).replace('.', ',')}</span>`;
-            actionButton = `<button onclick="openItemFlavorModal(${item.id}, '${type}')" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-green-500">Escolher Sabor</button>`;
-        
-        } else { // Itens simples (Água)
-            priceDisplay = `<span class="text-2xl font-bold text-green-400">R$ ${item.price.toFixed(2).replace('.', ',')}</span>`;
-            actionButton = `<button onclick="addToCart(event, ${item.id}, '${type}')" data-product-id="${item.id}-${type}" class="add-cart-btn bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-green-500">Adicionar</button>`;
-        }
-
-        // Layout do Card (padrão)
-        return `
-            <div class="menu-item-card bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col h-full">
-                <img src="${item.image}" alt="${item.name}" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/718096/FFFFFF?text=Imagem+Indisponível'">
-                <div class="p-6 flex flex-col flex-grow">
-                    <h3 class="text-xl font-bold">${item.name}</h3>
-                    <p class="text-gray-400 mt-2 flex-grow">${item.description}</p>
-                    <div class="flex justify-between items-center mt-4">
-                        ${priceDisplay}
-                        ${actionButton}
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-
-     function renderMenu() { 
-        if (!currentTheme) return;
-        menuItemsDiv.innerHTML = ''; 
-
-        const categories = [
-            { key: 'pizzaria_salgada', title: 'Sabores Salgados', color: 'text-red-400' },
-            { key: 'pizzaria_doce', title: 'Sabores Doces', color: 'text-pink-400' },
-            { key: 'bebidas', title: 'Bebidas', color: 'text-yellow-400' },
-            { key: 'sucos', title: 'Sucos', color: 'text-yellow-400' }
-        ];
-
-        categories.forEach(category => {
-            const items = menuData[category.key] || [];
-            if (items.length > 0) {
-                const titleElement = document.createElement('h2');
-                titleElement.className = `text-3xl font-bold ${category.color} mb-4`;
-                 if (category.key !== 'pizzaria_salgada') {
-                    titleElement.classList.add('mt-8');
-                }
-                titleElement.textContent = category.title;
-                menuItemsDiv.appendChild(titleElement);
-
-                const categoryContainer = document.createElement('div');
-                categoryContainer.className = 'menu-category-container'; 
-                categoryContainer.id = `category-${category.key}`; 
-
-                items.forEach(item => {
-                    const cardHTML = createProductCard(item, category.key);
-                    categoryContainer.innerHTML += cardHTML; 
-                });
-
-                menuItemsDiv.appendChild(categoryContainer); 
-            }
-        });
-        // A função addDragScrollListeners agora é chamada em window.onload
-    }
-
-    // --- FUNÇÕES DO CARRINHO ---
-
-    function toggleCartPanel() {
-        cartPanel.classList.toggle('open');
-        cartOverlay.classList.toggle('open'); 
-    }
-
-    // Modal para Refrigerante (preço único)
-    function openItemFlavorModal(productId, type) {
-        const item = menuData[type]?.find(i => i.id === productId);
-        if (!item || !item.description) return;
-
-        currentItem.productId = productId;
-        currentItem.type = type;
-
-        const flavorString = item.description.replace(/\.$/, ''); 
-        const flavors = flavorString.split(',').map(s => s.trim()).filter(s => s); 
-
-        itemFlavorOptionsDiv.innerHTML = flavors.map(flavor => `
-            <button 
-                type="button" 
-                onclick="addItemFlavorToCart('${flavor}')" 
-                class="bg-gray-700 hover:bg-green-600 text-white font-medium py-3 px-4 rounded-lg transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-green-500">
-                ${flavor}
+    <!-- Modal de Apps (Planos) --><div id="apps-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-slate-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto p-6 relative">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-        `).join('');
-
-        itemFlavorModal.classList.remove('invisible', 'opacity-0');
-        itemFlavorModal.querySelector('.modal-content').classList.remove('scale-95');
-    }
-
-     function hideItemFlavorModal() {
-        itemFlavorModal.classList.add('invisible', 'opacity-0');
-        itemFlavorModal.querySelector('.modal-content').classList.add('scale-95');
-        currentItem.productId = null;
-        currentItem.type = null; 
-    }
-
-     function addItemFlavorToCart(flavorName) {
-        const { productId, type } = currentItem; 
-        if (!productId || !type) return; 
-
-        const itemToAdd = menuData[type].find(item => item.id === productId);
-        if (!itemToAdd) return;
-
-        const newItem = {
-            ...itemToAdd, 
-            name: `${itemToAdd.name} (${flavorName})`, 
-            quantity: 1,
-            type: type,
-            cartId: `item-${productId}-${flavorName.replace(/\s/g, '')}-${Date.now()}` 
-        };
-        cart.push(newItem);
-        renderCart();
-        hideItemFlavorModal(); 
-    }
-
-
-    // Adiciona itens normais (Água)
-    function addToCart(event, productId, type) {
-        const button = event.target; 
-        const itemInCart = cart.find(item => item.id === productId && item.type === type && !item.name.includes('(')); 
-        
-        if (itemInCart) {
-            itemInCart.quantity++;
-        } else {
-            const itemToAdd = menuData[type].find(item => item.id === productId);
-            if (itemToAdd) {
-                const newItem = {
-                    ...itemToAdd,
-                    quantity: 1,
-                    type: type,
-                    cartId: `item-${productId}-${Date.now()}`
-                };
-                cart.push(newItem);
-            } else {
-                 console.error("Item não encontrado para adicionar ao carrinho:", productId, type);
-                 return; 
-            }
-        }
-        renderCart();
-
-        // Feedback Visual no botão
-        if (button) {
-            button.textContent = 'Adicionado ✓';
-            button.classList.add('added-to-cart'); 
-            button.disabled = true; 
-
-            setTimeout(() => {
-                button.textContent = 'Adicionar';
-                button.classList.remove('added-to-cart');
-                button.disabled = false;
-            }, 1500);
-        }
-    }
-
-    function updateQuantity(cartItemId, change) {
-        const itemInCart = cart.find(item => item.cartId === cartItemId);
-        if (itemInCart) {
-            itemInCart.quantity += change;
-            if (itemInCart.quantity <= 0) {
-                cart = cart.filter(item => item.cartId !== cartItemId);
-            }
-        }
-        renderCart();
-    }
-
-    function renderCart() {
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartItemCountSpan.textContent = totalItems;
-
-        if (cart.length === 0) {
-            cartItemsDiv.innerHTML = '';
-            emptyCartMessage.style.display = 'block';
-            checkoutButton.disabled = true;
-            cartSubtotalSpan.textContent = 'R$ 0,00';
-            cartDeliveryFeeSpan.textContent = 'R$ 0,00';
-            cartTotalSpan.textContent = 'R$ 0,00';
-            cartDeliveryFeeSpan.classList.remove('text-green-400');
-        } else {
-            emptyCartMessage.style.display = 'none';
-            cartItemsDiv.innerHTML = cart.map(item => `
-                <div class="flex justify-between items-center mb-4 p-2 bg-gray-700 rounded-lg"> 
-                    <div class="flex-1 mr-2"> 
-                        <p class="font-semibold text-sm">${item.name}</p> 
-                        <p class="text-xs text-gray-400">R$ ${item.price.toFixed(2).replace('.', ',')}</p> 
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="updateQuantity('${item.cartId}', -1)" class="bg-gray-600 hover:bg-gray-500 h-6 w-6 rounded-full font-bold flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-700 focus:ring-gray-500">-</button>
-                        <span class="font-medium w-5 text-center">${item.quantity}</span> 
-                        <button onclick="updateQuantity('${item.cartId}', 1)" class="bg-gray-600 hover:bg-gray-500 h-6 w-6 rounded-full font-bold flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-700 focus:ring-gray-500">+</button>
-                    </div>
-                </div>
-            `).join('');
-            checkoutButton.disabled = false;
-
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            cartSubtotalSpan.textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
-
-            // *** MODIFICADO: Lógica da Taxa de Entrega ***
-            const orderTypeRadio = document.querySelector('input[name="order-type"]:checked');
-            const orderType = orderTypeRadio ? orderTypeRadio.value : 'delivery'; // Default 'delivery'
-            let deliveryFee = 0;
-
-            if (orderType === 'delivery') {
-                deliveryFee = deliverySettings.fee || 0;
-                const freeThreshold = deliverySettings.freeThreshold || 0;
-
-                if (freeThreshold > 0 && subtotal >= freeThreshold) {
-                    deliveryFee = 0;
-                    cartDeliveryFeeSpan.textContent = 'Grátis';
-                    cartDeliveryFeeSpan.classList.add('text-green-400');
-                } else {
-                    cartDeliveryFeeSpan.textContent = `R$ ${deliveryFee.toFixed(2).replace('.', ',')}`;
-                    cartDeliveryFeeSpan.classList.remove('text-green-400');
-                }
-            } else { // 'pickup'
-                deliveryFee = 0;
-                cartDeliveryFeeSpan.textContent = 'Grátis (Retirada)';
-                cartDeliveryFeeSpan.classList.add('text-green-400');
-            }
-            // *** FIM DA MODIFICAÇÃO ***
-
-            const total = subtotal + deliveryFee;
-            cartTotalSpan.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
-        }
-    }
-
-
-    // --- FUNÇÕES DE MONTAGEM DE PIZZA ---
+            <h3 id="modal-title" class="text-2xl font-bold text-white mb-6">Apps Inclusos no Plano</h3>
+            <div id="modal-apps-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
+                <!-- App icons (planos) serão injetados aqui pelo JS --></div>
+        </div>
+    </div>
     
-     const pizzaConfig = {
-        grande: { maxFlavors: 3, name: 'Grande' },
-        familia: { maxFlavors: 4, name: 'Família' },
-    };
-
-    // Aceita 'preSelectedSize' (pode ser null)
-    function openPizzaModal(originalFlavorId, originalFlavorType, preSelectedSize = null) {
-        const originalFlavor = menuData[originalFlavorType]?.find(f => f.id === originalFlavorId); 
-        if (!originalFlavor) {
-            console.error("Sabor original não encontrado:", originalFlavorId, originalFlavorType);
-            return; 
-        }
-
-        currentPizza = { 
-            size: null, 
-            flavors: [], 
-            price: 0, 
-            originalFlavor: originalFlavor,
-            originalFlavorType: originalFlavorType,
-            selectionType: 'single' // Começa sempre como 'single'
-        };
-
-        pizzaSizeOptions.innerHTML = Object.keys(pizzaConfig).map(sizeKey => {
-            const price = originalFlavor.prices[sizeKey].toFixed(2).replace('.', ',');
-            const isChecked = (sizeKey === preSelectedSize) ? 'checked' : '';
-            return `
-                <div>
-                    <input type="radio" id="size-${sizeKey}" name="pizza-size" value="${sizeKey}" class="hidden peer" ${isChecked} onchange="handleSizeChange(this)">
-                    <label for="size-${sizeKey}" class="px-4 py-2 rounded-lg cursor-pointer bg-gray-700 peer-checked:bg-red-600 peer-checked:font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-red-500"> 
-                        ${pizzaConfig[sizeKey].name} (R$ ${price})
-                    </label>
-                </div>
-            `
-        }).join('');
-
-        // Limpa e reseta o modal
-        flavorSectionWrapper.classList.add('hidden'); // Esconde a seção de mistura
-        flavorLimitMessage.textContent = 'Selecione um tamanho.'; 
-        pizzaTotalLabel.textContent = 'Total:';
-        pizzaTotalPrice.textContent = 'R$ 0,00';
-        addPizzaToCartBtn.textContent = 'Adicionar ao Carrinho';
-        addPizzaToCartBtn.disabled = true;
-
-        pizzaModal.classList.remove('invisible', 'opacity-0');
-        pizzaModal.querySelector('.modal-content').classList.remove('scale-95');
-
-        if (preSelectedSize) {
-            const radio = document.getElementById(`size-${preSelectedSize}`);
-            if (radio) {
-                radio.checked = true; 
-                handleSizeChange(radio); 
-            }
-        }
-    }
-
-    function hidePizzaModal() {
-        pizzaModal.classList.add('invisible', 'opacity-0');
-        pizzaModal.querySelector('.modal-content').classList.add('scale-95');
-        currentPizza = { size: null, flavors: [], price: 0, originalFlavor: null, originalFlavorType: null, selectionType: 'single' }; 
-         const sizeRadios = document.querySelectorAll('input[name="pizza-size"]');
-         sizeRadios.forEach(radio => radio.checked = false);
-    }
-
-    // Chama updatePizzaModalFooter
-    function handleSizeChange(radio) {
-        currentPizza.size = radio.value;
-        currentPizza.flavors = []; 
-        currentPizza.selectionType = 'single'; 
-        
-        renderFlavorOptions(); 
-        flavorSectionWrapper.classList.remove('hidden'); 
-        
-        updatePizzaModalFooter(); 
-    }
-
-    function renderFlavorOptions() {
-        if (!currentPizza.size || !currentPizza.originalFlavorType) { 
-            pizzaFlavorsContainer.innerHTML = ''; 
-            flavorLimitMessage.textContent = 'Selecione um tamanho primeiro.';
-            return; 
-        }
-        
-        const sizeInfo = pizzaConfig[currentPizza.size];
-        const priceFormatted = (currentPizza.size === 'grande' ? 30.00 : 40.00).toFixed(2).replace('.', ',');
-        flavorLimitMessage.textContent = `Escolha Mista até ${sizeInfo.maxFlavors} sabores. (R$ ${priceFormatted})`;
-
-        let flavorsHTML = '';
-        let flavorList = []; 
-
-        if (currentPizza.originalFlavorType === 'pizzaria_doce') {
-            flavorList = menuData.pizzaria_doce || [];
-             flavorsHTML += `
-                <div class="flavor-card bg-gray-700 rounded-lg p-4 flex flex-col justify-center items-center text-center">
-                    <h4 class="text-xl font-bold mb-1 text-pink-400">Sabores Doces</h4>
-                    <p class="text-gray-400 text-sm">Deslize para ver →</p>
-                </div>
-            `;
-        } else { 
-            flavorList = menuData.pizzaria_salgada || [];
-             flavorsHTML += `
-                <div class="flavor-card bg-gray-700 rounded-lg p-4 flex flex-col justify-center items-center text-center">
-                    <h4 class="text-xl font-bold mb-1 text-red-400">Sabores Salgados</h4>
-                    <p class="text-gray-400 text-sm">Deslize para ver →</p>
-                </div>
-            `;
-        }
-
-        flavorsHTML += flavorList.map(flavor => flavorCardHTML(flavor)).join('');
-        pizzaFlavorsContainer.innerHTML = flavorsHTML;
-    }
-
-    function flavorCardHTML(flavor) {
-        const isChecked = currentPizza.flavors.some(f => f.id === flavor.id);
-        const isDisabled = currentPizza.size ? (currentPizza.flavors.length >= pizzaConfig[currentPizza.size].maxFlavors && !isChecked) : true; 
-
-        return `
-            <div class="flavor-card relative">
-                <input 
-                    type="checkbox" 
-                    id="flavor-${flavor.id}" 
-                    data-flavor-id="${flavor.id}" 
-                    onchange="handleFlavorChange(this)" 
-                    class="hidden peer"
-                    ${isChecked ? 'checked' : ''} 
-                    ${isDisabled ? 'disabled' : ''} 
-                >
-                <label 
-                    for="flavor-${flavor.id}" 
-                    class="block h-full bg-gray-700 rounded-lg p-4 flex flex-col justify-between cursor-pointer border-2 border-gray-700 peer-checked:border-green-500 transition-all ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-green-500"
-                > 
-                    <div class="flex-grow">
-                        <h4 class="text-lg font-bold mb-1">${flavor.name}</h4> 
-                        <p class="text-gray-400 text-xs">${flavor.description}</p> 
-                    </div>
-                    <div class="mt-2 pt-2 border-t border-gray-600 flex justify-end items-center"> 
-                         <span class="text-green-400 font-bold text-sm opacity-0 peer-checked:opacity-100 transition-opacity">Selecionado ✓</span> 
-                    </div>
-                </label>
+    <!-- Modal de TODOS os Apps (Hero) --><div id="all-apps-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-slate-800 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6 relative">
+            <button id="close-all-apps-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-2xl font-bold text-white mb-6">Todos os Aplicativos Disponíveis</h3>
+            <div class="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-3 md:gap-4 max-w-4xl mx-auto">
+                <!-- Apps são botões que abrem o modal -->
+                <button class="app-icon-btn" data-app-id="looke"><img src="https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" alt="Logo Looke" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="sky"><img src="https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png" alt="Logo Sky+" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="kiddiepass"><img src="https://placehold.co/64x64/facc15/000000?text=KiddiePass" alt="Logo Kiddie Pass" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="nutri"><img src="https://placehold.co/64x64/22c55e/FFFFFF?text=%2BNutri" alt="Logo +Nutri" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="efit"><img src="https://placehold.co/64x64/3b82f6/FFFFFF?text=E-Fit" alt="Logo E-fit" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="playkids"><img src="https://logospng.org/download/playkids/logo-playkids-2048.png" alt="Logo PlayKids+" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="hub"><img src="https://placehold.co/64x64/14b8a6/FFFFFF?text=Hub" alt="Logo HUB" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="ubook"><img src="https://placehold.co/64x64/a855f7/FFFFFF?text=Ubook" alt="Logo ubookPLUS" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="estuda"><img src="https://placehold.co/64x64/f97316/FFFFFF?text=Estuda%2B" alt="Logo Estuda+" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="leitores"><img src="https://placehold.co/64x64/ec4899/FFFFFF?text=Leitores" alt="Logo Pequenos Leitores" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="fluid"><img src="https://placehold.co/64x64/6366f1/FFFFFF?text=Fluid" alt="Logo fluid" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="socialcomics"><img src="https://placehold.co/64x64/ef4444/FFFFFF?text=Social" alt="Logo Social Comics" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="revistaria"><img src="https://placehold.co/64x64/d946ef/FFFFFF?text=Revista" alt="Logo revistaria" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="playlist"><img src="https://placehold.co/64x64/8b5cf6/FFFFFF?text=Playlist" alt="Logo Playlist" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="deezer"><img src="https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" alt="Logo Deezer" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="klicencas"><img src="https://placehold.co/64x64/6366f1/FFFFFF?text=K" alt="Logo K Licenças" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="hotgo"><img src="https://placehold.co/64x64/dc2626/FFFFFF?text=HotGo" alt="Logo Hotgo" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="curtaon"><img src="https://placehold.co/64x64/1f2937/FFFFFF?text=CurtaOn" alt="Logo CurtaOn" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="jornalista"><img src="https://placehold.co/64x64/4b5563/FFFFFF?text=Jornal" alt="Logo O Jornalista" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="docway"><img src="https://placehold.co/64x64/10b981/FFFFFF?text=Doc" alt="Logo Docway" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="disney"><img src="https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" alt="Logo Disney+" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="max"><img src="https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" alt="Logo Max" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="indie"><img src="https://placehold.co/64x64/f59e0b/FFFFFF?text=Indie" alt="Logo Indie" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="leitura360"><img src="https://placehold.co/64x64/0891b2/FFFFFF?text=Leitura" alt="Logo Leitura 360" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="nba"><img src="https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png" alt="Logo NBA" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="smartcontent"><img src="https://placehold.co/64x64/ef4444/FFFFFF?text=Smart" alt="Logo SmartContent" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="queima"><img src="https://seeklogo.com/images/Q/queima-diaria-logo-653593254B-seeklogo.com.png" alt="Logo Queima Diária" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="zen"><img src="https://logodownload.org/wp-content/uploads/2021/04/zen-logo-0.png" alt="Logo Zen" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
             </div>
-        `;
-    }
-
-    // Atualiza tipo de seleção e chama updatePizzaModalFooter
-    function handleFlavorChange(checkbox) {
-        if (!currentPizza.size) {
-            checkbox.checked = false; 
-            alert("Por favor, selecione um tamanho primeiro.");
-            return;
-        }
-
-        const flavorId = parseInt(checkbox.dataset.flavorId);
-        const maxFlavors = pizzaConfig[currentPizza.size].maxFlavors;
-        const relevantFlavorList = currentPizza.originalFlavorType === 'pizzaria_doce' 
-            ? menuData.pizzaria_doce 
-            : menuData.pizzaria_salgada;
-
-        if (checkbox.checked) {
-            if (currentPizza.flavors.length < maxFlavors) {
-                const flavor = relevantFlavorList.find(f => f.id === flavorId); 
-                if (flavor) currentPizza.flavors.push(flavor);
-            } else {
-                checkbox.checked = false; 
-            }
-        } else {
-            currentPizza.flavors = currentPizza.flavors.filter(f => f.id !== flavorId);
-        }
-        
-        // Lógica de tipo de seleção
-        if (currentPizza.flavors.length > 0) {
-            currentPizza.selectionType = 'mixed';
-        } else {
-            currentPizza.selectionType = 'single';
-        }
-
-        renderFlavorOptions(); // Re-renderiza os checkboxes
-        updatePizzaModalFooter(); // Atualiza o rodapé
-    }
-
-    // Função para atualizar o rodapé do modal de pizza
-    function updatePizzaModalFooter() {
-        if (!currentPizza.size) {
-            addPizzaToCartBtn.disabled = true;
-            return;
-        }
-
-        let price = 0;
-        
-        if (currentPizza.selectionType === 'single') {
-            price = currentPizza.originalFlavor.prices[currentPizza.size];
-            pizzaTotalLabel.textContent = 'Total (Sabor Único):';
-            pizzaTotalPrice.textContent = `R$ ${price.toFixed(2).replace('.', ',')}`;
-            addPizzaToCartBtn.textContent = `Adicionar ${currentPizza.originalFlavor.name}`;
-        } else { // 'mixed'
-            price = (currentPizza.size === 'grande') ? 30.00 : 40.00; // Preço fixo para misto
-            pizzaTotalLabel.textContent = 'Total (Misto):';
-            pizzaTotalPrice.textContent = `R$ ${price.toFixed(2).replace('.', ',')}`;
-            addPizzaToCartBtn.textContent = 'Adicionar Pizza Mista';
-        }
-
-        currentPizza.price = price; // Armazena o preço final
-        addPizzaToCartBtn.disabled = false;
-    }
-
-    // Lógica unificada para adicionar pizza
-    function addPizzaToCart() {
-        if (!currentPizza.size) {
-            alert("Por favor, selecione um tamanho.");
-            return;
-        }
-
-        let pizzaName = '';
-        let pizzaItem;
-        const sizeName = pizzaConfig[currentPizza.size].name;
-
-        if (currentPizza.selectionType === 'single') {
-            // Adiciona sabor único
-            pizzaItem = {
-                cartId: `pizza-${currentPizza.originalFlavor.id}-${currentPizza.size}-${Date.now()}`,
-                name: `Pizza ${currentPizza.originalFlavor.name} (${sizeName})`,
-                price: currentPizza.price,
-                quantity: 1,
-                type: 'pizzaria',
-            };
-
-        } else { // 'mixed'
-            // Adiciona pizza mista
-            if (currentPizza.flavors.length === 0) {
-                alert("Selecione pelo menos um sabor para misturar.");
-                return;
-            }
-            const numFlavors = currentPizza.flavors.length;
-            const flavorNames = currentPizza.flavors.map(f => f.name).join(', ');
-            
-            pizzaName = `Pizza ${sizeName} `;
-            if (numFlavors > 1) {
-                pizzaName += `(${numFlavors} Sabores: ${flavorNames})`; 
-            } else {
-                pizzaName += `- ${flavorNames}`; 
-            }
-        
-            pizzaItem = {
-                cartId: `pizza-mixed-${Date.now()}`, 
-                name: pizzaName,
-                price: currentPizza.price, 
-                quantity: 1,
-                type: 'pizzaria',
-            };
-        }
-
-        cart.push(pizzaItem);
-        renderCart();
-        hidePizzaModal();
-    }
-
-    function scrollFlavors(direction) {
-        const container = pizzaFlavorsContainer;
-        if (!container.querySelector('.flavor-card')) return;
-        const cardWidth = container.querySelector('.flavor-card').offsetWidth;
-        const gap = 16; 
-        const scrollAmount = (cardWidth + gap) * direction; 
-        let currentScroll = container.scrollLeft;
-        let targetScroll;
-
-        if (direction > 0) { 
-             targetScroll = currentScroll + scrollAmount;
-        } else { 
-             targetScroll = currentScroll - scrollAmount;
-        }
-       
-        container.scrollTo({ left: targetScroll, behavior: 'smooth' });
-    }
-
-    // *** Funções para o Modal de Suco de Polpa (ID 39) E Sucos Naturais ***
-    // *** MODIFICADO: Aceita flag 'isNatural' ***
-    function openPolpaModal(productId, isNatural = false) {
-        const item = menuData.sucos.find(i => i.id === productId);
-        if (!item) return;
-
-        currentPolpa = {
-            item: item,
-            size: null,
-            flavor: isNatural ? item.name : null, // *** Se for natural, pré-seleciona o "sabor" ***
-            price: 0,
-            isNatural: isNatural // *** Guarda a flag ***
-        };
-
-        // Atualiza o título
-        polpaModalTitle.textContent = item.name;
-
-        // Popula Tamanhos
-        polpaSizeOptions.innerHTML = Object.keys(item.prices).map(sizeKey => {
-            const price = item.prices[sizeKey].toFixed(2).replace('.', ',');
-            return `
-                <div>
-                    <input type="radio" id="polpa-size-${sizeKey}" name="polpa-size" value="${sizeKey}" onchange="handlePolpaSizeChange(this)" class="hidden peer">
-                    <label for="polpa-size-${sizeKey}" class="px-4 py-2 rounded-lg cursor-pointer bg-gray-700 peer-checked:bg-red-600 peer-checked:font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-red-500">
-                        ${sizeKey} (R$ ${price})
-                    </label>
-                </div>
-            `;
-        }).join('');
-
-        // *** Lógica para mostrar/esconder sabores ***
-        if (isNatural) {
-            polpaFlavorSection.classList.add('hidden'); // Esconde sabores para suco natural
-            addPolpaToCartBtn.textContent = 'Adicionar Suco'; // Muda texto do botão
-        } else {
-            // Popula Sabores de Polpa
-            const flavorString = item.description.replace(/\.$/, ''); 
-            const flavors = flavorString.split(',').map(s => s.trim()).filter(s => s);
-            
-            polpaFlavorOptions.innerHTML = flavors.map(flavor => `
-                <button 
-                    type="button" 
-                    onclick="handlePolpaFlavorClick(this, '${flavor}')" 
-                    class="bg-gray-700 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-green-500">
-                    ${flavor}
-                </button>
-            `).join('');
-            polpaFlavorSection.classList.remove('hidden'); // Mostra sabores para polpa
-            addPolpaToCartBtn.textContent = 'Adicionar Suco';
-        }
-
-        polpaTotalPrice.textContent = 'R$ 0,00';
-        addPolpaToCartBtn.disabled = true;
-        polpaModal.classList.remove('invisible', 'opacity-0');
-        polpaModal.querySelector('.modal-content').classList.remove('scale-95');
-    }
-
-    function hidePolpaModal() {
-        polpaModal.classList.add('invisible', 'opacity-0');
-        polpaModal.querySelector('.modal-content').classList.add('scale-95');
-        currentPolpa = { item: null, size: null, flavor: null, price: 0, isNatural: false }; 
-        document.querySelectorAll('input[name="polpa-size"]').forEach(radio => radio.checked = false);
-    }
-
-    function handlePolpaSizeChange(radio) {
-        const size = radio.value;
-        const price = currentPolpa.item.prices[size];
-        currentPolpa.size = size;
-        currentPolpa.price = price;
-        polpaTotalPrice.textContent = `R$ ${price.toFixed(2).replace('.', ',')}`;
-        
-        // Se for suco natural, já pode adicionar
-        if (currentPolpa.isNatural) {
-             currentPolpa.flavor = currentPolpa.item.name; // Sabor é o próprio nome
-        } else {
-             // Se for polpa, reseta o sabor
-            currentPolpa.flavor = null; 
-            document.querySelectorAll('#polpa-flavor-options button').forEach(btn => {
-                btn.classList.remove('juice-flavor-selected');
-                btn.classList.add('bg-gray-700');
-                btn.classList.remove('bg-green-600'); 
-            });
-        }
-        updatePolpaAddToCartButton();
-    }
-
-    function handlePolpaFlavorClick(buttonElement, flavorName) {
-        currentPolpa.flavor = flavorName;
-        document.querySelectorAll('#polpa-flavor-options button').forEach(btn => {
-            btn.classList.remove('juice-flavor-selected');
-            btn.classList.add('bg-gray-700');
-            btn.classList.remove('bg-green-600'); 
-        });
-        buttonElement.classList.add('juice-flavor-selected');
-        buttonElement.classList.remove('bg-gray-700');
-        updatePolpaAddToCartButton();
-    }
-
-    function updatePolpaAddToCartButton() {
-        // Habilita se tiver tamanho E sabor (sabor é pré-definido se for natural)
-        addPolpaToCartBtn.disabled = !(currentPolpa.size && currentPolpa.flavor);
-    }
-
-    function addPolpaToCart() {
-        const { item, size, flavor, price } = currentPolpa;
-        if (!item || !size || !flavor) {
-            // Adapta a mensagem de erro
-            if(!size) {
-                 alert("Por favor, escolha um tamanho.");
-            } else {
-                 alert("Por favor, escolha um sabor.");
-            }
-            return;
-        }
-        
-        // Formata o nome diferente para polpa vs natural
-        const itemName = currentPolpa.isNatural 
-            ? `${item.name} (${size})` // Ex: Suco de Laranja (300ml)
-            : `${item.name} (${flavor} - ${size})`; // Ex: Suco de Polpa (Cajá - 300ml)
-
-        const newItem = {
-            id: item.id,
-            name: itemName,
-            price: price,
-            quantity: 1,
-            type: 'sucos', 
-            cartId: `item-${item.id}-${size}-${flavor.replace(/\s/g, '')}-${Date.now()}`
-        };
-        cart.push(newItem);
-        renderCart();
-        hidePolpaModal();
-    }
-    // *** FIM DAS FUNÇÕES DO MODAL DE POLPA ***
-
-    // *** REMOVIDO: Funções do 'juice-size-modal' agora são parte do 'polpa-modal' ***
+        </div>
+    </div>
     
+    <!-- Modal de Descrição do App (Hero) --><div id="app-description-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-slate-800 rounded-lg shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6 relative">
+            <button id="close-app-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="text-center">
+                <img id="modal-app-img" src="" alt="Logo do App" class="rounded-lg w-32 h-32 mx-auto mb-4 shadow-md bg-white p-2 object-contain">
+                <h3 id="modal-app-title" class="text-2xl font-bold text-white mb-4"></h3>
+                <p id="modal-app-desc" class="text-gray-300 text-left"></p>
+            </div>
+        </div>
+    </div>
 
 
-    // --- FUNÇÕES DE CHECKOUT ---
-   
-    function showCheckoutModal() {
-        if(cartPanel.classList.contains('open')){ 
-            toggleCartPanel(); 
-        }
+    <!-- Swiper JS --><script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Lógica do Menu Mobile
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
 
-        // *** NOVO: Lógica para mostrar/esconder campos de endereço ***
-        const orderType = document.querySelector('input[name="order-type"]:checked').value;
-        if (orderType === 'pickup') {
-            addressFieldWrapper.classList.add('hidden');
-            locationFieldWrapper.classList.add('hidden');
-            addressInput.required = false; // Não é obrigatório
-        } else { // 'delivery'
-            addressFieldWrapper.classList.remove('hidden');
-            locationFieldWrapper.classList.remove('hidden');
-            addressInput.required = true; // É obrigatório
-        }
-        // *** FIM DA LÓGICA ***
+            // Lógica de Geolocalização (Viabilidade e Formulário)
+            const locateViabilityButton = document.getElementById('locate-me-viability-btn');
+            const locationDisplayViability = document.getElementById('location-display-viability');
+            const coordinatesViabilityEl = document.getElementById('coordinates-viability');
+            const copyCoordsViabilityBtn = document.getElementById('copy-coords-viability-btn');
+            const copyFeedbackViability = document.getElementById('copy-feedback-viability');
+            const sendLocationBtn = document.getElementById('send-location-btn');
 
-        checkoutModal.classList.remove('invisible', 'opacity-0');
-        checkoutModal.querySelector('.modal-content').classList.remove('scale-95');
-    }
-    function hideCheckoutModal() { 
-        checkoutModal.classList.add('invisible', 'opacity-0'); 
-        checkoutModal.querySelector('.modal-content').classList.add('scale-95'); 
-    }
-    function getLocation() {
-        if (navigator.geolocation) { 
-            locationInfoDiv.textContent = 'Obtendo localização...'; 
-            navigator.geolocation.getCurrentPosition(showPosition, showError, { 
-                enableHighAccuracy: true, 
-                timeout: 10000, 
-                maximumAge: 0 
-            }); 
-        } else { 
-            locationInfoDiv.textContent = "Geolocalização não suportada."; 
-        }
-    }
-    function showPosition(position) {
-        const lat = position.coords.latitude; 
-        const lon = position.coords.longitude;
-        document.getElementById('latitude').value = lat; 
-        document.getElementById('longitude').value = lon;
-        locationInfoDiv.innerHTML = `Localização obtida! <a href="https://www.google.com/maps?q=${lat},${lon}" target="_blank" class="text-blue-400 hover:underline">Ver no mapa</a>`;
-    }
-    function showError(error) {
-        let message = "Erro ao obter localização.";
-        switch(error.code) {
-            case error.PERMISSION_DENIED: message = "Permissão de localização negada."; break;
-            case error.POSITION_UNAVAILABLE: message = "Informação de localização indisponível."; break;
-            case error.TIMEOUT: message = "Tempo esgotado para obter localização."; break;
-        }
-        locationInfoDiv.textContent = message;
-    }
-    document.querySelectorAll('input[name="payment"]').forEach(radio => { 
-        radio.addEventListener('change', function() { 
-            document.getElementById('troco-div').style.display = this.value === 'Dinheiro' ? 'block' : 'none'; 
-            document.getElementById('pix-info-div').style.display = this.value === 'PIX' ? 'block' : 'none'; 
-        }); 
-    });
+            const locateFormButton = document.getElementById('locate-me-form-btn');
+            const geolocationInput = document.getElementById('geolocation');
 
-    checkoutForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData.entries());
-        
-        const orderType = document.querySelector('input[name="order-type"]:checked').value;
-
-        if (!data.name || !data.phone || (orderType === 'delivery' && !data.address)) {
-             alert("Por favor, preencha Nome, Telefone e Endereço.");
-             return;
-        }
-
-        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        let deliveryFee = 0;
-        let deliveryText = '';
-
-        if (orderType === 'delivery') {
-            deliveryFee = deliverySettings.fee || 0;
-            const freeThreshold = deliverySettings.freeThreshold || 0;
-            if (freeThreshold > 0 && subtotal >= freeThreshold) {
-                deliveryFee = 0;
-                deliveryText = `*Taxa de Entrega:* Grátis 🎉\n`;
-            } else {
-                deliveryText = `*Taxa de Entrega:* R$ ${deliveryFee.toFixed(2).replace('.', ',')}\n`;
-            }
-        } else {
-            deliveryFee = 0;
-            deliveryText = `*Taxa de Entrega:* R$ 0,00 (Retirada)\n`;
-        }
-
-        const total = subtotal + deliveryFee;
-        const totalText = `R$ ${total.toFixed(2).replace('.', ',')}`;
-
-        let message = `Olá! Gostaria de fazer um novo pedido para a Pizzaria K'pricho! 🍕\n\n`; 
-        message += `*Cliente:* ${data.name}\n`;
-        message += `*Telefone:* ${data.phone}\n\n`;
-
-        if (orderType === 'delivery') {
-            message += `*Tipo de Pedido:* Entrega (Delivery) 🛵\n\n`;
-        } else {
-            message += `*Tipo de Pedido:* Retirada na Pizzaria\n\n`;
-        }
-
-        message += `*Itens do Pedido:*\n`;
-        message += cart.map(item => `- ${item.quantity}x ${item.name}`).join('\n') + '\n\n'; 
-        
-        message += `*Subtotal:* R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
-        message += deliveryText;
-        message += `*Total:* *${totalText}*\n\n`; 
-
-        if (orderType === 'delivery') {
-            message += `*Endereço de Entrega:* 🛵\n${data.address}\n`;
-            if (data.latitude && data.longitude) {
-                message += `📍 *Link da Localização:* https://www.google.com/maps?q=${data.latitude},${data.longitude}\n\n`;
-            } else {
-                 message += '\n'; 
-            }
-        }
-
-        message += `*Forma de Pagamento:* ${data.payment}\n`;
-
-        if (data.payment === 'PIX') {
-            message += `*Chave PIX (Telefone):* 7599804-3792\n(Por favor, envie o comprovativo)\n`;
-        }
-
-        if (data.payment === 'Dinheiro' && data.troco) {
-            const totalValue = total;
-             let valorPagoStr = data.troco.replace(',', '.').replace(/[^0-9.]/g, ''); 
-             const valorPago = parseFloat(valorPagoStr);
-
-            message += `*Troco para:* R$ ${data.troco}\n`; 
-
-            if (!isNaN(valorPago)) { 
-                 if (valorPago >= totalValue) {
-                     const trocoCalculado = valorPago - totalValue;
-                     message += `*Devolver (Troco):* R$ ${trocoCalculado.toFixed(2).replace('.', ',')}\n`;
-                 } else {
-                      message += `*Atenção:* Valor para troco (R$ ${data.troco}) é menor que o total do pedido.\n`;
-                 }
-            } else {
-                 message += `*Atenção:* Valor inválido informado para troco.\n`;
-            }
-        }
-
-        message += `\nObrigado(a)!`;
-        
-        const restaurantWhatsappNumber = '5575998043792'; 
-        const whatsappUrl = `https://wa.me/${restaurantWhatsappNumber}?text=${encodeURIComponent(message)}`;
-
-        lastOrderMessage = message; 
-        lastWhatsappUrl = whatsappUrl;
-
-        let summaryHTML = `
-            <p><strong>Cliente:</strong> ${data.name}</p>
-            <p><strong>Endereço:</strong> ${orderType === 'delivery' ? data.address : 'Retirada na Loja'}</p>
-            <hr class="border-gray-600 my-2"> 
-            <p><strong>Subtotal:</strong> R$ ${subtotal.toFixed(2).replace('.', ',')}</p>
-            <p><strong>Entrega:</strong> ${deliveryFee === 0 ? (orderType === 'delivery' ? 'Grátis' : 'R$ 0,00 (Retirada)') : `R$ ${deliveryFee.toFixed(2).replace('.', ',')}`}</p>
-            <p class="mb-2"><strong>Total:</strong> ${totalText}</p>
-            <p><strong>Pagamento:</strong> ${data.payment}${data.payment === 'Dinheiro' && data.troco ? ` (Troco para R$ ${data.troco})` : ''}</p>
-            <hr class="border-gray-600 my-2">
-            <h4 class="font-bold mt-2 mb-1">Itens:</h4> 
-            <ul class="text-sm list-disc list-inside"> 
-                ${cart.map(item => `<li>${item.quantity}x ${item.name}</li>`).join('')}
-            </ul>`;
-        document.getElementById('order-summary').innerHTML = summaryHTML;
-
-        window.open(whatsappUrl, '_blank');
-        hideCheckoutModal();
-        confirmationModal.classList.remove('invisible', 'opacity-0'); 
-        confirmationModal.querySelector('.modal-content').classList.remove('scale-95');
-    });
-
-    function resendWhatsapp() {
-        if (lastWhatsappUrl) {
-            window.open(lastWhatsappUrl, '_blank');
-        } else {
-             alert("Nenhum pedido recente para reenviar.");
-        }
-    }
-
-    // Usa document.execCommand('copy')
-    function copyOrder() {
-        if (lastOrderMessage) {
-            // Criar uma área de texto temporária
-            const tempTextArea = document.createElement('textarea');
-            tempTextArea.value = lastOrderMessage;
-            
-            // Estilo para escondê-la (não pode ser display:none)
-            tempTextArea.style.position = 'fixed';
-            tempTextArea.style.left = '-9999px';
-            tempTextArea.style.top = '0';
-            
-            document.body.appendChild(tempTextArea);
-            tempTextArea.focus();
-            tempTextArea.select();
-
-            try {
-                // Executar o comando de cópia
-                const successful = document.execCommand('copy');
-                const copyButton = document.getElementById('copy-button');
-
-                if (successful) {
-                    copyButton.textContent = 'Copiado!';
+            function getGeoLocation(callbackSuccess, callbackError) {
+                 if ('geolocation' in navigator) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const coordsText = `${position.coords.latitude.toFixed(5)}, ${position.coords.longitude.toFixed(5)}`;
+                            callbackSuccess(coordsText);
+                        },
+                        (error) => {
+                            console.error("Erro ao obter localização: ", error);
+                            const errorMsg = "Não foi possível obter sua localização.";
+                            callbackError(errorMsg);
+                        },
+                        {
+                            enableHighAccuracy: true,
+                            timeout: 10000, 
+                            maximumAge: 0 
+                        }
+                    );
                 } else {
-                    alert("Erro ao copiar o pedido. O seu navegador pode não suportar esta ação."); 
+                    const errorMsg = "Geolocalização não é suportada.";
+                    callbackError(errorMsg);
+                }
+            }
+
+            // Handler para botão de viabilidade
+            locateViabilityButton.addEventListener('click', () => {
+                coordinatesViabilityEl.textContent = 'A obter...';
+                coordinatesViabilityEl.classList.remove('text-red-500');
+                locationDisplayViability.classList.remove('hidden');
+                copyCoordsViabilityBtn.disabled = true;
+                sendLocationBtn.disabled = true;
+
+                getGeoLocation(
+                    (coordsText) => {
+                        coordinatesViabilityEl.textContent = coordsText;
+                        copyCoordsViabilityBtn.disabled = false; 
+                        sendLocationBtn.disabled = false; 
+                    },
+                    (errorMsg) => {
+                         coordinatesViabilityEl.textContent = errorMsg;
+                         coordinatesViabilityEl.classList.add('text-red-500');
+                    }
+                );
+            });
+
+            // Handler para botão no formulário
+             locateFormButton.addEventListener('click', () => {
+                 geolocationInput.value = 'A obter...'; 
+                 getGeoLocation(
+                    (coordsText) => {
+                        geolocationInput.value = coordsText;
+                    },
+                    (errorMsg) => {
+                        geolocationInput.value = errorMsg; 
+                    }
+                );
+             });
+
+
+            // Lógica para copiar coordenadas (Viabilidade)
+            copyCoordsViabilityBtn.addEventListener('click', () => {
+                const textToCopy = coordinatesViabilityEl.textContent;
+                 if (!textToCopy || textToCopy.startsWith('Não foi possível') || textToCopy.startsWith('Geolocalização não é suportada')) return; 
+
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    copyFeedbackViability.textContent = 'Copiado!';
+                    copyFeedbackViability.classList.remove('text-red-500');
+                    copyFeedbackViability.classList.add('text-green-400');
+                    copyFeedbackViability.classList.remove('hidden');
+                    setTimeout(() => copyFeedbackViability.classList.add('hidden'), 2500);
+                }).catch(err => {
+                    console.error('Falha ao copiar:', err);
+                    copyFeedbackViability.textContent = 'Erro ao copiar!';
+                    copyFeedbackViability.classList.remove('text-green-400');
+                    copyFeedbackViability.classList.add('text-red-500');
+                    copyFeedbackViability.classList.remove('hidden');
+                    setTimeout(() => copyFeedbackViability.classList.add('hidden'), 2500);
+                });
+            });
+
+             // Lógica para enviar APENAS localização para WhatsApp (CORRIGIDO com api.whatsapp.com)
+            sendLocationBtn.addEventListener('click', () => {
+                const coords = coordinatesViabilityEl.textContent;
+                if (!coords || coords.startsWith('Não foi possível') || coords.startsWith('Geolocalização não é suportada') || coords.startsWith('A obter...')) {
+                   console.warn('Coordenadas inválidas para envio.');
+                    return;
+                }
+                const message = `Olá! Gostaria de verificar a viabilidade da instalação na seguinte localização:\n${coords}`;
+                const phoneNumber = "557531999981"; 
+                const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`; 
+                window.open(whatsappUrl, '_blank').focus();
+            });
+
+            // Lógica do Presente
+            const unlockGiftBtn = document.getElementById('unlock-gift-btn');
+            const freeTrialContainer = document.getElementById('free-trial-container');
+            const correctPassword = "#120488Jc#";
+            
+            unlockGiftBtn.addEventListener('click', () => {
+                const password = prompt("Digite a senha para desbloquear o bônus:");
+                if(password === correctPassword) {
+                    freeTrialContainer.classList.remove('hidden');
+                } else if (password !== null) {
+                    // Opcional: feedback de senha errada (mas mantém "secreto")
+                    console.warn("Senha incorreta para o bônus.");
+                }
+            });
+
+
+            // --- Lógica do Modal de Apps (Planos) ---
+            const appsModal = document.getElementById('apps-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const openModalBtns = document.querySelectorAll('.open-modal-btn');
+            const modalTitle = document.getElementById('modal-title');
+            const modalGrid = document.getElementById('modal-apps-grid');
+            
+            // Definição dos Apps por Plano (para o modal "Ver Apps Inclusos")
+            const planApps = {
+                 basico: { name: "Plano Básico - 125 Mbps", apps: [] }, // Sem apps extras
+                basico_plus: { name: "Plano Básico+ - 225 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" } ] },
+                basico_prata: { name: "Plano Básico Prata - 275 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" } ] },
+                ultra_plus: { name: "Plano Ultra+ - 425 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Looke", img: "https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" } /* 1 Standard */ ] },
+                gold: { name: "Plano Gold - 625 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Deezer", img: "https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" } /* 1 Advanced */ ] },
+                gold_plus: { name: "Plano Gold+ - 625 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "PlayKids+", img: "https://logospng.org/download/playkids/logo-playkids-2048.png" } /* 1 Standard */, { name: "Deezer", img: "https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" } /* 1 Advanced */ ] },
+                ultra_gold_wifi6: { name: "Plano Ultra Gold WiFi 6 - 825 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Disney+", img: "https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" } /* 1 Premium */ ] },
+                ultra_premium_wifi6: { name: "Plano Ultra Premium WiFi 6 - 825 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Max", img: "https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" } /* 1 Premium */, { name: "Looke", img: "https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" } /* Standard 1 */, { name: "PlayKids+", img: "https://logospng.org/download/playkids/logo-playkids-2048.png" } /* Standard 2 */, { name: "Deezer", img: "https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" } /* 1 Advanced */ ] }
+            };
+
+            function openModal(planKey) {
+                const planData = planApps[planKey];
+                if (!planData || !planData.apps || planData.apps.length === 0 ) {
+                     if (planKey === 'basico') return; 
+                     if (planKey === 'basico_plus' || planKey === 'basico_prata') {
+                         modalTitle.textContent = `Apps Inclusos: ${planData.name}`;
+                         modalGrid.innerHTML = `<div class="text-center"><img src="https://placehold.co/100x100/10b981/FFFFFF?text=TV" alt="App TV" class="rounded-lg w-20 h-20 mx-auto mb-2 shadow-md bg-white p-1 object-contain"><p class="text-sm text-gray-300 font-medium">App TV (Canais Abertos)</p></div>`;
+                         appsModal.classList.remove('hidden');
+                         return;
+                     }
+                     return; 
+                 }
+                modalTitle.textContent = `Apps Inclusos: ${planData.name}`;
+                modalGrid.innerHTML = '';
+                planData.apps.forEach(app => {
+                    modalGrid.insertAdjacentHTML('beforeend', `<div class="text-center"><img src="${app.img}" alt="${app.name}" class="rounded-lg w-20 h-20 mx-auto mb-2 shadow-md bg-white p-1 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/100x100/7c3aed/FFFFFF?text=App';"><p class="text-sm text-gray-300 font-medium">${app.name}</p></div>`);
+                });
+                appsModal.classList.remove('hidden');
+            }
+            function closeModal() {
+                appsModal.classList.add('hidden');
+            }
+            openModalBtns.forEach(btn => {
+                btn.classList.remove('invisible');
+                btn.addEventListener('click', () => {
+                    if (btn.dataset.plan !== 'basico') {
+                        openModal(btn.dataset.plan);
+                    }
+                });
+            });
+             const basicPlanButton = document.querySelector('button[data-plan="basico"]');
+             if (basicPlanButton) {
+                 basicPlanButton.classList.add('invisible');
+             }
+            closeModalBtn.addEventListener('click', closeModal);
+            appsModal.addEventListener('click', (e) => { if (e.target === appsModal) closeModal(); });
+
+
+            // --- Lógica do Modal de Descrição de Apps (Hero) ---
+            const appDescriptionModal = document.getElementById('app-description-modal');
+            const closeAppModalBtn = document.getElementById('close-app-modal-btn');
+            
+            // NOVO modal para TODOS os apps
+            const allAppsModal = document.getElementById('all-apps-modal');
+            const closeAllAppsModalBtn = document.getElementById('close-all-apps-btn');
+            const openAllAppsBtn = document.getElementById('open-all-apps-btn');
+
+            const allAppIconBtns = document.querySelectorAll('.app-icon-btn'); // Isto agora apanha os 5+28
+            
+            // Banco de Dados de Descrições de Apps
+            const allAppInfo = {
+                'looke': { name: 'Looke', img: 'https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png', desc: 'Os melhores filmes e séries de aventura você encontra no Looke. Conheça nossos títulos. No Looke você tem acesso a mais de 10.000 conteúdos entre filmes e séries. Filmes e Séries à Vontade. Quando e Onde Quiser.' },
+                'sky': { name: 'Sky+', img: 'https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png', desc: 'Todo o entretenimento da Sky agora no streaming. Filmes, séries e canais ao vivo para você assistir onde e quando quiser.' },
+                'kiddiepass': { name: 'Kiddie Pass', img: 'https://placehold.co/100x100/facc15/000000?text=KiddiePass', desc: 'Conteúdo infantil seguro e divertido. Desenhos, jogos e atividades educativas para crianças.' },
+                'nutri': { name: '+Nutri', img: 'https://placehold.co/100x100/22c55e/FFFFFF?text=%2BNutri', desc: 'Sua plataforma de saúde e bem-estar. Receitas, dicas de nutrição e treinos para uma vida mais saudável.' },
+                'efit': { name: 'E-fit AG', img: 'https://placehold.co/100x100/3b82f6/FFFFFF?text=E-Fit', desc: 'Seu personal trainer digital. Programas de exercícios para fazer em casa ou na academia.' },
+                'playkids': { name: 'PlayKids+', img: 'https://logospng.org/download/playkids/logo-playkids-2048.png', desc: 'Plataforma educativa com desenhos, jogos e livros para o desenvolvimento infantil.' },
+                'hub': { name: 'HUB', img: 'https://placehold.co/100x100/14b8a6/FFFFFF?text=Hub', desc: 'Um hub de conteúdo digital com diversos serviços e facilidades para o seu dia a dia.' },
+                'ubook': { name: 'UbookPLUS', img: 'https://placehold.co/100x100/a855f7/FFFFFF?text=Ubook', desc: 'Milhares de audiolivros e ebooks para ouvir e ler onde quiser. Histórias, negócios, ficção e mais.' },
+                'estuda': { name: 'Estuda+', img: 'https://placehold.co/100x100/f97316/FFFFFF?text=Estuda%2B', desc: 'Plataforma de estudos completa com videoaulas, exercícios e simulados para ENEM e vestibulares.' },
+                'leitores': { name: 'Pequenos Leitores', img: 'https://placehold.co/100x100/ec4899/FFFFFF?text=Leitores', desc: 'Incentive a leitura dos pequenos com um catálogo incrível de livros infantis interativos.' },
+                'fluid': { name: 'Fluid', img: 'https://placehold.co/64x64/6366f1/FFFFFF?text=Fluid', desc: 'Conteúdo variado de streaming para todos os gostos. Filmes, documentários e mais.' },
+                'socialcomics': { name: 'Social Comics', img: 'https://placehold.co/64x64/ef4444/FFFFFF?text=Social', desc: 'O maior serviço de streaming de HQs da América Latina. Milhares de quadrinhos no seu celular.' },
+                'revistaria': { name: 'Revistaria', img: 'https://placehold.co/64x64/d946ef/FFFFFF?text=Revista', desc: 'Acesse centenas de revistas digitais. Notícias, entretenimento, esportes e muito mais.' },
+                'playlist': { name: 'Playlist', img: 'https://placehold.co/64x64/8b5cf6/FFFFFF?text=Playlist', desc: 'Crie e ouça playlists de música selecionadas para todos os momentos do seu dia.' },
+                'deezer': { name: 'Deezer', img: 'https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png', desc: 'Milhões de músicas, podcasts e playlists ao seu alcance. Ouça suas faixas favoritas offline e descubra novos artistas.' },
+                'klicencas': { name: 'K Licenças', img: 'https://placehold.co/100x100/6366f1/FFFFFF?text=K', desc: 'Acesso a licenças de software e antivírus para manter seus dispositivos seguros e atualizados.' },
+                'hotgo': { name: 'Hotgo', img: 'https://placehold.co/100x100/dc2626/FFFFFF?text=HotGo', desc: 'Conteúdo adulto exclusivo para maiores de 18 anos.' },
+                'curtaon': { name: 'CurtaOn', img: 'https://placehold.co/100x100/1f2937/FFFFFF?text=CurtaOn', desc: 'O melhor do cinema e documentários brasileiros. Filmes premiados e séries independentes.' },
+                'jornalista': { name: 'O Jornalista', img: 'https://placehold.co/100x100/4b5563/FFFFFF?text=Jornal', desc: 'Acesso digital a jornais e notícias em tempo real. Mantenha-se informado sobre o Brasil e o mundo.' },
+                'docway': { name: 'Docway', img: 'https://placehold.co/100x100/10b981/FFFFFF?text=Doc', desc: 'Serviço de telemedicina para você e sua família. Consultas médicas por vídeo, 24h por dia.' },
+                'disney': { name: 'Disney+', img: 'https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png', desc: 'O streaming com o entretenimento da Disney, Pixar, Marvel, Star Wars, National Geographic e muito mais.' },
+                'max': { name: 'Max', img: 'https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png', desc: 'O streaming da HBO, Warner Bros, DC, Discovery e muito mais. Séries, filmes e realities imperdíveis.' },
+                'indie': { name: 'Indie', img: 'https://placehold.co/100x100/f59e0b/FFFFFF?text=Indie', desc: 'Plataforma de streaming focada em cinema independente e filmes de arte premiados.' },
+                'leitura360': { name: 'Leitura 360', img: 'https://placehold.co/100x100/0891b2/FFFFFF?text=Leitura', desc: 'Uma biblioteca digital completa com livros, audiobooks e revistas para todos os gostos.' },
+                'nba': { name: 'NBA League Pass', img: 'https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png', desc: 'Assista a todos os jogos da NBA, ao vivo e sob demanda. Acompanhe seu time e jogadores favoritos durante toda a temporada.' },
+                'smartcontent': { name: 'SmartContent', img: 'https://placehold.co/100x100/ef4444/FFFFFF?text=Smart', desc: 'Conteúdo inteligente e educacional para toda a família. Cursos, documentários e muito mais.' },
+                'queima': { name: 'Queima Diária', img: 'https://seeklogo.com/images/Q/queima-diaria-logo-653593254B-seeklogo.com.png', desc: 'A maior plataforma de exercícios e bem-estar em casa da América Latina. Aulas, programas e desafios.' },
+                'zen': { name: 'Zen', img: 'https://logodownload.org/wp-content/uploads/2021/04/zen-logo-0.png', desc: 'Aplicativo de meditação, sono e relaxamento. Encontre sua paz interior e durma melhor.' }
+            };
+
+            function openAppDescriptionModal(event) {
+                const appId = event.currentTarget.dataset.appId;
+                const appData = allAppInfo[appId];
+                if (!appData) return;
+
+                document.getElementById('modal-app-img').src = appData.img;
+                document.getElementById('modal-app-title').textContent = appData.name;
+                document.getElementById('modal-app-desc').textContent = appData.desc;
+
+                appDescriptionModal.classList.remove('hidden');
+            }
+
+            function closeAppDescriptionModal() {
+                appDescriptionModal.classList.add('hidden');
+            }
+
+            allAppIconBtns.forEach(btn => {
+                btn.addEventListener('click', openAppDescriptionModal);
+            });
+
+            closeAppModalBtn.addEventListener('click', closeAppDescriptionModal);
+            appDescriptionModal.addEventListener('click', (e) => {
+                if (e.target === appDescriptionModal) {
+                    closeAppDescriptionModal();
+                }
+            });
+            
+            // NOVOS Listeners para o modal de "Todos os Apps"
+            function openAllAppsModal() {
+                allAppsModal.classList.remove('hidden');
+            }
+            function closeAllAppsModal() {
+                allAppsModal.classList.add('hidden');
+            }
+
+            openAllAppsBtn.addEventListener('click', openAllAppsModal);
+            closeAllAppsModalBtn.addEventListener('click', closeAllAppsModal);
+            allAppsModal.addEventListener('click', (e) => {
+                if (e.target === allAppsModal) {
+                    closeAllAppsModal();
+                }
+            });
+
+            // --- Lógica de Apps Dinâmicos no Formulário ---
+
+            const planSelect = document.getElementById('plan');
+            const includedAppsContainer = document.getElementById('included-apps-container');
+            const includedAppsList = document.getElementById('included-apps-list');
+            const includedAppsTextInput = document.getElementById('included_apps_text'); // O input oculto
+
+            // Listas de Apps para os Dropdowns
+            const standardAppsList = [
+                { id: 'looke', name: 'Looke' }, { id: 'sky_light', name: 'Sky+ Light' }, { id: 'kiddiepass_std', name: 'Kiddie Pass (Standard)' },
+                { id: 'nutri', name: '+Nutri' }, { id: 'efit', name: 'E-fit AG' }, { id: 'playkids', name: 'PlayKids+' },
+                { id: 'hub', name: 'HUB' }, { id: 'ubook', name: 'UbookPLUS' }, { id: 'estuda', name: 'Estuda+' },
+                { id: 'leitores', name: 'Pequenos Leitores' }, { id: 'fluid', name: 'Fluid' }, { id: 'socialcomics', name: 'Social Comics' },
+                { id: 'revistaria', name: 'Revistaria' }, { id: 'playlist', name: 'Playlist' }
+            ];
+            const advancedAppsList = [
+                { id: 'sky_globo', name: 'Sky+ com Globo' }, { id: 'kiddiepass_adv', name: 'Kiddie Pass (Advanced)' }, { id: 'deezer', name: 'Deezer' },
+                { id: 'klicencas_adv', name: 'K Licenças (Advanced)' }, { id: 'hotgo', name: 'Hotgo' }, { id: 'curtaon', name: 'CurtaOn' },
+                { id: 'jornalista', name: 'O Jornalista' }, { id: 'docway', name: 'Docway' }
+            ];
+            const premiumAppsList = [
+                { id: 'sky_amazon', name: 'SKY+ com Amazon' }, { id: 'disney_avulso', name: 'Disney+ (Avulso)' }, { id: 'hbo_avulso', name: 'HBO Max (Avulso)' },
+                { id: 'indie', name: 'Indie' }, { id: 'leitura360', name: 'Leitura 360' }, { id: 'disney', name: 'Disney+' },
+                { id: 'max', name: 'Max' }, { id: 'klicencas_prem', name: 'K Licenças (Premium)' }, { id: 'nba', name: 'NBA' },
+                { id: 'smartcontent', name: 'SmartContent' }, { id: 'queima', name: 'Queima Diária' }, { id: 'zen', name: 'Zen' }
+            ];
+
+            // Regras dos planos (quantos de cada app)
+            const planRules = {
+                "Plano Ultra Premium WiFi 6 - 825 Mbps": { premium: 1, standard: 2, advanced: 1 },
+                "Plano Ultra Gold WiFi 6 - 825 Mbps": { premium: 1, standard: 0, advanced: 0 },
+                "Plano Gold+ - 625 Mbps": { premium: 0, standard: 1, advanced: 1 },
+                "Plano Gold - 625 Mbps": { premium: 0, standard: 0, advanced: 1 },
+                "Plano Ultra+ - 425 Mbps": { premium: 0, standard: 1, advanced: 0 },
+                "Plano Básico Prata - 275 Mbps": { appTv: true },
+                "Plano Básico+ - 225 Mbps": { appTv: true },
+                "Plano Básico - 125 Mbps": {}
+            };
+            
+            // Função para criar os dropdowns
+            function createDropdowns(label, count, appArray, categoryName) {
+                for (let i = 0; i < count; i++) {
+                    const labelEl = document.createElement('label');
+                    labelEl.className = 'block text-gray-300 font-medium mb-1 text-sm';
+                    labelEl.textContent = `${label} ${count > 1 ? i + 1 : ''}:`;
+                    
+                    const selectEl = document.createElement('select');
+                    selectEl.name = `${categoryName}_app_${i}`;
+                    selectEl.className = 'app-select w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white';
+                    
+                    // Adiciona opção padrão
+                    selectEl.innerHTML = `<option value="">Selecione 1 App ${label}</option>`;
+                    
+                    // Popula com os apps
+                    appArray.forEach(app => {
+                        selectEl.innerHTML += `<option value="${app.name}">${app.name}</option>`;
+                    });
+                    
+                    // Adiciona listener para atualizar o campo oculto
+                    selectEl.addEventListener('change', updateHiddenAppInput);
+
+                    includedAppsList.appendChild(labelEl);
+                    includedAppsList.appendChild(selectEl);
+                }
+            }
+            
+            // Função para atualizar o input oculto
+            function updateHiddenAppInput() {
+                const selects = includedAppsList.querySelectorAll('.app-select');
+                let appNames = [];
+                selects.forEach(select => {
+                    if (select.value) {
+                        appNames.push(select.value);
+                    }
+                });
+                includedAppsTextInput.value = appNames.join(', ');
+            }
+
+            // Listener principal do seletor de planos
+            planSelect.addEventListener('change', () => {
+                const rules = planRules[planSelect.value];
+                includedAppsList.innerHTML = ''; // Limpa
+                includedAppsTextInput.value = ''; // Limpa
+
+                if (!rules || (rules.standard === 0 && rules.advanced === 0 && rules.premium === 0 && !rules.appTv)) {
+                    includedAppsContainer.classList.add('hidden'); // Esconde
+                    return;
                 }
                 
-                // Resetar o botão
-                setTimeout(() => {
-                    copyButton.textContent = 'Copiar Pedido';
-                }, 2000);
+                // Adiciona App de TV (se aplicável)
+                if(rules.appTv) {
+                    const tvTag = `<span class="bg-slate-600 text-xs font-medium text-gray-200 px-2 py-1 rounded-full">App de TV (Canais Abertos)</span>`;
+                    includedAppsList.insertAdjacentHTML('beforeend', tvTag);
+                }
+                
+                // Cria dropdowns
+                createDropdowns('Premium', rules.premium || 0, premiumAppsList, 'premium');
+                createDropdowns('Advanced', rules.advanced || 0, advancedAppsList, 'advanced');
+                createDropdowns('Standard', rules.standard || 0, standardAppsList, 'standard');
 
-            } catch (err) {
-                console.error('Erro ao copiar pedido: ', err);
-                alert("Erro ao copiar o pedido. Tente novamente.");
-            }
+                updateHiddenAppInput(); // Atualiza o valor inicial (provavelmente vazio)
+                includedAppsContainer.classList.remove('hidden'); // Mostra
+            });
 
-            // Remover o elemento temporário
-            document.body.removeChild(tempTextArea);
+            // Lógica para enviar formulário COMPLETO para o WhatsApp (Atualizado)
+            const cadastroForm = document.getElementById('cadastro-form');
+            cadastroForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const formData = new FormData(cadastroForm);
+                const planSelect = document.getElementById('plan');
+                const selectedPlanText = planSelect.options[planSelect.selectedIndex].text;
+                
+                // Pega o valor do teste grátis (mesmo se estiver escondido, pegará o valor 'Não')
+                const freeTrialSelect = document.getElementById('free_trial');
+                const selectedFreeTrialText = freeTrialSelect.options[freeTrialSelect.selectedIndex].text;
 
-        } else {
-            alert("Nenhum pedido recente para copiar.");
-        }
-    }
+                const getValue = (key) => formData.get(key) || '';
 
+                let messageParts = [
+                    '*Ficha do Cliente*', '', 
+                    `🆔 *Nome completo:* ${getValue('full_name')}`,
+                    `🏷️ *Apelido:* ${getValue('nickname') || 'N/A'}`,
+                    `🪪 *CPF:* ${getValue('cpf')}`,
+                    `🎂 *Data de nascimento:* ${getValue('birth_date') ? new Date(getValue('birth_date') + 'T00:00:00').toLocaleDateString('pt-BR') : 'N/A'}`, 
+                    `💬 *WhatsApp:* ${getValue('whatsapp')}`,
+                    `✉️ *E-mail:* ${getValue('email')}`,
+                    `🏡 *Endereço:* ${getValue('address')}`,
+                    `📍 *Geolocalização:* ${getValue('geolocation') || 'N/A'}`,
+                    `📌 *Ponto de referência:* ${getValue('reference') || 'N/A'}`,
+                    `📃 *Plano escolhido:* ${selectedPlanText || 'N/A'}`, 
+                ];
 
-    function resetApp() {
-        cart = []; 
-        renderCart();
-        confirmationModal.classList.add('invisible', 'opacity-0'); 
-        confirmationModal.querySelector('.modal-content').classList.add('scale-95');
-        checkoutForm.reset();
-        clearCheckoutInfo(); // Limpa os dados salvos
-        document.getElementById('troco-div').style.display = 'block'; 
-        document.getElementById('pix-info-div').style.display = 'none'; 
-        // Reseta o tipo de pedido para 'Entrega'
-        const deliveryRadio = document.getElementById('order-type-delivery');
-        if (deliveryRadio) deliveryRadio.checked = true;
-        renderCart(); // Re-renderiza o carrinho para atualizar a taxa de entrega
-        
-        locationInfoDiv.textContent = 'Opcional. Clique no botão para obter a sua localização precisa.';
-        document.getElementById('latitude').value = ''; 
-        document.getElementById('longitude').value = '';
+                // Adiciona os apps escolhidos (do input oculto)
+                const appsText = getValue('included_apps_text');
+                if (appsText) {
+                    messageParts.push(`📱 *Apps Escolhidos:* ${appsText}`);
+                }
 
-        lastOrderMessage = '';
-        lastWhatsappUrl = '';
-        document.getElementById('copy-button').textContent = 'Copiar Pedido'; 
-    }
+                messageParts.push(`📱 *Aparelhos conectados:* ${getValue('devices') || 'N/A'}`);
+                messageParts.push(`🗓️ *Vencimento:* Dia ${getValue('due_date') || 'N/A'}`);
 
+                // Só adiciona o campo de teste grátis na mensagem se ele foi desbloqueado e não for 'Não'
+                if (!freeTrialContainer.classList.contains('hidden') && getValue('free_trial') !== 'Não') {
+                     messageParts.push(`🎁 *Teste grátis:* ${selectedFreeTrialText}`);
+                }
 
-    // --- FUNÇÕES DO ADMIN ---
-   
-    function showAdminLoginModal() { 
-        adminLoginModal.classList.remove('invisible', 'opacity-0'); 
-        adminLoginModal.querySelector('.modal-content').classList.remove('scale-95'); 
-        document.getElementById('password').focus(); 
-    }
-    function hideAdminLoginModal() { 
-        adminLoginModal.classList.add('invisible', 'opacity-0'); 
-        adminLoginModal.querySelector('.modal-content').classList.add('scale-95'); 
-        document.getElementById('login-error').classList.add('hidden'); 
-        adminLoginForm.reset(); 
-    }
+                messageParts.push(`📝 *OBS.:* ${getValue('obs') || 'N/A'}`);
 
-    function showAdminPanel() {
-        hideAdminLoginModal();
-        deliveryFeeInput.value = (deliverySettings.fee ?? 0).toFixed(2); 
-        freeDeliveryThresholdInput.value = (deliverySettings.freeThreshold ?? 0).toFixed(2);
-        renderAdminPanel(); 
-        adminPanelModal.classList.remove('invisible', 'opacity-0');
-        adminPanelModal.querySelector('.modal-content').classList.remove('scale-95');
-        updatePriceFields(); 
-    }
+                const message = messageParts.join('\n'); 
 
-    function hideAdminPanel() { 
-        adminPanelModal.classList.add('invisible', 'opacity-0'); 
-        adminPanelModal.querySelector('.modal-content').classList.add('scale-95'); 
-        renderMenu(); 
-        renderCart(); 
-    }
-
-    adminLoginForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const password = document.getElementById('password').value;
-        if (password === 'admin123') { 
-            showAdminPanel(); 
-        } else { 
-            const errorP = document.getElementById('login-error');
-            errorP.classList.remove('hidden'); 
-            adminLoginForm.reset();
-            document.getElementById('password').focus();
-        }
-    });
-
-    function saveDeliverySettings() {
-        const newFee = parseFloat(deliveryFeeInput.value.replace(',', '.')) || 0; 
-        const newThreshold = parseFloat(freeDeliveryThresholdInput.value.replace(',', '.')) || 0;
-
-        deliverySettings.fee = newFee >= 0 ? newFee : 0; 
-        deliverySettings.freeThreshold = newThreshold >= 0 ? newThreshold : 0;
-
-        saveDeliverySettingsToStorage(); 
-        renderCart(); 
-        alert('Configurações de entrega salvas!');
-    }
+                const phoneNumber = "557531999981"; 
+                const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`; 
+                window.open(whatsappUrl, '_blank').focus();
+            });
 
 
-    function renderAdminPanel() {
-        adminProductList.innerHTML = ''; 
-        const productTypes = ['pizzaria_salgada', 'pizzaria_doce', 'bebidas', 'sucos']; 
-
-        productTypes.forEach(type => {
-            let typeName = '';
-            switch(type) {
-                case 'pizzaria_salgada': typeName = 'Pizzas Salgadas'; break;
-                case 'pizzaria_doce': typeName = 'Pizzas Doces'; break;
-                case 'bebidas': typeName = 'Bebidas'; break;
-                case 'sucos': typeName = 'Sucos'; break;
-                default: typeName = type; 
-            }
-
-            adminProductList.innerHTML += `<h4 class="text-lg font-bold mt-4 mb-2 capitalize text-yellow-400">${typeName}</h4>`;
-            
-            const items = menuData[type] || [];
-            if (items.length === 0) {
-                 adminProductList.innerHTML += `<p class="text-gray-500 text-sm italic">Nenhum item nesta categoria.</p>`;
-            } else {
-                 items.forEach(item => {
-                    let priceInfo = '';
-                    if (item.prices) { // Pizza ou Suco de Polpa/ML
-                        if (item.prices.grande) {
-                            priceInfo = `G: R$ ${item.prices.grande.toFixed(2)} / F: R$ ${item.prices.familia.toFixed(2)}`;
-                        } else if (item.prices['300ml']) {
-                             priceInfo = `300ml: R$ ${item.prices['300ml'].toFixed(2)} / 500ml: R$ ${item.prices['500ml'].toFixed(2)}`;
+            // Inicialização do Swiper
+            if (window.innerWidth < 768) {
+                const swiper = new Swiper('.swiper-container', {
+                    slidesPerView: 1.2,
+                    spaceBetween: 16,
+                    centeredSlides: true,
+                    loop: false, // Desativar loop para evitar problemas com poucos slides
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                     breakpoints: {
+                        // Garante que funcione bem em telas um pouco maiores mas ainda móveis
+                        640: {
+                          slidesPerView: 2.2,
+                          centeredSlides: false,
                         }
-                    } else if (item.price !== undefined) { // Item de preço único
-                        priceInfo = `R$ ${item.price.toFixed(2)}`;
-                    } 
-
-                    adminProductList.innerHTML += `
-                        <div class="bg-gray-700 p-3 rounded-md mb-2 flex justify-between items-center gap-2"> 
-                            <div class="flex-1 overflow-hidden mr-2"> 
-                                <p class="font-semibold truncate">${item.name}</p> 
-                                <p class="text-sm text-gray-400">${priceInfo.replace(/\./g,',')}</p>
-                            </div>
-                            <div class="flex gap-2 flex-shrink-0"> 
-                                <button onclick="editProduct('${type}', ${item.id})" class="bg-blue-600 hover:bg-blue-500 text-white text-xs py-1 px-2 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500">Editar</button>
-                                <button onclick="deleteProduct('${type}', ${item.id})" class="bg-red-600 hover:bg-red-500 text-white text-xs py-1 px-2 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-red-500">Excluir</button>
-                            </div>
-                        </div>`;
+                    }
                 });
+            } else {
+                 // Garante que as classes do Swiper sejam removidas e o grid seja aplicado em telas maiores
+                 const swiperContainer = document.querySelector('.swiper-container');
+                 const swiperWrapper = document.querySelector('.swiper-wrapper');
+                 const swiperSlides = document.querySelectorAll('.swiper-container .plan-gradient'); // Seleciona os cards diretamente
+
+                 swiperContainer.classList.add('grid', 'grid-cols-2', 'lg:grid-cols-4', 'gap-8');
+                 swiperWrapper.classList.add('contents'); // Usa 'contents' para que o wrapper não interfira no grid
+                 
+                 swiperSlides.forEach(slide => {
+                     // Remove a classe swiper-slide se existir
+                     slide.parentElement.classList.remove('swiper-slide'); // Remove do PAI (div.swiper-slide)
+                 });
+                 // Remove elementos de navegação/paginação do Swiper
+                 const pagination = document.querySelector('.swiper-pagination');
+                 const nextButton = document.querySelector('.swiper-button-next');
+                 const prevButton = document.querySelector('.swiper-button-prev');
+                 if(pagination) pagination.remove();
+                 if(nextButton) nextButton.remove();
+                 if(prevButton) prevButton.remove();
             }
         });
-    }
-
-    // Mostra os campos de preço corretos baseado no tipo selecionado
-    function updatePriceFields() {
-        const type = productTypeSelect.value;
-        if (type === 'pizzaria_salgada' || type === 'pizzaria_doce') {
-            priceFieldsDiv.innerHTML = `
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label for="productPriceGrande" class="block text-sm font-medium text-gray-400 mb-1">Preço Grande (R$)</label>
-                        <input type="number" id="productPriceGrande" step="0.01" min="0" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md" placeholder="30.00" required>
-                    </div>
-                    <div>
-                        <label for="productPriceFamilia" class="block text-sm font-medium text-gray-400 mb-1">Preço Família (R$)</label>
-                        <input type="number" id="productPriceFamilia" step="0.01" min="0" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md" placeholder="40.00" required>
-                    </div>
-                </div>`;
-        } else if (type === 'sucos') { 
-             priceFieldsDiv.innerHTML = `
-                <p class="text-xs text-gray-400 mb-2">Para Suco de Polpa ou Sabor Único, insira preços de ML. Para Água, insira Preço Único.</p>
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label for="productPrice300ml" class="block text-sm font-medium text-gray-400 mb-1">Preço 300ml (Opc)</label>
-                        <input type="number" id="productPrice300ml" step="0.01" min="0" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md" placeholder="3.00">
-                    </div>
-                    <div>
-                        <label for="productPrice500ml" class="block text-sm font-medium text-gray-400 mb-1">Preço 500ml (Opc)</label>
-                        <input type="number" id="productPrice500ml" step="0.01" min="0" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md" placeholder="5.00">
-                    </div>
-                </div>
-                 <div class="mb-4">
-                    <label for="productPrice" class="block text-sm font-medium text-gray-400 mb-1">Ou Preço Único (R$)</label>
-                    <input type="number" id="productPrice" step="0.01" min="0" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md" placeholder="5.00">
-                </div>`;
-        } else { // Bebidas (preço único)
-            priceFieldsDiv.innerHTML = `
-                <div class="mb-4">
-                    <label for="productPrice" class="block text-sm font-medium text-gray-400 mb-1">Preço (R$)</label>
-                    <input type="number" id="productPrice" step="0.01" min="0" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md" placeholder="5.00" required>
-                </div>`;
-        }
-    }
-    
-    // Limpa o formulário de produto
-    function resetProductForm() {
-        adminProductForm.reset();
-        document.getElementById('productId').value = ''; 
-        document.getElementById('form-title').textContent = 'Adicionar Novo Produto/Sabor';
-        productTypeSelect.disabled = false; 
-        updatePriceFields(); 
-    }
-
-    // Preenche o formulário para editar um produto existente
-    function editProduct(type, id) {
-        const product = menuData[type]?.find(p => p.id === id); 
-        if (product) {
-            resetProductForm(); 
-            document.getElementById('productId').value = product.id;
-            productTypeSelect.value = type;
-            productTypeSelect.disabled = true; 
-            updatePriceFields(); 
-            document.getElementById('productName').value = product.name;
-            document.getElementById('productDesc').value = product.description;
-            
-            if (product.prices) { 
-                if (product.prices.grande) { // É Pizza
-                    document.getElementById('productPriceGrande').value = product.prices.grande.toFixed(2);
-                    document.getElementById('productPriceFamilia').value = product.prices.familia.toFixed(2);
-                } else if (product.prices['300ml']) { // É Suco de Polpa/ML
-                    if(document.getElementById('productPrice300ml')) {
-                         document.getElementById('productPrice300ml').value = product.prices['300ml'].toFixed(2);
-                    }
-                     if(document.getElementById('productPrice500ml')) {
-                        document.getElementById('productPrice500ml').value = product.prices['500ml'].toFixed(2);
-                    }
-                }
-            } else if (product.price !== undefined) { 
-                if(document.getElementById('productPrice')) { // Suco normal ou Bebida
-                    document.getElementById('productPrice').value = product.price.toFixed(2);
-                }
-            }
-            document.getElementById('productImage').value = product.image;
-            document.getElementById('form-title').textContent = 'Editar Produto/Sabor';
-            adminProductForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            document.getElementById('productName').focus(); 
-        } else {
-             console.error("Produto não encontrado para edição:", type, id);
-        }
-    }
-
-    // Exclui um produto
-    function deleteProduct(type, id) {
-        const product = menuData[type]?.find(p => p.id === id); 
-        if (!product) {
-             console.error("Produto não encontrado para exclusão:", type, id);
-             return;
-        }
-        if (confirm(`Tem certeza que deseja excluir "${product.name}"?`)) { 
-            menuData[type] = menuData[type].filter(p => p.id !== id);
-            saveMenuData(); 
-            renderAdminPanel(); 
-            resetProductForm(); 
-        }
-    }
-
-    // Salva um produto (novo ou editado)
-    adminProductForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const id = document.getElementById('productId').value;
-        const type = productTypeSelect.value;
-
-        let productData = {
-            id: id ? parseInt(id) : Date.now(), 
-            name: document.getElementById('productName').value.trim(), 
-            description: document.getElementById('productDesc').value.trim(),
-            image: document.getElementById('productImage').value,
-        };
-
-        if (type.startsWith('pizzaria')) {
-            const priceGrande = parseFloat(document.getElementById('productPriceGrande')?.value.replace(',', '.')) || 0;
-            const priceFamilia = parseFloat(document.getElementById('productPriceFamilia')?.value.replace(',', '.')) || 0;
-            if (priceGrande <= 0 || priceFamilia <= 0) {
-                alert("Pizzas devem ter preço Grande e Família válidos."); return;
-            }
-            productData.prices = { grande: priceGrande, familia: priceFamilia };
-
-        } else if (type === 'sucos') {
-            const price300ml = parseFloat(document.getElementById('productPrice300ml')?.value.replace(',', '.')) || 0;
-            const price500ml = parseFloat(document.getElementById('productPrice500ml')?.value.replace(',', '.')) || 0;
-            const priceSingle = parseFloat(document.getElementById('productPrice')?.value.replace(',', '.')) || 0;
-
-            if (price300ml > 0 && price500ml > 0) { // É Suco de Polpa ou Sabor Único com ML
-                productData.prices = { '300ml': price300ml, '500ml': price500ml };
-            } else if (priceSingle > 0) { // É Suco com preço único (como Água)
-                 productData.price = priceSingle;
-            } else {
-                alert("Sucos devem ter Preço Único OU preços de 300ml e 500ml válidos."); return;
-            }
-        } else { // Bebidas
-            const priceSingle = parseFloat(document.getElementById('productPrice')?.value.replace(',', '.')) || 0;
-             if (priceSingle <= 0) {
-                 alert("Bebidas devem ter um Preço Único válido."); return;
-             }
-            productData.price = priceSingle;
-        }
-
-         try {
-             new URL(productData.image); 
-         } catch (_) {
-              alert("URL da imagem inválida. Por favor, insira uma URL completa (ex: https://...).");
-              return; 
-         }
-
-        if (!menuData[type]) menuData[type] = []; 
-
-        if (id) { 
-            const index = menuData[type].findIndex(p => p.id === productData.id);
-            if (index !== -1) {
-                menuData[type][index] = productData;
-            } else {
-                 console.error("Erro ao editar: Produto não encontrado no array.");
-                 alert("Erro ao salvar a edição. O produto original não foi encontrado.");
-                 return;
-            }
-        } else { 
-            menuData[type].push(productData);
-        }
-
-        saveMenuData();       
-        renderAdminPanel();   
-        resetProductForm();   
-        alert(`Produto "${productData.name}" salvo com sucesso!`); 
-    });
-
-
-    // --- INICIALIZAÇÃO ---
-
-    // Função para adicionar listeners de arraste
-    function addDragScrollListeners() {
-        const sliders = document.querySelectorAll('.menu-category-container');
-        sliders.forEach(slider => {
-            let isDown = false;
-            let startX;
-            let scrollLeft;
-
-            // Eventos do Mouse
-            slider.addEventListener('mousedown', (e) => {
-                isDown = true;
-                slider.style.cursor = 'grabbing';
-                startX = e.pageX - slider.offsetLeft;
-                scrollLeft = slider.scrollLeft;
-            });
-            slider.addEventListener('mouseleave', () => {
-                if (!isDown) return; 
-                isDown = false;
-                slider.style.cursor = 'grab';
-            });
-            slider.addEventListener('mouseup', () => {
-                 if (!isDown) return; 
-                isDown = false;
-                slider.style.cursor = 'grab';
-            });
-            slider.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                e.preventDefault(); 
-                const x = e.pageX - slider.offsetLeft;
-                const walk = (x - startX) * 2; 
-                slider.scrollLeft = scrollLeft - walk;
-            });
-
-            // Eventos de Toque 
-            slider.addEventListener('touchstart', (e) => {
-                isDown = true;
-                startX = e.touches[0].pageX - slider.offsetLeft;
-                scrollLeft = slider.scrollLeft;
-            }, { passive: true }); 
-
-            slider.addEventListener('touchend', () => {
-                isDown = false;
-            }, { passive: true });
-
-            slider.addEventListener('touchcancel', () => {
-                isDown = false; 
-            }, { passive: true });
-
-            slider.addEventListener('touchmove', (e) => {
-                if (!isDown) return;
-                const x = e.touches[0].pageX - slider.offsetLeft;
-                const walk = (x - startX) * 2;
-                slider.scrollLeft = scrollLeft - walk;
-            }, { passive: true }); 
-        });
-    }
-
-     window.onload = () => {
-        loadMenuData();
-        loadDeliverySettings();
-        loadCheckoutInfo(); // Carrega info do checkout
-        selectTheme('pizzaria'); // Define o tema e renderiza o menu
-        renderCart(); // Renderiza o carrinho inicial (vazio)
-
-        // Adiciona listener para campos de preço no admin
-        if (productTypeSelect) {
-             productTypeSelect.addEventListener('change', updatePriceFields);
-             updatePriceFields(); // Chama uma vez para garantir que os campos iniciais apareçam
-        } else {
-            console.error("Elemento 'productTypeSelect' não encontrado no DOM.");
-        }
-
-        // Garante que painel e overlay comecem fechados
-        if (cartPanel) cartPanel.classList.remove('open');
-        if (cartOverlay) cartOverlay.classList.remove('open');
-        
-        // Adiciona listeners de arraste após tudo carregar
-        addDragScrollListeners();
-
-        // Adiciona listeners para salvar info do checkout
-        if (nameInput) nameInput.addEventListener('input', saveCheckoutInfo);
-        if (phoneInput) phoneInput.addEventListener('input', saveCheckoutInfo);
-        if (addressInput) addressInput.addEventListener('input', saveCheckoutInfo);
-    };
-
-</script>
+    </script>
 
 </body>
 </html>
