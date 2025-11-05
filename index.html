@@ -92,6 +92,49 @@
                 opacity: 1;
             }
         }
+
+        /* NOVO: Estilos para o Marquee (Carrossel Infinito) */
+        .marquee-container {
+            width: 100%;
+            white-space: nowrap; /* Impede que os logos quebrem a linha */
+        }
+        .marquee-content {
+            display: inline-block; 
+            /* A velocidade é controlada aqui (60s). Pode ajustar se achar muito rápido/lento */
+            animation: marquee-scroll 60s linear infinite; 
+        }
+        
+        /* Pausa a animação no hover */
+        .marquee-container:hover .marquee-content {
+            animation-play-state: paused;
+        }
+        
+        .marquee-content img {
+            display: inline-block; 
+            vertical-align: middle;
+            filter: grayscale(100%) brightness(1.5); /* P&B e mais claro */
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            max-height: 32px; /* Define altura máxima (h-8) */
+            margin: 0 2rem; /* mx-8 */
+        }
+
+        /* Ao passar o mouse sobre QUALQUER parte do carrossel, todos os logos reagem */
+        .marquee-container:hover .marquee-content img {
+            filter: grayscale(0%) brightness(1); /* Colorido no hover */
+            opacity: 1;
+        }
+        
+        @keyframes marquee-scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                /* Desloca para a esquerda o tamanho exato da primeira metade dos logos */
+                transform: translateX(-50%); 
+            }
+        }
+        /* FIM: Estilos para o Marquee */
     </style>
 </head>
 <body class="text-gray-200">
@@ -143,6 +186,49 @@
             <a href="https://sistema.ultranetelecom.com.br/central_assinante_web/login" target="_blank" rel="noopener noreferrer" class="block py-2 px-4 text-sm text-white bg-violet-600 hover:bg-violet-700 mobile-menu-link">2ª Via Boleto</a>
         </div>
     </header>
+
+    <!-- NOVO: Seção de Apps em Carrossel (Marquee) -->
+    <section class="bg-slate-900/50 py-4 overflow-hidden relative border-y border-slate-700">
+        <!-- Sombra interna para 'fade' nas laterais -->
+        <!-- Estas divs criam o efeito de 'sumiço' dos logos nas bordas -->
+        <div class="absolute top-0 left-0 bottom-0 w-16 bg-gradient-to-r from-slate-900 to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute top-0 right-0 bottom-0 w-16 bg-gradient-to-l from-slate-900 to-transparent z-10 pointer-events-none"></div>
+
+        <div class="marquee-container">
+            <div class="marquee-content">
+                <!-- 
+                  Para o loop funcionar perfeitamente, duplicamos a lista de logos.
+                  A animação CSS vai mover o 'marquee-content' 50% para a esquerda,
+                  e quando a Lista 2 chegar no começo, a animação reseta, dando
+                  a impressão de um loop infinito.
+                -->
+                
+                <!-- Lista 1 (Logos Reais) -->
+                <img src="https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png" alt="Logo Sky+" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=Sky%2B';">
+                <img src="https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" alt="Logo Disney+" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=Disney%2B';">
+                <img src="https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" alt="Logo Max" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=Max';">
+                <img src="https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png" alt="Logo NBA" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=NBA';">
+                <img src="https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" alt="Logo Deezer" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=Deezer';">
+                <img src="https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" alt="Logo Looke" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=Looke';">
+                <img src="https://logospng.org/download/playkids/logo-playkids-2048.png" alt="Logo PlayKids+" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=PlayKids';">
+                <img src="https://seeklogo.com/images/Q/queima-diaria-logo-653593254B-seeklogo.com.png" alt="Logo Queima Diária" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=Queima';">
+                <img src="https://logodownload.org/wp-content/uploads/2021/04/zen-logo-0.png" alt="Logo Zen" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=Zen';">
+                
+                <!-- Lista 2 (Duplicata para loop) -->
+                <img src="https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png" alt="Logo Sky+" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=Sky%2B';">
+                <img src="https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" alt="Logo Disney+" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=Disney%2B';">
+                <img src="https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" alt="Logo Max" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=Max';">
+                <img src="https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png" alt="Logo NBA" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=NBA';">
+                <img src="https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" alt="Logo Deezer" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=Deezer';">
+                <img src="https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" alt="Logo Looke" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=Looke';">
+                <img src="https://logospng.org/download/playkids/logo-playkids-2048.png" alt="Logo PlayKids+" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=PlayKids';">
+                <img src="https://seeklogo.com/images/Q/queima-diaria-logo-653593254B-seeklogo.com.png" alt="Logo Queima Diária" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=Queima';">
+                <img src="https://logodownload.org/wp-content/uploads/2021/04/zen-logo-0.png" alt="Logo Zen" onerror="this.onerror=null;this.src='https://placehold.co/100x32/FFFFFF/000000?text=Zen';">
+            </div>
+        </div>
+    </section>
+    <!-- FIM da Seção de Apps em Carrossel -->
+
 
     <main>
         <!-- Seção Hero -->
@@ -561,7 +647,7 @@
                                  <stop offset="0.6" stop-color="#833AB4"/>
                              </radialGradient>
                          </defs>
-                         <path fill="url(#instaGradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 1.172.053 1.973.22 2.623.468.65.254 1.217.598 1.772 1.153a4.908 4.908 0 011.153 1.772c.248.65.415 1.45.468 2.623.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.053 1.172-.22 1.973-.468 2.623a4.908 4.908 0 01-1.153 1.772 4.908 4.908 0 01-1.772 1.153c-.65.248-1.45.415-2.623.468-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.172-.053-1.973-.22-2.623-.468a4.908 4.908 0 01-1.772-1.153 4.908 4.908 0 01-1.153-1.772c-.248-.65-.415-1.45-.468-2.623-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.053-1.172.22 1.973.468 2.623a4.908 4.908 0 011.153-1.772A4.908 4.908 0 014.5 2.7c.65-.248 1.45-.415 2.623-.468C8.416 2.175 8.796 2.163 12 2.163zm0 1.626c-3.172 0-3.543.011-4.78.069-1.09.05-1.803.218-2.39.43-1.08.4-1.938 1.255-2.34 2.34-.213.586-.38 1.3-.43 2.39-.058 1.237-.069 1.608-.069 4.78s.011 3.543.069 4.78c.05 1.09.218 1.803.43 2.39.4 1.08 1.255 1.938 2.34 2.34.586.213 1.3.38 2.39.43 1.237.058 1.608.069 4.78.069s3.543-.011 4.78-.069c1.09-.05 1.803-.218 2.39-.43 1.08-.4 1.938-1.255 2.34-2.34.213.586.38-1.3.43-2.39.058-1.237.069-1.608.069-4.78s-.011-3.543-.069-4.78c-.05-1.09-.218-1.803-.43-2.39-.4-1.08-1.255-1.938-2.34-2.34-.586-.213-1.3-.38-2.39-.43C15.543 3.799 15.172 3.79 12 3.79zm0 2.99c-3.309 0-6 2.691-6 6s2.691 6 6 6 6-2.691 6-6-2.691-6-6-6zm0 1.626c2.42 0 4.374 1.955 4.374 4.374s-1.955 4.374-4.374 4.374-4.374-1.955-4.374-4.374 1.955-4.374 4.374-4.374zM16.4 5.201a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0z"/>
+                         <path fill="url(#instaGradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 1.172.053 1.973.22 2.623.468.65.254 1.217.598 1.772 1.153a4.908 4.908 0 011.153 1.772c.248.65.415 1.45.468 2.623.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.053 1.172-.22 1.973-.468 2.623a4.908 4.908 0 01-1.153 1.772 4.908 4.908 0 01-1.772 1.153c-.65.248-1.45.415-2.623.468-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.172-.053-1.973-.22-2.623-.468a4.908 4.908 0 01-1.772-1.153 4.908 4.908 0 01-1.153-1.772c-.248-.65-.415-1.45-.468-2.623-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.053 1.172.22 1.973.468 2.623a4.908 4.908 0 011.153-1.772A4.908 4.908 0 014.5 2.7c.65-.248 1.45-.415 2.623-.468C8.416 2.175 8.796 2.163 12 2.163zm0 1.626c-3.172 0-3.543.011-4.78.069-1.09.05-1.803.218-2.39.43-1.08.4-1.938 1.255-2.34 2.34-.213.586-.38 1.3-.43 2.39-.058 1.237-.069 1.608-.069 4.78s.011 3.543.069 4.78c.05 1.09.218 1.803.43 2.39.4 1.08 1.255 1.938 2.34 2.34.586.213 1.3.38 2.39.43 1.237.058 1.608.069 4.78.069s3.543-.011 4.78-.069c1.09-.05 1.803-.218 2.39-.43 1.08-.4 1.938-1.255 2.34-2.34.213.586.38-1.3.43-2.39.058-1.237.069-1.608.069-4.78s-.011-3.543-.069-4.78c-.05-1.09-.218-1.803-.43-2.39-.4-1.08-1.255-1.938-2.34-2.34-.586-.213-1.3-.38-2.39-.43C15.543 3.799 15.172 3.79 12 3.79zm0 2.99c-3.309 0-6 2.691-6 6s2.691 6 6 6 6-2.691 6-6-2.691-6-6-6zm0 1.626c2.42 0 4.374 1.955 4.374 4.374s-1.955 4.374-4.374 4.374-4.374-1.955-4.374-4.374 1.955-4.374 4.374-4.374zM16.4 5.201a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0z"/>
                      </svg>
                  </a>
              </div>
@@ -947,6 +1033,7 @@
             const allAppIconBtns = document.querySelectorAll('.app-icon-btn'); // Isto agora apanha os 5+28
             
             // Banco de Dados de Descrições de Apps (com fallbacks)
+            // CORREÇÃO: Corrigido 'https_' para 'https' em 'ubook' e 'jornalista'
             const allAppInfo = {
                 'looke': { name: 'Looke', img: 'https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png', desc: 'Os melhores filmes e séries de aventura você encontra no Looke. Conheça nossos títulos. No Looke você tem acesso a mais de 10.000 conteúdos entre filmes e séries. Filmes e Séries à Vontade. Quando e Onde Quiser.' },
                 'sky': { name: 'Sky+', img: 'https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png', desc: 'Todo o entretenimento da Sky agora no streaming. Filmes, séries e canais ao vivo para você assistir onde e quando quiser.' },
@@ -955,7 +1042,7 @@
                 'efit': { name: 'E-fit AG', img: 'https://placehold.co/100x100/3b82f6/FFFFFF?text=E-Fit', desc: 'Seu personal trainer digital. Programas de exercícios para fazer em casa ou na academia.' },
                 'playkids': { name: 'PlayKids+', img: 'https://logospng.org/download/playkids/logo-playkids-2048.png', desc: 'Plataforma educativa com desenhos, jogos e livros para o desenvolvimento infantil.' },
                 'hub': { name: 'HUB', img: 'https://placehold.co/100x100/14b8a6/FFFFFF?text=Hub', desc: 'Um hub de conteúdo digital com diversos serviços e facilidades para o seu dia a dia.' },
-                'ubook': { name: 'UbookPLUS', img: 'https_://placehold.co/100x100/a855f7/FFFFFF?text=Ubook', desc: 'Milhares de audiolivros e ebooks para ouvir e ler onde quiser. Histórias, negócios, ficção e mais.' }, // Corrigido https
+                'ubook': { name: 'UbookPLUS', img: 'https://placehold.co/100x100/a855f7/FFFFFF?text=Ubook', desc: 'Milhares de audiolivros e ebooks para ouvir e ler onde quiser. Histórias, negócios, ficção e mais.' }, // Corrigido https
                 'estuda': { name: 'Estuda+', img: 'https://placehold.co/100x100/f97316/FFFFFF?text=Estuda%2B', desc: 'Plataforma de estudos completa com videoaulas, exercícios e simulados para ENEM e vestibulares.' },
                 'leitores': { name: 'Pequenos Leitores', img: 'https://placehold.co/100x100/ec4899/FFFFFF?text=Leitores', desc: 'Incentive a leitura dos pequenos com um catálogo incrível de livros infantis interativos.' },
                 'fluid': { name: 'Fluid', img: 'https://placehold.co/64x64/6366f1/FFFFFF?text=Fluid', desc: 'Conteúdo variado de streaming para todos os gostos. Filmes, documentários e mais.' },
@@ -966,7 +1053,7 @@
                 'klicencas': { name: 'K Licenças', img: 'https://placehold.co/100x100/6366f1/FFFFFF?text=K', desc: 'Acesso a licenças de software e antivírus para manter seus dispositivos seguros e atualizados.' },
                 'hotgo': { name: 'Hotgo', img: 'https://placehold.co/100x100/dc2626/FFFFFF?text=HotGo', desc: 'Conteúdo adulto exclusivo para maiores de 18 anos.' },
                 'curtaon': { name: 'CurtaOn', img: 'https://placehold.co/100x100/1f2937/FFFFFF?text=CurtaOn', desc: 'O melhor do cinema e documentários brasileiros. Filmes premiados e séries independentes.' },
-                'jornalista': { name: 'O Jornalista', img: 'https_://placehold.co/100x100/4b5563/FFFFFF?text=Jornal', desc: 'Acesso digital a jornais e notícias em tempo real. Mantenha-se informado sobre o Brasil e o mundo.' }, // Corrigido https
+                'jornalista': { name: 'O Jornalista', img: 'https://placehold.co/100x100/4b5563/FFFFFF?text=Jornal', desc: 'Acesso digital a jornais e notícias em tempo real. Mantenha-se informado sobre o Brasil e o mundo.' }, // Corrigido https
                 'docway': { name: 'Docway', img: 'https://placehold.co/100x100/10b981/FFFFFF?text=Doc', desc: 'Serviço de telemedicina para você e sua família. Consultas médicas por vídeo, 24h por dia.' },
                 'disney': { name: 'Disney+', img: 'https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png', desc: 'O streaming com o entretenimento da Disney, Pixar, Marvel, Star Wars, National Geographic e muito mais.' },
                 'max': { name: 'Max', img: 'https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png', desc: 'O streaming da HBO, Warner Bros, DC, Discovery e muito mais. Séries, filmes e realities imperdíveis.' },
