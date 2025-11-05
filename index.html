@@ -12,6 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <style>
+        html {
+            scroll-behavior: smooth; /* Para a rolagem dos links ser suave */
+        }
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0d1128; /* Azul marinho escuro */
@@ -73,6 +76,38 @@
         .app-select {
             w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white;
         }
+        
+        /* --- ESTILOS DO NOVO MENU MOBILE --- */
+        #mobile-menu-button svg {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+        #mobile-menu-button .icon-menu {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+        #mobile-menu-button .icon-close {
+            opacity: 0;
+            transform: rotate(-90deg);
+        }
+        #mobile-menu-button.open .icon-menu {
+            opacity: 0;
+            transform: rotate(90deg);
+        }
+        #mobile-menu-button.open .icon-close {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+        
+        #mobile-menu {
+            transform: translateY(-110%);
+            transition: transform 0.3s ease-in-out;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        
+        #mobile-menu.open {
+             transform: translateY(0);
+        }
+        
     </style>
 </head>
 <body class="text-gray-200">
@@ -101,17 +136,18 @@
                 </a>
             </div>
             
-            <button class="md:hidden flex items-center" id="mobile-menu-button">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            <button class="md:hidden flex items-center relative h-6 w-6" id="mobile-menu-button">
+                 <svg class="w-6 h-6 text-white absolute icon-menu" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                 <svg class="w-6 h-6 text-white absolute icon-close" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </nav>
         
-        <div class="hidden md:hidden bg-slate-900" id="mobile-menu">
-            <a href="#planos" class="block py-2 px-4 text-sm text-gray-300 hover:bg-slate-800">Nossos Planos</a>
+        <div class="md:hidden bg-slate-900 absolute top-full left-0 w-full z-40" id="mobile-menu">
+            <a href="#planos" class="block py-3 px-6 text-gray-300 hover:bg-slate-800 transition duration-300">Nossos Planos</a>
             
-            <button type="button" class="open-form-btn block w-full text-left py-2 px-4 text-sm text-gray-300 hover:bg-slate-800">Contato</button>
+            <button type="button" class="open-form-btn block w-full text-left py-3 px-6 text-gray-300 hover:bg-slate-800 transition duration-300">Contato</button>
             
-            <a href="https://www.speedtest.net/" target="_blank" rel="noopener noreferrer" class="block py-2 px-4 text-sm text-gray-300 hover:bg-slate-800 flex items-center space-x-2">
+            <a href="https://www.speedtest.net/" target="_blank" rel="noopener noreferrer" class="block py-3 px-6 text-gray-300 hover:bg-slate-800 transition duration-300 flex items-center space-x-2">
                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75 12 12.75l-3.75-6" />
@@ -119,7 +155,7 @@
                 <span>Teste de Velocidade</span>
             </a>
             
-            <a href="https://sistema.ultranetelecom.com.br/central_assinante_web/login" target="_blank" rel="noopener noreferrer" class="block py-2 px-4 text-sm text-white bg-violet-600 hover:bg-violet-700">2ª Via Boleto</a>
+            <a href="https://sistema.ultranetelecom.com.br/central_assinante_web/login" target="_blank" rel="noopener noreferrer" class="block py-3 px-6 text-white bg-violet-600 hover:bg-violet-700 transition duration-300">2ª Via Boleto</a>
         </div>
     </header>
 
@@ -559,7 +595,7 @@
                 <button class="app-icon-btn" data-app-id="klicencas"><img src="https://placehold.co/64x64/6366f1/FFFFFF?text=K" alt="Logo K Licenças" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="hotgo"><img src="https://placehold.co/64x64/dc2626/FFFFFF?text=HotGo" alt="Logo Hotgo" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="curtaon"><img src="https://placehold.co/64x64/1f2937/FFFFFF?text=CurtaOn" alt="Logo CurtaOn" class="h-12 w-12 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="jornalista"><img src="httpsD://placehold.co/64x64/4b5563/FFFFFF?text=Jornal" alt="Logo O Jornalista" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="jornalista"><img src="https://placehold.co/64x64/4b5563/FFFFFF?text=Jornal" alt="Logo O Jornalista" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="docway"><img src="https://placehold.co/64x64/10b981/FFFFFF?text=Doc" alt="Logo Docway" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="disney"><img src="https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" alt="Logo Disney+" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="max"><img src="https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" alt="Logo Max" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
@@ -597,11 +633,13 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Lógica do Menu Mobile
+            // Lógica do NOVO Menu Mobile
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
+            
             mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
+                mobileMenu.classList.toggle('open');
+                mobileMenuButton.classList.toggle('open');
             });
             
             // --- Lógica para Abrir o Formulário de Contato ---
@@ -609,12 +647,20 @@
             const openFormButtons = document.querySelectorAll('.open-form-btn'); // Nosso novo seletor
 
             openFormButtons.forEach(button => {
-                button.addEventListener('click', () => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault(); // Previne o comportamento padrão
+                    
                     // Mostra o formulário
                     contatoSection.classList.remove('hidden');
                     
                     // Rola a tela até o formulário
                     contatoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    
+                    // Fecha o menu mobile se estiver aberto
+                    if (mobileMenu.classList.contains('open')) {
+                        mobileMenu.classList.remove('open');
+                        mobileMenuButton.classList.remove('open');
+                    }
                 });
             });
 
@@ -816,7 +862,7 @@
                 'efit': { name: 'E-fit AG', img: 'https://placehold.co/100x100/3b82f6/FFFFFF?text=E-Fit', desc: 'Seu personal trainer digital. Programas de exercícios para fazer em casa ou na academia.' },
                 'playkids': { name: 'PlayKids+', img: 'https://logospng.org/download/playkids/logo-playkids-2048.png', desc: 'Plataforma educativa com desenhos, jogos e livros para o desenvolvimento infantil.' },
                 'hub': { name: 'HUB', img: 'https://placehold.co/100x100/14b8a6/FFFFFF?text=Hub', desc: 'Um hub de conteúdo digital com diversos serviços e facilidades para o seu dia a dia.' },
-                'ubook': { name: 'UbookPLUS', img: 'httpsG://placehold.co/100x100/a855f7/FFFFFF?text=Ubook', desc: 'Milhares de audiolivros e ebooks para ouvir e ler onde quiser. Histórias, negócios, ficção e mais.' },
+                'ubook': { name: 'UbookPLUS', img: 'https://placehold.co/100x100/a855f7/FFFFFF?text=Ubook', desc: 'Milhares de audiolivros e ebooks para ouvir e ler onde quiser. Histórias, negócios, ficção e mais.' },
                 'estuda': { name: 'Estuda+', img: 'https://placehold.co/100x100/f97316/FFFFFF?text=Estuda%2B', desc: 'Plataforma de estudos completa com videoaulas, exercícios e simulados para ENEM e vestibulares.' },
                 'leitores': { name: 'Pequenos Leitores', img: 'https://placehold.co/100x100/ec4899/FFFFFF?text=Leitores', desc: 'Incentive a leitura dos pequenos com um catálogo incrível de livros infantis interativos.' },
                 'fluid': { name: 'Fluid', img: 'https://placehold.co/64x64/6366f1/FFFFFF?text=Fluid', desc: 'Conteúdo variado de streaming para todos os gostos. Filmes, documentários e mais.' },
