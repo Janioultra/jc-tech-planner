@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultra Fibra - Provedor de Internet</title>
     
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="apple-touch-icon" href="favicon.png">
+    <!-- FAVICON (Substituído por um placeholder) -->
+    <link rel="icon" type="image/png" href="https://placehold.co/32x32/7c3aed/FFFFFF?text=UF">
+    <link rel="apple-touch-icon" href="https://placehold.co/32x32/7c3aed/FFFFFF?text=UF">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,6 +16,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0d1128; /* Azul marinho escuro */
+            scroll-behavior: smooth; /* Adicionado para rolagem suave */
         }
         .hero-gradient {
             background: linear-gradient(90deg, #1e1b4b 0%, #4c1d95 100%);
@@ -73,6 +75,23 @@
         .app-select {
             w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white;
         }
+
+        /* Oculta os botões de navegação do Swiper por padrão (o JS cuidará disso) */
+        .swiper-button-next, .swiper-button-prev {
+            display: none;
+        }
+        
+        /* Em telas 'md' ou maiores, mostra os botões se o Swiper estiver ativo */
+        @media (min-width: 768px) {
+            .swiper-button-next, .swiper-button-prev {
+                 display: flex;
+                 opacity: 0; /* CSS original para hover estava bom */
+            }
+            .swiper-container:hover .swiper-button-next,
+            .swiper-container:hover .swiper-button-prev {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body class="text-gray-200">
@@ -80,12 +99,13 @@
     <header class="bg-slate-900/70 backdrop-blur-sm shadow-lg sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-2xl font-bold text-white">
-               ULTRA FIBRA
+                ULTRA FIBRA
             </a>
             
             <div class="hidden md:flex space-x-6 items-center">
                 <a href="#planos" class="text-gray-300 hover:text-violet-400 transition duration-300">Nossos Planos</a>
                 
+                <!-- O botão de Contato agora usa o mesmo padrão dos outros, acionando a rolagem e abertura via JS -->
                 <button type="button" class="open-form-btn text-gray-300 hover:text-violet-400 transition duration-300">Contato</button>
                 
                 <a href="https://www.speedtest.net/" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-violet-400 transition duration-300 flex items-center space-x-2 opacity-80 hover:opacity-100">
@@ -101,17 +121,18 @@
                 </a>
             </div>
             
-            <button class="md:hidden flex items-center" id="mobile-menu-button">
+            <button class="md:hidden flex items-center" id="mobile-menu-button" aria-label="Abrir menu mobile">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </nav>
         
+        <!-- Menu Mobile -->
         <div class="hidden md:hidden bg-slate-900" id="mobile-menu">
-            <a href="#planos" class="block py-2 px-4 text-sm text-gray-300 hover:bg-slate-800">Nossos Planos</a>
+            <a href="#planos" class="block py-2 px-4 text-sm text-gray-300 hover:bg-slate-800 mobile-menu-link">Nossos Planos</a>
             
-            <button type="button" class="open-form-btn block w-full text-left py-2 px-4 text-sm text-gray-300 hover:bg-slate-800">Contato</button>
+            <button type="button" class="open-form-btn block w-full text-left py-2 px-4 text-sm text-gray-300 hover:bg-slate-800 mobile-menu-link">Contato</button>
             
-            <a href="https://www.speedtest.net/" target="_blank" rel="noopener noreferrer" class="block py-2 px-4 text-sm text-gray-300 hover:bg-slate-800 flex items-center space-x-2">
+            <a href="https://www.speedtest.net/" target="_blank" rel="noopener noreferrer" class="block py-2 px-4 text-sm text-gray-300 hover:bg-slate-800 flex items-center space-x-2 mobile-menu-link">
                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75 12 12.75l-3.75-6" />
@@ -119,11 +140,12 @@
                 <span>Teste de Velocidade</span>
             </a>
             
-            <a href="https://sistema.ultranetelecom.com.br/central_assinante_web/login" target="_blank" rel="noopener noreferrer" class="block py-2 px-4 text-sm text-white bg-violet-600 hover:bg-violet-700">2ª Via Boleto</a>
+            <a href="https://sistema.ultranetelecom.com.br/central_assinante_web/login" target="_blank" rel="noopener noreferrer" class="block py-2 px-4 text-sm text-white bg-violet-600 hover:bg-violet-700 mobile-menu-link">2ª Via Boleto</a>
         </div>
     </header>
 
     <main>
+        <!-- Seção Hero -->
         <section class="hero-gradient text-white py-20">
             <div class="container mx-auto px-6 text-center relative z-10">
                 <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">A melhor conexão da sua região</h1>
@@ -137,11 +159,12 @@
                 <div class="mt-16">
                     <p class="text-sm text-violet-300 mb-6">Aproveite seus apps favoritos:</p>
                     <div class="flex justify-center items-center gap-4 md:gap-6 flex-wrap px-4 max-w-lg mx-auto">
-                        <button class="app-icon-btn" data-app-id="sky"><img src="https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png" alt="Logo Sky+" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
-                        <button class="app-icon-btn" data-app-id="disney"><img src="https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" alt="Logo Disney+" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
-                        <button class="app-icon-btn" data-app-id="max"><img src="https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" alt="Logo Max" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
-                        <button class="app-icon-btn" data-app-id="nba"><img src="https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png" alt="Logo NBA" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
-                        <button class="app-icon-btn" data-app-id="deezer"><img src="https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" alt="Logo Deezer" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                        <!-- MELHORIA: Adicionado 'onerror' para o caso da imagem externa falhar -->
+                        <button class="app-icon-btn" data-app-id="sky"><img src="https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png" alt="Logo Sky+" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Sky%2B';"></button>
+                        <button class="app-icon-btn" data-app-id="disney"><img src="https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" alt="Logo Disney+" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Disney%2B';"></button>
+                        <button class="app-icon-btn" data-app-id="max"><img src="https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" alt="Logo Max" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Max';"></button>
+                        <button class="app-icon-btn" data-app-id="nba"><img src="https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png" alt="Logo NBA" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=NBA';"></button>
+                        <button class="app-icon-btn" data-app-id="deezer"><img src="https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" alt="Logo Deezer" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Deezer';"></button>
                     </div>
                     <button id="open-all-apps-btn" class="mt-8 text-violet-300 font-semibold hover:text-white transition duration-300 underline">
                         Conhecer todos os aplicativos
@@ -150,13 +173,16 @@
             </div>
         </section>
 
-        <section id="planos" class="py-20">
+        <!-- Seção Planos -->
+        <section id="planos" class="py-20 scroll-mt-20"> <!-- Adicionado scroll-mt para ancoragem correta -->
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-bold text-center mb-12 text-white">Os melhores planos que combinam com você</h2>
                 
+                <!-- MELHORIA: O Swiper agora é controlado 100% pelo JS com breakpoints, sem "hacks" -->
                 <div class="swiper-container group">
                     <div class="swiper-wrapper">
                     
+                        <!-- Slide 1 -->
                         <div class="swiper-slide">
                             <div class="plan-gradient border-2 border-violet-500 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
                                 <span class="bg-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase absolute -top-4 left-6">Premium WiFi 6</span>
@@ -181,6 +207,7 @@
                             </div>
                         </div>
 
+                        <!-- Slide 2 -->
                         <div class="swiper-slide">
                             <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
                                 <span class="bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase absolute -top-4 left-6">WiFi 6</span>
@@ -203,6 +230,7 @@
                             </div>
                         </div>
                         
+                        <!-- Slide 3 -->
                         <div class="swiper-slide">
                             <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
                                 <h3 class="text-xl font-bold my-2 text-white">Plano Gold+</h3>
@@ -224,6 +252,7 @@
                             </div>
                         </div>
 
+                        <!-- Slide 4 -->
                         <div class="swiper-slide">
                             <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
                                 <h3 class="text-xl font-bold my-2 text-white">Plano Gold</h3>
@@ -244,6 +273,7 @@
                             </div>
                         </div>
 
+                        <!-- Slide 5 -->
                         <div class="swiper-slide">
                             <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
                                 <span class="bg-violet-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase absolute -top-4 left-1/2 -translate-x-1/2">Mais Popular</span>
@@ -265,6 +295,7 @@
                             </div>
                         </div>
 
+                        <!-- Slide 6 -->
                         <div class="swiper-slide">
                              <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
                                 <h3 class="text-xl font-bold my-2 text-white">Plano Básico Prata</h3>
@@ -284,6 +315,7 @@
                             </div>
                         </div>
 
+                        <!-- Slide 7 -->
                         <div class="swiper-slide">
                             <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
                                 <h3 class="text-xl font-bold my-2 text-white">Plano Básico+</h3>
@@ -303,6 +335,7 @@
                             </div>
                         </div>
 
+                        <!-- Slide 8 -->
                         <div class="swiper-slide">
                             <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
                                 <h3 class="text-xl font-bold my-2 text-white">Plano Básico</h3>
@@ -316,50 +349,61 @@
                                 <ul class="text-left mb-6 space-y-2 text-gray-300 text-sm flex-grow">
                                     <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador em Comodato</li>
                                 </ul>
-                                <button data-plan="basico" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4 invisible">Ver Apps Inclusos</button> <button type="button" class="open-form-btn w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</button>
+                                <!-- Botão "Ver Apps" fica invisível, mas ocupa espaço para manter alinhamento -->
+                                <button data-plan="basico" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4 invisible">Ver Apps Inclusos</button> 
+                                <button type="button" class="open-form-btn w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</button>
                             </div>
                         </div>
 
                     </div>
+                    <!-- Paginação (visível apenas no mobile/tablet) -->
                     <div class="swiper-pagination md:hidden mt-8 !relative"></div>
-                    <div class="swiper-button-next hidden md:block opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div class="swiper-button-prev hidden md:block opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    
+                    <!-- Botões de Navegação (visíveis apenas no desktop) -->
+                    <div class="swiper-button-next transition-opacity duration-300"></div>
+                    <div class="swiper-button-prev transition-opacity duration-300"></div>
                 </div>
             </div>
         </section>
 
+        <!-- Seção Viabilidade -->
         <section id="viabilidade" class="py-10 bg-slate-800">
              <div class="container mx-auto px-6 text-center">
-                 <h2 class="text-2xl font-bold mb-6 text-white">Verifique a Viabilidade na sua Localização</h2>
-                 <p class="text-gray-400 mb-6">Clique no botão abaixo para obter suas coordenadas e envie para análise.</p>
-                 <button id="locate-me-viability-btn" class="mb-4 bg-violet-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-violet-700 transition duration-300 flex items-center justify-center mx-auto shadow-md">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    Obter Minha Localização
-                 </button>
-                 <div id="location-display-viability" class="mt-4 p-4 bg-slate-700 rounded-lg max-w-md mx-auto text-center hidden">
-                     <p class="text-gray-300 font-medium">Suas coordenadas:</p>
-                     <div class="flex items-center justify-center mt-2">
-                         <code id="coordinates-viability" class="text-lg font-mono bg-slate-600 text-white p-2 rounded-l-md w-full text-center"></code>
-                         <button id="copy-coords-viability-btn" class="bg-violet-600 text-white p-3 rounded-r-md hover:bg-violet-700" disabled>
-                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                   <h2 class="text-2xl font-bold mb-6 text-white">Verifique a Viabilidade na sua Localização</h2>
+                   <p class="text-gray-400 mb-6">Clique no botão abaixo para obter suas coordenadas e envie para análise.</p>
+                   <button id="locate-me-viability-btn" class="mb-4 bg-violet-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-violet-700 transition duration-300 flex items-center justify-center mx-auto shadow-md">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        Obter Minha Localização
+                   </button>
+                   <div id="location-display-viability" class="mt-4 p-4 bg-slate-700 rounded-lg max-w-md mx-auto text-center hidden">
+                         <p class="text-gray-300 font-medium">Suas coordenadas:</p>
+                         <div class="flex items-center justify-center mt-2">
+                               <code id="coordinates-viability" class="text-lg font-mono bg-slate-600 text-white p-2 rounded-l-md w-full text-center"></code>
+                               <button id="copy-coords-viability-btn" class="bg-violet-600 text-white p-3 rounded-r-md hover:bg-violet-700" aria-label="Copiar coordenadas" disabled>
+                                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                               </button>
+                         </div>
+                         <p id="copy-feedback-viability" class="text-green-400 text-sm mt-2 hidden">Copiado!</p>
+                         <button id="send-location-btn" class="mt-4 w-full bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-600 transition duration-300 flex items-center justify-center shadow-md" disabled>
+                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 16 16">
+                                 <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.626-2.957 6.584-6.591 6.584zm-1.13-4.243c-.225.084-1.295.64-1.492.72-.192.08-.343.12-.478.24-.135.12-.27.24-.27.42s-.012.51.05.59c.06.08.27.31.576.62.308.308.552.53.81.73.26.19.51.3.81.42.3.12.57.1.76.02.19-.08 1.13-0.47 1.29-1.26.16-.8.16-1.48.12-1.62-.04-.14-.12-.22-.24-.3s-.27-.24-.42-.32c-.15-.08-.27-.12-.42-.2-.15-.08-.34-.12-.48-.04s-.42.48-.52.56c-.1.08-.2.12-.28.12s-.16-.04-.24-.08c-.08-.04-.36-.12-.66-.36-.3-.24-.55-.52-.66-.73-.11-.21-.03-.33.04-.42.08-.08.16-.2.24-.28.08-.08.12-.16.16-.24.04-.08.02-.16-.02-.24s-.42-1.02-.56-1.4c-.15-.38-.3-.32-.43-.32-.12 0-.27-.01-.4-.01z"/>
+                             </svg>
+                             Enviar Localização para Análise
                          </button>
-                     </div>
-                     <p id="copy-feedback-viability" class="text-green-400 text-sm mt-2 hidden">Copiado!</p>
-                     <button id="send-location-btn" class="mt-4 w-full bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-600 transition duration-300 flex items-center justify-center shadow-md" disabled>
-                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.626-2.957 6.584-6.591 6.584zm-1.13-4.243c-.225.084-1.295.64-1.492.72-.192.08-.343.12-.478.24-.135.12-.27.24-.27.42s-.012.51.05.59c.06.08.27.31.576.62.308.308.552.53.81.73.26.19.51.3.81.42.3.12.57.1.76.02.19-.08 1.13-0.47 1.29-1.26.16-.8.16-1.48.12-1.62-.04-.14-.12-.22-.24-.3s-.27-.24-.42-.32c-.15-.08-.27-.12-.42-.2-.15-.08-.34-.12-.48-.04s-.42.48-.52.56c-.1.08-.2.12-.28.12s-.16-.04-.24-.08c-.08-.04-.36-.12-.66-.36-.3-.24-.55-.52-.66-.73-.11-.21-.03-.33.04-.42.08-.08.16-.2.24-.28.08-.08.12-.16.16-.24.04-.08.02-.16-.02-.24s-.42-1.02-.56-1.4c-.15-.38-.3-.32-.43-.32-.12 0-.27-.01-.4-.01z"/>
-                         </svg>
-                         Enviar Localização para Análise
-                     </button>
-                 </div>
+                   </div>
              </div>
         </section>
 
-        <section id="contato" class="py-20 hidden scroll-mt-20"> <h2 class="text-3xl font-bold text-center mb-12 text-white hidden">Faça seu Cadastro Completo</h2>
-            <div class="max-w-2xl mx-auto px-6"> <div class="w-full bg-slate-800 p-8 rounded-lg shadow-lg">
+        <!-- Seção Contato/Formulário -->
+        <section id="contato" class="py-20 hidden scroll-mt-20"> 
+            <!-- MELHORIA: Removido 'hidden' do H2, pois ele deve aparecer quando a seção aparecer -->
+            <h2 class="text-3xl font-bold text-center mb-12 text-white">Faça seu Cadastro Completo</h2>
+            <div class="max-w-2xl mx-auto px-6"> 
+                <div class="w-full bg-slate-800 p-8 rounded-lg shadow-lg">
                         
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="text-2xl font-bold text-white">Ficha do Cliente</h3>
+                            <!-- MELHORIA: Este botão agora abre um modal, em vez de um 'prompt()' -->
                             <button type="button" id="unlock-gift-btn" class="text-3xl hover:opacity-75 transition-opacity" title="Desbloquear Bônus">🎁</button>
                         </div>
 
@@ -404,7 +448,7 @@
                                 <label for="geolocation" class="block text-gray-300 font-medium mb-1">📍 Geolocalização:</label>
                                 <div class="flex items-center">
                                     <input type="text" id="geolocation" name="geolocation" placeholder="Clique no botão ao lado ou preencha" class="w-full px-4 py-2 border border-slate-600 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white">
-                                    <button type="button" id="locate-me-form-btn" class="bg-violet-600 text-white p-3 rounded-r-lg hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                                    <button type="button" id="locate-me-form-btn" class="bg-violet-600 text-white p-3 rounded-r-lg hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500" aria-label="Obter localização atual">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                     </button>
                                 </div>
@@ -430,10 +474,12 @@
                                 </select>
                             </div>
                             
+                            <!-- Apps dinâmicos aparecem aqui -->
                             <div id="included-apps-container" class="hidden space-y-3">
                                 <label class="block text-gray-300 font-medium">📱 Apps Inclusos (Escolha):</label>
                                 <div id="included-apps-list" class="space-y-3 p-3 bg-slate-700 rounded-lg">
-                                    </div>
+                                    <!-- Os selects de apps serão injetados aqui pelo JS -->
+                                </div>
                                 <input type="hidden" id="included_apps_text" name="included_apps_text">
                             </div>
 
@@ -454,6 +500,7 @@
                                 </select>
                             </div>
 
+                            <!-- Campo de Bônus (controlado pelo JS) -->
                             <div id="free-trial-container" class="hidden">
                                 <label for="free_trial" class="block text-gray-300 font-medium mb-1">🎁 Teste grátis (Bônus)</label>
                                 <select id="free_trial" name="free_trial" class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white">
@@ -479,9 +526,10 @@
                         </form>
                     </div>
                 </div>
-                 <div class="mt-12 text-center text-gray-400 px-6"> <p class="mb-2"><strong>Endereço:</strong> Rua MAJ. PRAZERES 2-110 - São Felipe/BA</p>
-                    <p class="mb-2"><strong>WhatsApp:</strong> (75) 3199-9981</p>
-                    <p><strong>CNPJ:</strong> 36.712.901/0001-53</p>
+                 <div class="mt-12 text-center text-gray-400 px-6"> 
+                     <p class="mb-2"><strong>Endereço:</strong> Rua MAJ. PRAZERES 2-110 - São Felipe/BA</p>
+                     <p class="mb-2"><strong>WhatsApp:</strong> (75) 3199-9981</p>
+                     <p><strong>CNPJ:</strong> 36.712.901/0001-53</p>
                  </div>
             </div>
         </section>
@@ -492,7 +540,8 @@
         <div class="container mx-auto px-6 text-center">
             
             <div class="mb-6">
-                <img src="anatel-logo.png" alt="Selo Provedor Autorizado Anatel" class="h-20 w-auto mx-auto">
+                <!-- MELHORIA: Substituído logo local por placeholder e adicionado alt text -->
+                <img src="https://placehold.co/200x70/FFFFFF/0d1128?text=Selo+Provedor+Autorizado+Anatel" alt="Selo Provedor Autorizado Anatel" class="h-16 w-auto mx-auto bg-white rounded-md px-2">
             </div>
             
              <p class="text-gray-400 text-sm">Ultra Fibra</p>
@@ -500,53 +549,57 @@
              <p class="text-gray-400 text-sm mb-6">CNPJ: 36.712.901/0001-53</p>
              
              <div class="flex justify-center mb-6">
-                <a href="https://www.instagram.com/ultranett_?igsh=MTU3ZDk2MTJ6Y2hwYw==" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:opacity-80 transition duration-300">
-                    <span class="sr-only">Instagram</span>
-                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <defs>
-                            <radialGradient id="instaGradient" cx="0.3" cy="1.2" r="1.5">
-                                <stop offset="0" stop-color="#FDCB52"/>
-                                <stop offset="0.15" stop-color="#FD1D1D"/>
-                                <stop offset="0.3" stop-color="#E1306C"/>
-                                <stop offset="0.45" stop-color="#C13584"/>
-                                <stop offset="0.6" stop-color="#833AB4"/>
-                            </radialGradient>
-                        </defs>
-                        <path fill="url(#instaGradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 1.172.053 1.973.22 2.623.468.65.254 1.217.598 1.772 1.153a4.908 4.908 0 011.153 1.772c.248.65.415 1.45.468 2.623.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.053 1.172-.22 1.973-.468 2.623a4.908 4.908 0 01-1.153 1.772 4.908 4.908 0 01-1.772 1.153c-.65.248-1.45.415-2.623.468-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.172-.053-1.973-.22-2.623-.468a4.908 4.908 0 01-1.772-1.153 4.908 4.908 0 01-1.153-1.772c-.248-.65-.415-1.45-.468-2.623-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.053-1.172.22-1.973.468-2.623a4.908 4.908 0 011.153-1.772A4.908 4.908 0 014.5 2.7c.65-.248 1.45-.415 2.623-.468C8.416 2.175 8.796 2.163 12 2.163zm0 1.626c-3.172 0-3.543.011-4.78.069-1.09.05-1.803.218-2.39.43-1.08.4-1.938 1.255-2.34 2.34-.213.586-.38 1.3-.43 2.39-.058 1.237-.069 1.608-.069 4.78s.011 3.543.069 4.78c.05 1.09.218 1.803.43 2.39.4 1.08 1.255 1.938 2.34 2.34.586.213 1.3.38 2.39.43 1.237.058 1.608.069 4.78.069s3.543-.011 4.78-.069c1.09-.05 1.803-.218 2.39-.43 1.08-.4 1.938-1.255 2.34-2.34.213.586.38-1.3.43-2.39.058-1.237.069-1.608.069-4.78s-.011-3.543-.069-4.78c-.05-1.09-.218-1.803-.43-2.39-.4-1.08-1.255-1.938-2.34-2.34-.586-.213-1.3-.38-2.39-.43C15.543 3.799 15.172 3.79 12 3.79zm0 2.99c-3.309 0-6 2.691-6 6s2.691 6 6 6 6-2.691 6-6-2.691-6-6-6zm0 1.626c2.42 0 4.374 1.955 4.374 4.374s-1.955 4.374-4.374 4.374-4.374-1.955-4.374-4.374 1.955-4.374 4.374-4.374zM16.4 5.201a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0z"/>
-                    </svg>
-                </a>
+                 <a href="https://www.instagram.com/ultranett_?igsh=MTU3ZDk2MTJ6Y2hwYw==" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:opacity-80 transition duration-300">
+                     <span class="sr-only">Instagram</span>
+                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                         <defs>
+                             <radialGradient id="instaGradient" cx="0.3" cy="1.2" r="1.5">
+                                 <stop offset="0" stop-color="#FDCB52"/>
+                                 <stop offset="0.15" stop-color="#FD1D1D"/>
+                                 <stop offset="0.3" stop-color="#E1306C"/>
+                                 <stop offset="0.45" stop-color="#C13584"/>
+                                 <stop offset="0.6" stop-color="#833AB4"/>
+                             </radialGradient>
+                         </defs>
+                         <path fill="url(#instaGradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 1.172.053 1.973.22 2.623.468.65.254 1.217.598 1.772 1.153a4.908 4.908 0 011.153 1.772c.248.65.415 1.45.468 2.623.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.053 1.172-.22 1.973-.468 2.623a4.908 4.908 0 01-1.153 1.772 4.908 4.908 0 01-1.772 1.153c-.65.248-1.45.415-2.623.468-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.172-.053-1.973-.22-2.623-.468a4.908 4.908 0 01-1.772-1.153 4.908 4.908 0 01-1.153-1.772c-.248-.65-.415-1.45-.468-2.623-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.053-1.172.22 1.973.468 2.623a4.908 4.908 0 011.153-1.772A4.908 4.908 0 014.5 2.7c.65-.248 1.45-.415 2.623-.468C8.416 2.175 8.796 2.163 12 2.163zm0 1.626c-3.172 0-3.543.011-4.78.069-1.09.05-1.803.218-2.39.43-1.08.4-1.938 1.255-2.34 2.34-.213.586-.38 1.3-.43 2.39-.058 1.237-.069 1.608-.069 4.78s.011 3.543.069 4.78c.05 1.09.218 1.803.43 2.39.4 1.08 1.255 1.938 2.34 2.34.586.213 1.3.38 2.39.43 1.237.058 1.608.069 4.78.069s3.543-.011 4.78-.069c1.09-.05 1.803-.218 2.39-.43 1.08-.4 1.938-1.255 2.34-2.34.213.586.38-1.3.43-2.39.058-1.237.069-1.608.069-4.78s-.011-3.543-.069-4.78c-.05-1.09-.218-1.803-.43-2.39-.4-1.08-1.255-1.938-2.34-2.34-.586-.213-1.3-.38-2.39-.43C15.543 3.799 15.172 3.79 12 3.79zm0 2.99c-3.309 0-6 2.691-6 6s2.691 6 6 6 6-2.691 6-6-2.691-6-6-6zm0 1.626c2.42 0 4.374 1.955 4.374 4.374s-1.955 4.374-4.374 4.374-4.374-1.955-4.374-4.374 1.955-4.374 4.374-4.374zM16.4 5.201a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0z"/>
+                     </svg>
+                 </a>
              </div>
              
              <div class="border-t border-slate-700 pt-6">
-                <p>&copy; 2024 Ultra Fibra. Todos os direitos reservados.</p>
-            </div>
+                 <p>&copy; 2024 Ultra Fibra. Todos os direitos reservados.</p>
+             </div>
         </div>
     </footer>
     
+    <!-- Modal: Apps por Plano -->
     <div id="apps-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
         <div class="bg-slate-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto p-6 relative">
-            <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white" aria-label="Fechar modal">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <h3 id="modal-title" class="text-2xl font-bold text-white mb-6">Apps Inclusos no Plano</h3>
             <div id="modal-apps-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
-                </div>
+                <!-- Conteúdo injetado pelo JS -->
+            </div>
         </div>
     </div>
     
+    <!-- Modal: Todos os Apps -->
     <div id="all-apps-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
         <div class="bg-slate-800 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6 relative">
-            <button id="close-all-apps-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+            <button id="close-all-apps-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white" aria-label="Fechar modal de todos os apps">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <h3 class="text-2xl font-bold text-white mb-6">Todos os Aplicativos Disponíveis</h3>
             <div class="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-3 md:gap-4 max-w-4xl mx-auto">
-                <button class="app-icon-btn" data-app-id="looke"><img src="https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" alt="Logo Looke" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="sky"><img src="https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png" alt="Logo Sky+" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                <!-- MELHORIA: Adicionado 'onerror' para o caso da imagem externa falhar -->
+                <button class="app-icon-btn" data-app-id="looke"><img src="https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" alt="Logo Looke" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Looke';"></button>
+                <button class="app-icon-btn" data-app-id="sky"><img src="https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png" alt="Logo Sky+" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Sky%2B';"></button>
                 <button class="app-icon-btn" data-app-id="kiddiepass"><img src="https://placehold.co/64x64/facc15/000000?text=KiddiePass" alt="Logo Kiddie Pass" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="nutri"><img src="https://placehold.co/64x64/22c55e/FFFFFF?text=%2BNutri" alt="Logo +Nutri" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="efit"><img src="https://placehold.co/64x64/3b82f6/FFFFFF?text=E-Fit" alt="Logo E-fit" class="h-12 w-12 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="playkids"><img src="https://logospng.org/download/playkids/logo-playkids-2048.png" alt="Logo PlayKids+" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="playkids"><img src="https://logospng.org/download/playkids/logo-playkids-2048.png" alt="Logo PlayKids+" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=PlayKids';"></button>
                 <button class="app-icon-btn" data-app-id="hub"><img src="https://placehold.co/64x64/14b8a6/FFFFFF?text=Hub" alt="Logo HUB" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="ubook"><img src="https://placehold.co/64x64/a855f7/FFFFFF?text=Ubook" alt="Logo ubookPLUS" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="estuda"><img src="https://placehold.co/64x64/f97316/FFFFFF?text=Estuda%2B" alt="Logo Estuda+" class="h-12 w-12 object-contain rounded-md"></button>
@@ -555,27 +608,28 @@
                 <button class="app-icon-btn" data-app-id="socialcomics"><img src="https://placehold.co/64x64/ef4444/FFFFFF?text=Social" alt="Logo Social Comics" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="revistaria"><img src="https://placehold.co/64x64/d946ef/FFFFFF?text=Revista" alt="Logo revistaria" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="playlist"><img src="https://placehold.co/64x64/8b5cf6/FFFFFF?text=Playlist" alt="Logo Playlist" class="h-12 w-12 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="deezer"><img src="https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" alt="Logo Deezer" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="deezer"><img src="https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" alt="Logo Deezer" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Deezer';"></button>
                 <button class="app-icon-btn" data-app-id="klicencas"><img src="https://placehold.co/64x64/6366f1/FFFFFF?text=K" alt="Logo K Licenças" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="hotgo"><img src="https://placehold.co/64x64/dc2626/FFFFFF?text=HotGo" alt="Logo Hotgo" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="curtaon"><img src="https://placehold.co/64x64/1f2937/FFFFFF?text=CurtaOn" alt="Logo CurtaOn" class="h-12 w-12 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="jornalista"><img src="httpsD://placehold.co/64x64/4b5563/FFFFFF?text=Jornal" alt="Logo O Jornalista" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="jornalista"><img src="https://placehold.co/64x64/4b5563/FFFFFF?text=Jornal" alt="Logo O Jornalista" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="docway"><img src="https://placehold.co/64x64/10b981/FFFFFF?text=Doc" alt="Logo Docway" class="h-12 w-12 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="disney"><img src="https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" alt="Logo Disney+" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="max"><img src="https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" alt="Logo Max" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="disney"><img src="https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" alt="Logo Disney+" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Disney%2B';"></button>
+                <button class="app-icon-btn" data-app-id="max"><img src="https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" alt="Logo Max" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Max';"></button>
                 <button class="app-icon-btn" data-app-id="indie"><img src="https://placehold.co/64x64/f59e0b/FFFFFF?text=Indie" alt="Logo Indie" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="leitura360"><img src="https://placehold.co/64x64/0891b2/FFFFFF?text=Leitura" alt="Logo Leitura 360" class="h-12 w-12 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="nba"><img src="https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png" alt="Logo NBA" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="nba"><img src="https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png" alt="Logo NBA" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=NBA';"></button>
                 <button class="app-icon-btn" data-app-id="smartcontent"><img src="https://placehold.co/64x64/ef4444/FFFFFF?text=Smart" alt="Logo SmartContent" class="h-12 w-12 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="queima"><img src="https://seeklogo.com/images/Q/queima-diaria-logo-653593254B-seeklogo.com.png" alt="Logo Queima Diária" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="zen"><img src="https://logodownload.org/wp-content/uploads/2021/04/zen-logo-0.png" alt="Logo Zen" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="queima"><img src="https://seeklogo.com/images/Q/queima-diaria-logo-653593254B-seeklogo.com.png" alt="Logo Queima Diária" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Queima';"></button>
+                <button class="app-icon-btn" data-app-id="zen"><img src="https://logodownload.org/wp-content/uploads/2021/04/zen-logo-0.png" alt="Logo Zen" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Zen';"></button>
             </div>
         </div>
     </div>
     
+    <!-- Modal: Descrição do App -->
     <div id="app-description-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
         <div class="bg-slate-800 rounded-lg shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6 relative">
-            <button id="close-app-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+            <button id="close-app-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white" aria-label="Fechar modal de descrição do app">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <div class="text-center">
@@ -586,7 +640,30 @@
         </div>
     </div>
 
-    <a href="https://api.whatsapp.com/send?phone=557531999981&text=Olá!%20Preciso%20de%20ajuda%20com%20os%20planos." target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-40 bg-green-500 text-white font-bold py-3 px-4 rounded-lg shadow-lg flex items-center space-x-2 transform hover:scale-105 transition-transform">
+    <!-- MELHORIA: Novo Modal de Senha para Bônus (substitui o 'prompt') -->
+    <div id="password-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-slate-800 rounded-lg shadow-xl w-full max-w-sm p-6 relative">
+            <button id="close-password-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white" aria-label="Fechar modal de senha">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-xl font-bold text-white mb-4">Desbloquear Bônus</h3>
+            <p class="text-gray-300 mb-4 text-sm">Por favor, insira a senha de vendedor para adicionar um bônus de teste grátis.</p>
+            <form id="password-form" class="space-y-4">
+                <div>
+                    <label for="password-input" class="block text-gray-300 font-medium mb-1 text-sm">Senha:</label>
+                    <input type="password" id="password-input" class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white" required>
+                    <p id="password-error-msg" class="text-red-400 text-sm mt-2 hidden">Senha incorreta!</p>
+                </div>
+                <button type="submit" id="submit-password-btn" class="w-full bg-violet-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-violet-700 transition duration-300">
+                    Desbloquear
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Botão Flutuante do WhatsApp -->
+    <a href="https://api.whatsapp.com/send?phone=557531999981&text=Olá!%20Preciso%20de%20ajuda%20com%20os%20planos." target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-40 bg-green-500 text-white font-bold py-3 px-4 rounded-full shadow-lg flex items-center space-x-2 transform hover:scale-105 transition-transform">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 16 16">
             <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.626-2.957 6.584-6.591 6.584zm-1.13-4.243c-.225.084-1.295.64-1.492.72-.192.08-.343.12-.478.24-.135.12-.27.24-.27.42s-.012.51.05.59c.06.08.27.31.576.62.308.308.552.53.81.73.26.19.51.3.81.42.3.12.57.1.76.02.19-.08 1.13-0.47 1.29-1.26.16-.8.16-1.48.12-1.62-.04-.14-.12-.22-.24-.3s-.27-.24-.42-.32c-.15-.08-.27-.12-.42-.2-.15-.08-.34-.12-.48-.04s-.42.48-.52.56c-.1.08-.2.12-.28.12s-.16-.04-.24-.08c-.08-.04-.36-.12-.66-.36-.3-.24-.55-.52-.66-.73-.11-.21-.03-.33.04-.42.08-.08.16-.2.24-.28.08-.08.12-.16.16-.24.04-.08.02-.16-.02-.24s-.42-1.02-.56-1.4c-.15-.38-.3-.32-.43-.32-.12 0-.27-.01-.4-.01z"/>
         </svg>
@@ -600,13 +677,22 @@
             // Lógica do Menu Mobile
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link'); // Links dentro do menu
+
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
+            });
+
+            // MELHORIA: Fecha o menu mobile ao clicar em um link
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
             });
             
             // --- Lógica para Abrir o Formulário de Contato ---
             const contatoSection = document.getElementById('contato');
-            const openFormButtons = document.querySelectorAll('.open-form-btn'); // Nosso novo seletor
+            const openFormButtons = document.querySelectorAll('.open-form-btn'); 
 
             openFormButtons.forEach(button => {
                 button.addEventListener('click', () => {
@@ -639,7 +725,10 @@
                         },
                         (error) => {
                             console.error("Erro ao obter localização: ", error);
-                            const errorMsg = "Não foi possível obter sua localização.";
+                            let errorMsg = "Não foi possível obter sua localização.";
+                            if(error.code === 1) {
+                                errorMsg = "Permissão de localização negada.";
+                            }
                             callbackError(errorMsg);
                         },
                         {
@@ -692,25 +781,42 @@
             // Lógica para copiar coordenadas (Viabilidade)
             copyCoordsViabilityBtn.addEventListener('click', () => {
                 const textToCopy = coordinatesViabilityEl.textContent;
-                 if (!textToCopy || textToCopy.startsWith('Não foi possível') || textToCopy.startsWith('Geolocalização não é suportada')) return; 
+                 if (!textToCopy || textToCopy.startsWith('Não foi possível') || textToCopy.startsWith('Geolocalização não é suportada') || textToCopy.startsWith('A obter...')) return; 
 
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    copyFeedbackViability.textContent = 'Copiado!';
-                    copyFeedbackViability.classList.remove('text-red-500');
-                    copyFeedbackViability.classList.add('text-green-400');
-                    copyFeedbackViability.classList.remove('hidden');
-                    setTimeout(() => copyFeedbackViability.classList.add('hidden'), 2500);
-                }).catch(err => {
-                    console.error('Falha ao copiar:', err);
-                    copyFeedbackViability.textContent = 'Erro ao copiar!';
-                    copyFeedbackViability.classList.remove('text-green-400');
-                    copyFeedbackViability.classList.add('text-red-500');
-                    copyFeedbackViability.classList.remove('hidden');
-                    setTimeout(() => copyFeedbackViability.classList.add('hidden'), 2500);
-                });
+                // MELHORIA: Usando try-catch para 'execCommand' como fallback se clipboard falhar
+                try {
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        showCopyFeedback(copyFeedbackViability, 'Copiado!', true);
+                    }).catch(() => {
+                        // Fallback para 'execCommand'
+                        throw new Error('Clipboard API failed');
+                    });
+                } catch (err) {
+                    // Fallback para 'execCommand'
+                    const textArea = document.createElement("textarea");
+                    textArea.value = textToCopy;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    try {
+                        document.execCommand('copy');
+                        showCopyFeedback(copyFeedbackViability, 'Copiado! (fallback)', true);
+                    } catch (copyErr) {
+                        console.error('Falha ao copiar:', copyErr);
+                        showCopyFeedback(copyFeedbackViability, 'Erro ao copiar!', false);
+                    }
+                    document.body.removeChild(textArea);
+                }
             });
 
-             // Lógica para enviar APENAS localização para WhatsApp (CORRIGIDO com api.whatsapp.com)
+            function showCopyFeedback(element, message, success) {
+                element.textContent = message;
+                element.classList.remove(success ? 'text-red-500' : 'text-green-400');
+                element.classList.add(success ? 'text-green-400' : 'text-red-500');
+                element.classList.remove('hidden');
+                setTimeout(() => element.classList.add('hidden'), 2500);
+            }
+
+             // Lógica para enviar APENAS localização para WhatsApp
             sendLocationBtn.addEventListener('click', () => {
                 const coords = coordinatesViabilityEl.textContent;
                 if (!coords || coords.startsWith('Não foi possível') || coords.startsWith('Geolocalização não é suportada') || coords.startsWith('A obter...')) {
@@ -723,20 +829,44 @@
                 window.open(whatsappUrl, '_blank').focus();
             });
 
-            // Lógica do Presente
+            // --- MELHORIA: Lógica do Bônus (Modal de Senha) ---
             const unlockGiftBtn = document.getElementById('unlock-gift-btn');
             const freeTrialContainer = document.getElementById('free-trial-container');
             const correctPassword = "#120488Jc#";
             
+            const passwordModal = document.getElementById('password-modal');
+            const closePasswordModalBtn = document.getElementById('close-password-modal-btn');
+            const passwordForm = document.getElementById('password-form');
+            const passwordInput = document.getElementById('password-input');
+            const passwordErrorMsg = document.getElementById('password-error-msg');
+            
             unlockGiftBtn.addEventListener('click', () => {
-                const password = prompt("Digite a senha para desbloquear o bônus:");
+                // Abre o modal de senha em vez do prompt
+                passwordModal.classList.remove('hidden');
+                passwordInput.focus();
+            });
+
+            function closePasswordModal() {
+                passwordModal.classList.add('hidden');
+                passwordInput.value = ''; // Limpa a senha
+                passwordErrorMsg.classList.add('hidden'); // Esconde erro
+            }
+
+            closePasswordModalBtn.addEventListener('click', closePasswordModal);
+            
+            passwordForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const password = passwordInput.value;
                 if(password === correctPassword) {
-                    freeTrialContainer.classList.remove('hidden');
-                } else if (password !== null) {
-                    // Opcional: feedback de senha errada (mas mantém "secreto")
-                    console.warn("Senha incorreta para o bônus.");
+                    freeTrialContainer.classList.remove('hidden'); // Mostra o campo de bônus
+                    closePasswordModal(); // Fecha o modal
+                } else {
+                    passwordErrorMsg.classList.remove('hidden'); // Mostra erro
+                    passwordInput.value = '';
+                    passwordInput.focus();
                 }
             });
+            // --- Fim da Lógica do Bônus ---
 
 
             // --- Lógica do Modal de Apps (Planos) ---
@@ -749,49 +879,58 @@
             // Definição dos Apps por Plano (para o modal "Ver Apps Inclusos")
             const planApps = {
                  basico: { name: "Plano Básico - 125 Mbps", apps: [] }, // Sem apps extras
-                basico_plus: { name: "Plano Básico+ - 225 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" } ] },
-                basico_prata: { name: "Plano Básico Prata - 275 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" } ] },
-                ultra_plus: { name: "Plano Ultra+ - 425 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Looke", img: "https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" } /* 1 Standard */ ] },
-                gold: { name: "Plano Gold - 625 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Deezer", img: "https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" } /* 1 Advanced */ ] },
-                gold_plus: { name: "Plano Gold+ - 625 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "PlayKids+", img: "https://logospng.org/download/playkids/logo-playkids-2048.png" } /* 1 Standard */, { name: "Deezer", img: "https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" } /* 1 Advanced */ ] },
-                ultra_gold_wifi6: { name: "Plano Ultra Gold WiFi 6 - 825 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Disney+", img: "https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" } /* 1 Premium */ ] },
-                ultra_premium_wifi6: { name: "Plano Ultra Premium WiFi 6 - 825 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Max", img: "https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" } /* 1 Premium */, { name: "Looke", img: "https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" } /* Standard 1 */, { name: "PlayKids+", img: "https://logospng.org/download/playkids/logo-playkids-2048.png" } /* Standard 2 */, { name: "Deezer", img: "https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" } /* 1 Advanced */ ] }
+                 basico_plus: { name: "Plano Básico+ - 225 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" } ] },
+                 basico_prata: { name: "Plano Básico Prata - 275 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" } ] },
+                 ultra_plus: { name: "Plano Ultra+ - 425 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Looke", img: "https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" } /* 1 Standard */ ] },
+                 gold: { name: "Plano Gold - 625 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Deezer", img: "https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" } /* 1 Advanced */ ] },
+                 gold_plus: { name: "Plano Gold+ - 625 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "PlayKids+", img: "https://logospng.org/download/playkids/logo-playkids-2048.png" } /* 1 Standard */, { name: "Deezer", img: "https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" } /* 1 Advanced */ ] },
+                 ultra_gold_wifi6: { name: "Plano Ultra Gold WiFi 6 - 825 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Disney+", img: "https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" } /* 1 Premium */ ] },
+                 ultra_premium_wifi6: { name: "Plano Ultra Premium WiFi 6 - 825 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Max", img: "https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" } /* 1 Premium */, { name: "Looke", img: "https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" } /* Standard 1 */, { name: "PlayKids+", img: "https://logospng.org/download/playkids/logo-playkids-2048.png" } /* Standard 2 */, { name: "Deezer", img: "https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" } /* 1 Advanced */ ] }
             };
 
             function openModal(planKey) {
                 const planData = planApps[planKey];
-                if (!planData || !planData.apps || planData.apps.length === 0 ) {
-                     if (planKey === 'basico') return; 
-                     if (planKey === 'basico_plus' || planKey === 'basico_prata') {
-                         modalTitle.textContent = `Apps Inclusos: ${planData.name}`;
-                         modalGrid.innerHTML = `<div class="text-center"><img src="https://placehold.co/100x100/10b981/FFFFFF?text=TV" alt="App TV" class="rounded-lg w-20 h-20 mx-auto mb-2 shadow-md bg-white p-1 object-contain"><p class="text-sm text-gray-300 font-medium">App TV (Canais Abertos)</p></div>`;
-                         appsModal.classList.remove('hidden');
-                         return;
-                     }
-                     return; 
-                 }
-                modalTitle.textContent = `Apps Inclusos: ${planData.name}`;
-                modalGrid.innerHTML = '';
-                planData.apps.forEach(app => {
-                    modalGrid.insertAdjacentHTML('beforeend', `<div class="text-center"><img src="${app.img}" alt="${app.name}" class="rounded-lg w-20 h-20 mx-auto mb-2 shadow-md bg-white p-1 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/100x100/7c3aed/FFFFFF?text=App';"><p class="text-sm text-gray-300 font-medium">${app.name}</p></div>`);
-                });
-                appsModal.classList.remove('hidden');
+                // Se o plano não existe ou não tem apps, não faz nada
+                if (!planData || !planData.apps) return;
+
+                // Se o plano só tem o App de TV (casos 'basico_plus' e 'basico_prata')
+                if (planKey === 'basico_plus' || planKey === 'basico_prata') {
+                     modalTitle.textContent = `Apps Inclusos: ${planData.name}`;
+                     modalGrid.innerHTML = `<div class="text-center"><img src="${planData.apps[0].img}" alt="${planData.apps[0].name}" class="rounded-lg w-20 h-20 mx-auto mb-2 shadow-md bg-white p-1 object-contain"><p class="text-sm text-gray-300 font-medium">${planData.apps[0].name}</p></div>`;
+                     appsModal.classList.remove('hidden');
+                     return;
+                }
+                
+                // Se o plano tem múltiplos apps
+                if (planData.apps.length > 0) {
+                    modalTitle.textContent = `Apps Inclusos: ${planData.name}`;
+                    modalGrid.innerHTML = '';
+                    planData.apps.forEach(app => {
+                        // Adicionado onerror para os logos dos apps no modal
+                        const fallbackImg = `https://placehold.co/100x100/7c3aed/FFFFFF?text=${encodeURIComponent(app.name.substring(0,3))}`;
+                        modalGrid.insertAdjacentHTML('beforeend', 
+                            `<div class="text-center">
+                                <img src="${app.img}" alt="${app.name}" class="rounded-lg w-20 h-20 mx-auto mb-2 shadow-md bg-white p-1 object-contain" onerror="this.onerror=null;this.src='${fallbackImg}';">
+                                <p class="text-sm text-gray-300 font-medium">${app.name}</p>
+                            </div>`
+                        );
+                    });
+                    appsModal.classList.remove('hidden');
+                }
+                // Se planData.apps.length === 0 (caso 'basico'), nada acontece, que é o correto.
             }
             function closeModal() {
                 appsModal.classList.add('hidden');
             }
             openModalBtns.forEach(btn => {
-                btn.classList.remove('invisible');
-                btn.addEventListener('click', () => {
-                    if (btn.dataset.plan !== 'basico') {
-                        openModal(btn.dataset.plan);
+                // A lógica de visibilidade do botão 'basico' já está no HTML ('invisible')
+                btn.addEventListener('click', (e) => {
+                    const planKey = e.currentTarget.dataset.plan;
+                    if (planKey !== 'basico') {
+                        openModal(planKey);
                     }
                 });
             });
-             const basicPlanButton = document.querySelector('button[data-plan="basico"]');
-             if (basicPlanButton) {
-                 basicPlanButton.classList.add('invisible');
-             }
             closeModalBtn.addEventListener('click', closeModal);
             appsModal.addEventListener('click', (e) => { if (e.target === appsModal) closeModal(); });
 
@@ -807,7 +946,7 @@
 
             const allAppIconBtns = document.querySelectorAll('.app-icon-btn'); // Isto agora apanha os 5+28
             
-            // Banco de Dados de Descrições de Apps
+            // Banco de Dados de Descrições de Apps (com fallbacks)
             const allAppInfo = {
                 'looke': { name: 'Looke', img: 'https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png', desc: 'Os melhores filmes e séries de aventura você encontra no Looke. Conheça nossos títulos. No Looke você tem acesso a mais de 10.000 conteúdos entre filmes e séries. Filmes e Séries à Vontade. Quando e Onde Quiser.' },
                 'sky': { name: 'Sky+', img: 'https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png', desc: 'Todo o entretenimento da Sky agora no streaming. Filmes, séries e canais ao vivo para você assistir onde e quando quiser.' },
@@ -816,7 +955,7 @@
                 'efit': { name: 'E-fit AG', img: 'https://placehold.co/100x100/3b82f6/FFFFFF?text=E-Fit', desc: 'Seu personal trainer digital. Programas de exercícios para fazer em casa ou na academia.' },
                 'playkids': { name: 'PlayKids+', img: 'https://logospng.org/download/playkids/logo-playkids-2048.png', desc: 'Plataforma educativa com desenhos, jogos e livros para o desenvolvimento infantil.' },
                 'hub': { name: 'HUB', img: 'https://placehold.co/100x100/14b8a6/FFFFFF?text=Hub', desc: 'Um hub de conteúdo digital com diversos serviços e facilidades para o seu dia a dia.' },
-                'ubook': { name: 'UbookPLUS', img: 'httpsG://placehold.co/100x100/a855f7/FFFFFF?text=Ubook', desc: 'Milhares de audiolivros e ebooks para ouvir e ler onde quiser. Histórias, negócios, ficção e mais.' },
+                'ubook': { name: 'UbookPLUS', img: 'https_://placehold.co/100x100/a855f7/FFFFFF?text=Ubook', desc: 'Milhares de audiolivros e ebooks para ouvir e ler onde quiser. Histórias, negócios, ficção e mais.' }, // Corrigido https
                 'estuda': { name: 'Estuda+', img: 'https://placehold.co/100x100/f97316/FFFFFF?text=Estuda%2B', desc: 'Plataforma de estudos completa com videoaulas, exercícios e simulados para ENEM e vestibulares.' },
                 'leitores': { name: 'Pequenos Leitores', img: 'https://placehold.co/100x100/ec4899/FFFFFF?text=Leitores', desc: 'Incentive a leitura dos pequenos com um catálogo incrível de livros infantis interativos.' },
                 'fluid': { name: 'Fluid', img: 'https://placehold.co/64x64/6366f1/FFFFFF?text=Fluid', desc: 'Conteúdo variado de streaming para todos os gostos. Filmes, documentários e mais.' },
@@ -827,7 +966,7 @@
                 'klicencas': { name: 'K Licenças', img: 'https://placehold.co/100x100/6366f1/FFFFFF?text=K', desc: 'Acesso a licenças de software e antivírus para manter seus dispositivos seguros e atualizados.' },
                 'hotgo': { name: 'Hotgo', img: 'https://placehold.co/100x100/dc2626/FFFFFF?text=HotGo', desc: 'Conteúdo adulto exclusivo para maiores de 18 anos.' },
                 'curtaon': { name: 'CurtaOn', img: 'https://placehold.co/100x100/1f2937/FFFFFF?text=CurtaOn', desc: 'O melhor do cinema e documentários brasileiros. Filmes premiados e séries independentes.' },
-                'jornalista': { name: 'O Jornalista', img: 'https://placehold.co/100x100/4b5563/FFFFFF?text=Jornal', desc: 'Acesso digital a jornais e notícias em tempo real. Mantenha-se informado sobre o Brasil e o mundo.' },
+                'jornalista': { name: 'O Jornalista', img: 'https_://placehold.co/100x100/4b5563/FFFFFF?text=Jornal', desc: 'Acesso digital a jornais e notícias em tempo real. Mantenha-se informado sobre o Brasil e o mundo.' }, // Corrigido https
                 'docway': { name: 'Docway', img: 'https://placehold.co/100x100/10b981/FFFFFF?text=Doc', desc: 'Serviço de telemedicina para você e sua família. Consultas médicas por vídeo, 24h por dia.' },
                 'disney': { name: 'Disney+', img: 'https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png', desc: 'O streaming com o entretenimento da Disney, Pixar, Marvel, Star Wars, National Geographic e muito mais.' },
                 'max': { name: 'Max', img: 'https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png', desc: 'O streaming da HBO, Warner Bros, DC, Discovery e muito mais. Séries, filmes e realities imperdíveis.' },
@@ -843,8 +982,14 @@
                 const appId = event.currentTarget.dataset.appId;
                 const appData = allAppInfo[appId];
                 if (!appData) return;
+                
+                const fallbackImg = `https://placehold.co/128x128/FFFFFF/000000?text=${encodeURIComponent(appData.name.substring(0,3))}`;
 
-                document.getElementById('modal-app-img').src = appData.img;
+                const modalImg = document.getElementById('modal-app-img');
+                modalImg.src = appData.img;
+                // Adiciona onerror ao modal de descrição também
+                modalImg.onerror = function() { this.onerror = null; this.src = fallbackImg; };
+                
                 document.getElementById('modal-app-title').textContent = appData.name;
                 document.getElementById('modal-app-desc').textContent = appData.desc;
 
@@ -891,31 +1036,31 @@
 
             // Listas de Apps para os Dropdowns
             const standardAppsList = [
-                { id: 'looke', name: 'Looke' }, { id: 'sky_light', name: 'Sky+ Light' }, { id: 'kiddiepass_std', name: 'Kiddie Pass (Standard)' },
-                { id: 'nutri', name: '+Nutri' }, { id: 'efit', name: 'E-fit AG' }, { id: 'playkids', name: 'PlayKids+' },
-                { id: 'hub', name: 'HUB' }, { id: 'ubook', name: 'UbookPLUS' }, { id: 'estuda', name: 'Estuda+' },
-                { id: 'leitores', name: 'Pequenos Leitores' }, { id: 'fluid', name: 'Fluid' }, { id: 'socialcomics', name: 'Social Comics' },
-                { id: 'revistaria', name: 'Revistaria' }, { id: 'playlist', name: 'Playlist' }
+                 { id: 'looke', name: 'Looke' }, { id: 'sky_light', name: 'Sky+ Light' }, { id: 'kiddiepass_std', name: 'Kiddie Pass (Standard)' },
+                 { id: 'nutri', name: '+Nutri' }, { id: 'efit', name: 'E-fit AG' }, { id: 'playkids', name: 'PlayKids+' },
+                 { id: 'hub', name: 'HUB' }, { id: 'ubook', name: 'UbookPLUS' }, { id: 'estuda', name: 'Estuda+' },
+                 { id: 'leitores', name: 'Pequenos Leitores' }, { id: 'fluid', name: 'Fluid' }, { id: 'socialcomics', name: 'Social Comics' },
+                 { id: 'revistaria', name: 'Revistaria' }, { id: 'playlist', name: 'Playlist' }
             ];
             const advancedAppsList = [
-                { id: 'sky_globo', name: 'Sky+ com Globo' }, { id: 'kiddiepass_adv', name: 'Kiddie Pass (Advanced)' }, { id: 'deezer', name: 'Deezer' },
-                { id: 'klicencas_adv', name: 'K Licenças (Advanced)' }, { id: 'hotgo', name: 'Hotgo' }, { id: 'curtaon', name: 'CurtaOn' },
-                { id: 'jornalista', name: 'O Jornalista' }, { id: 'docway', name: 'Docway' }
+                 { id: 'sky_globo', name: 'Sky+ com Globo' }, { id: 'kiddiepass_adv', name: 'Kiddie Pass (Advanced)' }, { id: 'deezer', name: 'Deezer' },
+                 { id: 'klicencas_adv', name: 'K Licenças (Advanced)' }, { id: 'hotgo', name: 'Hotgo' }, { id: 'curtaon', name: 'CurtaOn' },
+                 { id: 'jornalista', name: 'O Jornalista' }, { id: 'docway', name: 'Docway' }
             ];
             const premiumAppsList = [
-                { id: 'sky_amazon', name: 'SKY+ com Amazon' }, { id: 'disney_avulso', name: 'Disney+ (Avulso)' }, { id: 'hbo_avulso', name: 'HBO Max (Avulso)' },
-                { id: 'indie', name: 'Indie' }, { id: 'leitura360', name: 'Leitura 360' }, { id: 'disney', name: 'Disney+' },
-                { id: 'max', name: 'Max' }, { id: 'klicencas_prem', name: 'K Licenças (Premium)' }, { id: 'nba', name: 'NBA' },
-                { id: 'smartcontent', name: 'SmartContent' }, { id: 'queima', name: 'Queima Diária' }, { id: 'zen', name: 'Zen' }
+                 { id: 'sky_amazon', name: 'SKY+ com Amazon' }, { id: 'disney_avulso', name: 'Disney+ (Avulso)' }, { id: 'hbo_avulso', name: 'HBO Max (Avulso)' },
+                 { id: 'indie', name: 'Indie' }, { id: 'leitura360', name: 'Leitura 360' }, { id: 'disney', name: 'Disney+' },
+                 { id: 'max', name: 'Max' }, { id: 'klicencas_prem', name: 'K Licenças (Premium)' }, { id: 'nba', name: 'NBA' },
+                 { id: 'smartcontent', name: 'SmartContent' }, { id: 'queima', name: 'Queima Diária' }, { id: 'zen', name: 'Zen' }
             ];
 
             // Regras dos planos (quantos de cada app)
             const planRules = {
-                "Plano Ultra Premium WiFi 6 - 825 Mbps": { premium: 1, standard: 2, advanced: 1 },
-                "Plano Ultra Gold WiFi 6 - 825 Mbps": { premium: 1, standard: 0, advanced: 0 },
-                "Plano Gold+ - 625 Mbps": { premium: 0, standard: 1, advanced: 1 },
-                "Plano Gold - 625 Mbps": { premium: 0, standard: 0, advanced: 1 },
-                "Plano Ultra+ - 425 Mbps": { premium: 0, standard: 1, advanced: 0 },
+                "Plano Ultra Premium WiFi 6 - 825 Mbps": { premium: 1, standard: 2, advanced: 1, appTv: true },
+                "Plano Ultra Gold WiFi 6 - 825 Mbps": { premium: 1, standard: 0, advanced: 0, appTv: true },
+                "Plano Gold+ - 625 Mbps": { premium: 0, standard: 1, advanced: 1, appTv: true },
+                "Plano Gold - 625 Mbps": { premium: 0, standard: 0, advanced: 1, appTv: true },
+                "Plano Ultra+ - 425 Mbps": { premium: 0, standard: 1, advanced: 0, appTv: true },
                 "Plano Básico Prata - 275 Mbps": { appTv: true },
                 "Plano Básico+ - 225 Mbps": { appTv: true },
                 "Plano Básico - 125 Mbps": {}
@@ -952,6 +1097,13 @@
             function updateHiddenAppInput() {
                 const selects = includedAppsList.querySelectorAll('.app-select');
                 let appNames = [];
+                
+                // Verifica se o App de TV está presente (não é um select)
+                const tvTag = includedAppsList.querySelector('.app-tv-tag');
+                if (tvTag) {
+                    appNames.push("App de TV (Canais Abertos)");
+                }
+
                 selects.forEach(select => {
                     if (select.value) {
                         appNames.push(select.value);
@@ -973,7 +1125,7 @@
                 
                 // Adiciona App de TV (se aplicável)
                 if(rules.appTv) {
-                    const tvTag = `<span class="bg-slate-600 text-xs font-medium text-gray-200 px-2 py-1 rounded-full">App de TV (Canais Abertos)</span>`;
+                    const tvTag = `<span class="app-tv-tag bg-slate-600 text-xs font-medium text-gray-200 px-2 py-1 rounded-full">App de TV (Canais Abertos)</span>`;
                     includedAppsList.insertAdjacentHTML('beforeend', tvTag);
                 }
                 
@@ -982,11 +1134,11 @@
                 createDropdowns('Advanced', rules.advanced || 0, advancedAppsList, 'advanced');
                 createDropdowns('Standard', rules.standard || 0, standardAppsList, 'standard');
 
-                updateHiddenAppInput(); // Atualiza o valor inicial (provavelmente vazio)
+                updateHiddenAppInput(); // Atualiza o valor inicial (com App TV se houver)
                 includedAppsContainer.classList.remove('hidden'); // Mostra
             });
 
-            // Lógica para enviar formulário COMPLETO para o WhatsApp (Atualizado)
+            // Lógica para enviar formulário COMPLETO para o WhatsApp
             const cadastroForm = document.getElementById('cadastro-form');
             cadastroForm.addEventListener('submit', function(event) {
                 event.preventDefault();
@@ -1038,46 +1190,56 @@
             });
 
 
-            // Inicialização do Swiper
-            if (window.innerWidth < 768) {
-                const swiper = new Swiper('.swiper-container', {
-                    slidesPerView: 1.2,
-                    spaceBetween: 16,
-                    centeredSlides: true,
-                    loop: false, // Desativar loop para evitar problemas com poucos slides
-                    pagination: {
-                        el: '.swiper-pagination',
-                        clickable: true,
+            // --- MELHORIA: Inicialização do Swiper Responsiva ---
+            // Removemos a lógica 'if (innerWidth < 768)' e o 'else'
+            // O Swiper agora é inicializado em todas as telas,
+            // mas seu comportamento é controlado pelos 'breakpoints'.
+            const swiper = new Swiper('.swiper-container', {
+                loop: false, // Loop é geralmente melhor como false a menos que haja muitos slides
+                spaceBetween: 16,
+                
+                // Configuração base (mobile)
+                slidesPerView: 1.2,
+                centeredSlides: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                
+                // Breakpoints para telas maiores
+                breakpoints: {
+                    // 640px (sm)
+                    640: {
+                        slidesPerView: 2.2,
+                        centeredSlides: false,
+                        pagination: { // Mantém paginação para tablets
+                            el: '.swiper-pagination',
+                            clickable: true,
+                        },
                     },
-                     breakpoints: {
-                        // Garante que funcione bem em telas um pouco maiores mas ainda móveis
-                        640: {
-                          slidesPerView: 2.2,
-                          centeredSlides: false,
-                        }
+                    // 768px (md)
+                    768: {
+                        slidesPerView: 3,
+                        centeredSlides: false,
+                        pagination: false, // Oculta paginação no desktop
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+                    },
+                    // 1024px (lg)
+                    1024: {
+                        slidesPerView: 4,
+                        centeredSlides: false,
+                        pagination: false,
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
                     }
-                });
-            } else {
-                 // Garante que as classes do Swiper sejam removidas e o grid seja aplicado em telas maiores
-                 const swiperContainer = document.querySelector('.swiper-container');
-                 const swiperWrapper = document.querySelector('.swiper-wrapper');
-                 const swiperSlides = document.querySelectorAll('.swiper-container .plan-gradient'); // Seleciona os cards diretamente
-
-                 swiperContainer.classList.add('grid', 'grid-cols-2', 'lg:grid-cols-4', 'gap-8');
-                 swiperWrapper.classList.add('contents'); // Usa 'contents' para que o wrapper não interfira no grid
-                 
-                 swiperSlides.forEach(slide => {
-                     // Remove a classe swiper-slide se existir
-                     slide.parentElement.classList.remove('swiper-slide'); // Remove do PAI (div.swiper-slide)
-                 });
-                 // Remove elementos de navegação/paginação do Swiper
-                 const pagination = document.querySelector('.swiper-pagination');
-                 const nextButton = document.querySelector('.swiper-button-next');
-                 const prevButton = document.querySelector('.swiper-button-prev');
-                 if(pagination) pagination.remove();
-                 if(nextButton) nextButton.remove();
-                 if(prevButton) prevButton.remove();
-            }
+                }
+            });
+            // --- Fim da Inicialização do Swiper ---
         });
     </script>
 
