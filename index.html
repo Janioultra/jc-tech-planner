@@ -4,17 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultra Fibra - Provedor de Internet</title>
-    
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="apple-touch-icon" href="favicon.png">
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <!-- Swiper CSS --><link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <style>
-        html {
-            scroll-behavior: smooth; /* Para a rolagem dos links ser suave */
-        }
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0d1128; /* Azul marinho escuro */
@@ -76,102 +69,45 @@
         .app-select {
             w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white;
         }
-        
-        /* --- ESTILOS DO NOVO MENU MOBILE --- */
-        #mobile-menu-button svg {
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        }
-        #mobile-menu-button .icon-menu {
-            opacity: 1;
-            transform: rotate(0deg);
-        }
-        #mobile-menu-button .icon-close {
-            opacity: 0;
-            transform: rotate(-90deg);
-        }
-        #mobile-menu-button.open .icon-menu {
-            opacity: 0;
-            transform: rotate(90deg);
-        }
-        #mobile-menu-button.open .icon-close {
-            opacity: 1;
-            transform: rotate(0deg);
-        }
-        
-        #mobile-menu {
-            transform: translateY(-110%);
-            transition: transform 0.3s ease-in-out;
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-        }
-        
-        #mobile-menu.open {
-             transform: translateY(0);
-        }
-        
     </style>
 </head>
 <body class="text-gray-200">
 
-    <header class="bg-slate-900/70 backdrop-blur-sm shadow-lg sticky top-0 z-50">
+    <!-- Cabeçalho --><header class="bg-slate-900/70 backdrop-blur-sm shadow-lg sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-2xl font-bold text-white">
                ULTRA FIBRA
             </a>
-            
             <div class="hidden md:flex space-x-6 items-center">
                 <a href="#planos" class="text-gray-300 hover:text-violet-400 transition duration-300">Nossos Planos</a>
-                
-                <button type="button" class="open-form-btn text-gray-300 hover:text-violet-400 transition duration-300">Contato</button>
-                
-                <a href="https://www.speedtest.net/" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-violet-400 transition duration-300 flex items-center space-x-2 opacity-80 hover:opacity-100">
-                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75 12 12.75l-3.75-6" />
-                    </svg>
-                    <span>Teste de Velocidade</span>
-                </a>
-                
-                <a href="https://sistema.ultranetelecom.com.br/central_assinante_web/login" target="_blank" rel="noopener noreferrer" class="bg-violet-600 text-white px-4 py-2 rounded-md hover:bg-violet-700 transition duration-300 shadow">
-                    2ª Via Boleto
+                <a href="#contato" class="text-gray-300 hover:text-violet-400 transition duration-300">Contato</a>
+                <a href="#" class="bg-violet-600 text-white px-4 py-2 rounded-md hover:bg-violet-700 transition duration-300 shadow">
+                    Área do Cliente
                 </a>
             </div>
-            
-            <button class="md:hidden flex items-center relative h-6 w-6" id="mobile-menu-button">
-                 <svg class="w-6 h-6 text-white absolute icon-menu" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                 <svg class="w-6 h-6 text-white absolute icon-close" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            <button class="md:hidden flex items-center" id="mobile-menu-button">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </nav>
-        
-        <div class="md:hidden bg-slate-900 absolute top-full left-0 w-full z-40" id="mobile-menu">
-            <a href="#planos" class="block py-3 px-6 text-gray-300 hover:bg-slate-800 transition duration-300">Nossos Planos</a>
-            
-            <button type="button" class="open-form-btn block w-full text-left py-3 px-6 text-gray-300 hover:bg-slate-800 transition duration-300">Contato</button>
-            
-            <a href="https://www.speedtest.net/" target="_blank" rel="noopener noreferrer" class="block py-3 px-6 text-gray-300 hover:bg-slate-800 transition duration-300 flex items-center space-x-2">
-                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75 12 12.75l-3.75-6" />
-                </svg>
-                <span>Teste de Velocidade</span>
-            </a>
-            
-            <a href="https://sistema.ultranetelecom.com.br/central_assinante_web/login" target="_blank" rel="noopener noreferrer" class="block py-3 px-6 text-white bg-violet-600 hover:bg-violet-700 transition duration-300">2ª Via Boleto</a>
+        <!-- Menu Mobile --><div class="hidden md:hidden bg-slate-900" id="mobile-menu">
+            <a href="#planos" class="block py-2 px-4 text-sm text-gray-300 hover:bg-slate-800">Nossos Planos</a>
+            <a href="#contato" class="block py-2 px-4 text-sm text-gray-300 hover:bg-slate-800">Contato</a>
+            <a href="#" class="block py-2 px-4 text-sm text-white bg-violet-600 hover:bg-violet-700">Área do Cliente</a>
         </div>
     </header>
 
     <main>
-        <section class="hero-gradient text-white py-20">
+        <!-- Seção Hero --><section class="hero-gradient text-white py-20">
             <div class="container mx-auto px-6 text-center relative z-10">
                 <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">A melhor conexão da sua região</h1>
-                
-                <p class="text-lg md:text-xl mb-8 text-violet-200">Internet 100% Fibra Óptica com ultravelocidade, estabilidade e tecnologia WI-FI 6 para você e sua família.</p>
-                
+                <p class="text-lg md:text-xl mb-8 text-violet-200">Internet 100% Fibra Óptica com ultravelocidade e estabilidade para você e sua família.</p>
                 <a href="#planos" class="bg-white text-violet-600 font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition duration-300 transform hover:scale-105">
-                    Planos a partir de R$ 65,00
+                    Conheça os Planos
                 </a>
                 
-                <div class="mt-16">
+                <!-- Galeria de Apps Inclusos --><div class="mt-16">
                     <p class="text-sm text-violet-300 mb-6">Aproveite seus apps favoritos:</p>
+                    <!-- 5 Principais Apps -->
                     <div class="flex justify-center items-center gap-4 md:gap-6 flex-wrap px-4 max-w-lg mx-auto">
                         <button class="app-icon-btn" data-app-id="sky"><img src="https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png" alt="Logo Sky+" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
                         <button class="app-icon-btn" data-app-id="disney"><img src="https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" alt="Logo Disney+" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
@@ -179,6 +115,7 @@
                         <button class="app-icon-btn" data-app-id="nba"><img src="https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png" alt="Logo NBA" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
                         <button class="app-icon-btn" data-app-id="deezer"><img src="https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" alt="Logo Deezer" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
                     </div>
+                    <!-- Botão para ver todos -->
                     <button id="open-all-apps-btn" class="mt-8 text-violet-300 font-semibold hover:text-white transition duration-300 underline">
                         Conhecer todos os aplicativos
                     </button>
@@ -186,14 +123,14 @@
             </div>
         </section>
 
-        <section id="planos" class="py-20">
+        <!-- Seção Planos --><section id="planos" class="py-20">
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-bold text-center mb-12 text-white">Os melhores planos que combinam com você</h2>
                 
                 <div class="swiper-container group">
                     <div class="swiper-wrapper">
                     
-                        <div class="swiper-slide">
+                        <!-- Plano 8: Ultra Premium WiFi 6 (R$ 149,99) --><div class="swiper-slide">
                             <div class="plan-gradient border-2 border-violet-500 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
                                 <span class="bg-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase absolute -top-4 left-6">Premium WiFi 6</span>
                                 <h3 class="text-xl font-bold my-2 pt-8 text-white">Plano Ultra Premium</h3>
@@ -213,11 +150,11 @@
                                     <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>1 App Advanced Incluso</li>
                                 </ul>
                                 <button data-plan="ultra_premium_wifi6" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4">Ver Apps Inclusos</button>
-                                <button type="button" class="open-form-btn w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</button>
+                                <a href="#contato" class="w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</a>
                             </div>
                         </div>
 
-                        <div class="swiper-slide">
+                        <!-- Plano 7: Ultra Gold WiFi 6 (R$ 119,99) --><div class="swiper-slide">
                             <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
                                 <span class="bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase absolute -top-4 left-6">WiFi 6</span>
                                 <h3 class="text-xl font-bold my-2 pt-8 text-white">Plano Ultra Gold</h3>
@@ -235,11 +172,11 @@
                                     <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>1 App Premium Incluso</li>
                                 </ul>
                                 <button data-plan="ultra_gold_wifi6" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4">Ver Apps Inclusos</button>
-                                <button type="button" class="open-form-btn w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</button>
+                                <a href="#contato" class="w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</a>
                             </div>
                         </div>
                         
-                        <div class="swiper-slide">
+                        <!-- Plano 6: Gold+ (R$ 109,99) --><div class="swiper-slide">
                             <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
                                 <h3 class="text-xl font-bold my-2 text-white">Plano Gold+</h3>
                                 <p class="text-5xl font-bold text-violet-400">625<span class="text-2xl align-baseline">Mbps</span></p>
@@ -256,11 +193,11 @@
                                     <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>1 App Advanced Incluso</li>
                                 </ul>
                                 <button data-plan="gold_plus" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4">Ver Apps Inclusos</button>
-                                <button type="button" class="open-form-btn w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</button>
+                                <a href="#contato" class="w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</a>
                             </div>
                         </div>
 
-                        <div class="swiper-slide">
+                        <!-- Plano 5: Gold (R$ 89,99) --><div class="swiper-slide">
                             <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
                                 <h3 class="text-xl font-bold my-2 text-white">Plano Gold</h3>
                                 <p class="text-5xl font-bold text-violet-400">625<span class="text-2xl align-baseline">Mbps</span></p>
@@ -276,11 +213,11 @@
                                     <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>1 App Advanced Incluso</li>
                                 </ul>
                                 <button data-plan="gold" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4">Ver Apps Inclusos</button>
-                                <button type="button" class="open-form-btn w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</button>
+                                <a href="#contato" class="w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</a>
                             </div>
                         </div>
 
-                        <div class="swiper-slide">
+                        <!-- Plano 4: Ultra+ (R$ 79,99) --><div class="swiper-slide">
                             <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
                                 <span class="bg-violet-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase absolute -top-4 left-1/2 -translate-x-1/2">Mais Popular</span>
                                 <h3 class="text-xl font-bold my-2 pt-8 text-white">Plano Ultra+</h3>
@@ -297,11 +234,11 @@
                                     <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>1 App Standard Incluso</li>
                                 </ul>
                                  <button data-plan="ultra_plus" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4">Ver Apps Inclusos</button>
-                                <button type="button" class="open-form-btn w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</button>
+                                <a href="#contato" class="w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</a>
                             </div>
                         </div>
 
-                        <div class="swiper-slide">
+                        <!-- Plano 3: Básico Prata (R$ 74,99) --><div class="swiper-slide">
                              <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
                                 <h3 class="text-xl font-bold my-2 text-white">Plano Básico Prata</h3>
                                 <p class="text-5xl font-bold text-violet-400">275<span class="text-2xl align-baseline">Mbps</span></p>
@@ -316,11 +253,11 @@
                                     <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>App de TV (Canais Abertos)</li>
                                 </ul>
                                  <button data-plan="basico_prata" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4">Ver Apps Inclusos</button>
-                                <button type="button" class="open-form-btn w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</button>
+                                <a href="#contato" class="w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</a>
                             </div>
                         </div>
 
-                        <div class="swiper-slide">
+                        <!-- Plano 2: Básico+ (R$ 69,99) --><div class="swiper-slide">
                             <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
                                 <h3 class="text-xl font-bold my-2 text-white">Plano Básico+</h3>
                                 <p class="text-5xl font-bold text-violet-400">225<span class="text-2xl align-baseline">Mbps</span></p>
@@ -335,11 +272,11 @@
                                     <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>App de TV (Canais Abertos)</li>
                                 </ul>
                                 <button data-plan="basico_plus" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4">Ver Apps Inclusos</button>
-                                <button type="button" class="open-form-btn w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</button>
+                                <a href="#contato" class="w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</a>
                             </div>
                         </div>
 
-                        <div class="swiper-slide">
+                        <!-- Plano 1: Básico (R$ 65,00) --><div class="swiper-slide">
                             <div class="plan-gradient border border-slate-700 rounded-lg p-6 text-center shadow-lg hover:shadow-violet-500/20 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 relative flex flex-col h-full">
                                 <h3 class="text-xl font-bold my-2 text-white">Plano Básico</h3>
                                 <p class="text-5xl font-bold text-violet-400">125<span class="text-2xl align-baseline">Mbps</span></p>
@@ -352,19 +289,20 @@
                                 <ul class="text-left mb-6 space-y-2 text-gray-300 text-sm flex-grow">
                                     <li class="flex items-center"><svg class="w-4 h-4 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador em Comodato</li>
                                 </ul>
-                                <button data-plan="basico" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4 invisible">Ver Apps Inclusos</button> <button type="button" class="open-form-btn w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</button>
+                                <button data-plan="basico" class="open-modal-btn w-full text-center text-violet-400 font-semibold hover:underline mb-4 invisible">Ver Apps Inclusos</button> <!-- Botão oculto pois não tem apps -->
+                                <a href="#contato" class="w-full mt-auto bg-violet-600 text-white px-6 py-3 rounded-md hover:bg-violet-700 transition duration-300 font-semibold">Assinar Ultra Fibra</a>
                             </div>
                         </div>
 
                     </div>
-                    <div class="swiper-pagination md:hidden mt-8 !relative"></div>
-                    <div class="swiper-button-next hidden md:block opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <!-- Add Pagination --><div class="swiper-pagination md:hidden mt-8 !relative"></div>
+                    <!-- Add Navigation --><div class="swiper-button-next hidden md:block opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <div class="swiper-button-prev hidden md:block opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
             </div>
         </section>
 
-        <section id="viabilidade" class="py-10 bg-slate-800">
+        <!-- Seção Verifica Viabilidade --><section id="viabilidade" class="py-10 bg-slate-800">
              <div class="container mx-auto px-6 text-center">
                  <h2 class="text-2xl font-bold mb-6 text-white">Verifique a Viabilidade na sua Localização</h2>
                  <p class="text-gray-400 mb-6">Clique no botão abaixo para obter suas coordenadas e envie para análise.</p>
@@ -391,8 +329,11 @@
              </div>
         </section>
 
-        <section id="contato" class="py-20 hidden scroll-mt-20"> <h2 class="text-3xl font-bold text-center mb-12 text-white hidden">Faça seu Cadastro Completo</h2>
-            <div class="max-w-2xl mx-auto px-6"> <div class="w-full bg-slate-800 p-8 rounded-lg shadow-lg">
+        <!-- Seção Contato --><section id="contato" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-12 text-white">Faça seu Cadastro Completo</h2>
+                <div class="max-w-2xl mx-auto">
+                    <!-- Formulário de Cadastro --><div class="w-full bg-slate-800 p-8 rounded-lg shadow-lg">
                         
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="text-2xl font-bold text-white">Ficha do Cliente</h3>
@@ -466,10 +407,12 @@
                                 </select>
                             </div>
                             
+                            <!-- Apps Inclusos (dinâmico) -->
                             <div id="included-apps-container" class="hidden space-y-3">
                                 <label class="block text-gray-300 font-medium">📱 Apps Inclusos (Escolha):</label>
                                 <div id="included-apps-list" class="space-y-3 p-3 bg-slate-700 rounded-lg">
-                                    </div>
+                                    <!-- Dropdowns de apps serão inseridos aqui via JS -->
+                                </div>
                                 <input type="hidden" id="included_apps_text" name="included_apps_text">
                             </div>
 
@@ -490,7 +433,8 @@
                                 </select>
                             </div>
 
-                            <div id="free-trial-container" class="hidden">
+                            <!-- Campo de Teste Grátis (Escondido) -->
+                             <div id="free-trial-container" class="hidden">
                                 <label for="free_trial" class="block text-gray-300 font-medium mb-1">🎁 Teste grátis (Bônus)</label>
                                 <select id="free_trial" name="free_trial" class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white">
                                     <option value="Não">Não</option>
@@ -515,7 +459,8 @@
                         </form>
                     </div>
                 </div>
-                 <div class="mt-12 text-center text-gray-400 px-6"> <p class="mb-2"><strong>Endereço:</strong> Rua MAJ. PRAZERES 2-110 - São Felipe/BA</p>
+                 <div class="mt-12 text-center text-gray-400">
+                    <p class="mb-2"><strong>Endereço:</strong> Rua MAJ. PRAZERES 2-110 - São Felipe/BA</p>
                     <p class="mb-2"><strong>WhatsApp:</strong> (75) 3199-9981</p>
                     <p><strong>CNPJ:</strong> 36.712.901/0001-53</p>
                  </div>
@@ -524,59 +469,36 @@
 
     </main>
 
-    <footer class="bg-slate-900 text-white py-12">
+    <!-- Rodapé --><footer class="bg-slate-900 text-white py-12">
         <div class="container mx-auto px-6 text-center">
-            
-            <div class="mb-6">
-                <img src="anatel-logo.png" alt="Selo Provedor Autorizado Anatel" class="h-20 w-auto mx-auto">
-            </div>
-            
              <p class="text-gray-400 text-sm">Ultra Fibra</p>
              <p class="text-gray-400 text-sm">Rua MAJ. PRAZERES 2-110 - São Felipe/BA</p>
              <p class="text-gray-400 text-sm mb-6">CNPJ: 36.712.901/0001-53</p>
-             
-             <div class="flex justify-center mb-6">
-                <a href="https://www.instagram.com/ultranett_?igsh=MTU3ZDk2MTJ6Y2hwYw==" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:opacity-80 transition duration-300">
-                    <span class="sr-only">Instagram</span>
-                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <defs>
-                            <radialGradient id="instaGradient" cx="0.3" cy="1.2" r="1.5">
-                                <stop offset="0" stop-color="#FDCB52"/>
-                                <stop offset="0.15" stop-color="#FD1D1D"/>
-                                <stop offset="0.3" stop-color="#E1306C"/>
-                                <stop offset="0.45" stop-color="#C13584"/>
-                                <stop offset="0.6" stop-color="#833AB4"/>
-                            </radialGradient>
-                        </defs>
-                        <path fill="url(#instaGradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 1.172.053 1.973.22 2.623.468.65.254 1.217.598 1.772 1.153a4.908 4.908 0 011.153 1.772c.248.65.415 1.45.468 2.623.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.053 1.172-.22 1.973-.468 2.623a4.908 4.908 0 01-1.153 1.772 4.908 4.908 0 01-1.772 1.153c-.65.248-1.45.415-2.623.468-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.172-.053-1.973-.22-2.623-.468a4.908 4.908 0 01-1.772-1.153 4.908 4.908 0 01-1.153-1.772c-.248-.65-.415-1.45-.468-2.623-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.053-1.172.22-1.973.468-2.623a4.908 4.908 0 011.153-1.772A4.908 4.908 0 014.5 2.7c.65-.248 1.45-.415 2.623-.468C8.416 2.175 8.796 2.163 12 2.163zm0 1.626c-3.172 0-3.543.011-4.78.069-1.09.05-1.803.218-2.39.43-1.08.4-1.938 1.255-2.34 2.34-.213.586-.38 1.3-.43 2.39-.058 1.237-.069 1.608-.069 4.78s.011 3.543.069 4.78c.05 1.09.218 1.803.43 2.39.4 1.08 1.255 1.938 2.34 2.34.586.213 1.3.38 2.39.43 1.237.058 1.608.069 4.78.069s3.543-.011 4.78-.069c1.09-.05 1.803-.218 2.39-.43 1.08-.4 1.938-1.255 2.34-2.34.213.586.38-1.3.43-2.39.058-1.237.069-1.608.069-4.78s-.011-3.543-.069-4.78c-.05-1.09-.218-1.803-.43-2.39-.4-1.08-1.255-1.938-2.34-2.34-.586-.213-1.3-.38-2.39-.43C15.543 3.799 15.172 3.79 12 3.79zm0 2.99c-3.309 0-6 2.691-6 6s2.691 6 6 6 6-2.691 6-6-2.691-6-6-6zm0 1.626c2.42 0 4.374 1.955 4.374 4.374s-1.955 4.374-4.374 4.374-4.374-1.955-4.374-4.374 1.955-4.374 4.374-4.374zM16.4 5.201a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0z"/>
-                    </svg>
-                </a>
-             </div>
-             
              <div class="border-t border-slate-700 pt-6">
                 <p>&copy; 2024 Ultra Fibra. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
     
-    <div id="apps-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+    <!-- Modal de Apps (Planos) --><div id="apps-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
         <div class="bg-slate-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto p-6 relative">
             <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <h3 id="modal-title" class="text-2xl font-bold text-white mb-6">Apps Inclusos no Plano</h3>
             <div id="modal-apps-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
-                </div>
+                <!-- App icons (planos) serão injetados aqui pelo JS --></div>
         </div>
     </div>
     
-    <div id="all-apps-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+    <!-- Modal de TODOS os Apps (Hero) --><div id="all-apps-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
         <div class="bg-slate-800 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6 relative">
             <button id="close-all-apps-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <h3 class="text-2xl font-bold text-white mb-6">Todos os Aplicativos Disponíveis</h3>
             <div class="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-3 md:gap-4 max-w-4xl mx-auto">
+                <!-- Apps são botões que abrem o modal -->
                 <button class="app-icon-btn" data-app-id="looke"><img src="https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" alt="Logo Looke" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="sky"><img src="https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png" alt="Logo Sky+" class="h-12 w-12 object-contain bg-white p-1 rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="kiddiepass"><img src="https://placehold.co/64x64/facc15/000000?text=KiddiePass" alt="Logo Kiddie Pass" class="h-12 w-12 object-contain rounded-md"></button>
@@ -609,7 +531,7 @@
         </div>
     </div>
     
-    <div id="app-description-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+    <!-- Modal de Descrição do App (Hero) --><div id="app-description-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
         <div class="bg-slate-800 rounded-lg shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6 relative">
             <button id="close-app-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -622,48 +544,16 @@
         </div>
     </div>
 
-    <a href="https://api.whatsapp.com/send?phone=557531999981&text=Olá!%20Preciso%20de%20ajuda%20com%20os%20planos." target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-40 bg-green-500 text-white font-bold py-3 px-4 rounded-lg shadow-lg flex items-center space-x-2 transform hover:scale-105 transition-transform">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.626-2.957 6.584-6.591 6.584zm-1.13-4.243c-.225.084-1.295.64-1.492.72-.192.08-.343.12-.478.24-.135.12-.27.24-.27.42s-.012.51.05.59c.06.08.27.31.576.62.308.308.552.53.81.73.26.19.51.3.81.42.3.12.57.1.76.02.19-.08 1.13-0.47 1.29-1.26.16-.8.16-1.48.12-1.62-.04-.14-.12-.22-.24-.3s-.27-.24-.42-.32c-.15-.08-.27-.12-.42-.2-.15-.08-.34-.12-.48-.04s-.42.48-.52.56c-.1.08-.2.12-.28.12s-.16-.04-.24-.08c-.08-.04-.36-.12-.66-.36-.3-.24-.55-.52-.66-.73-.11-.21-.03-.33.04-.42.08-.08.16-.2.24-.28.08-.08.12-.16.16-.24.04-.08.02-.16-.02-.24s-.42-1.02-.56-1.4c-.15-.38-.3-.32-.43-.32-.12 0-.27-.01-.4-.01z"/>
-        </svg>
-        <span class="hidden sm:inline">Precisa de ajuda? Fale com a gente</span>
-    </a>
 
-
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <!-- Swiper JS --><script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Lógica do NOVO Menu Mobile
+            // Lógica do Menu Mobile
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
-            
             mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('open');
-                mobileMenuButton.classList.toggle('open');
+                mobileMenu.classList.toggle('hidden');
             });
-            
-            // --- Lógica para Abrir o Formulário de Contato ---
-            const contatoSection = document.getElementById('contato');
-            const openFormButtons = document.querySelectorAll('.open-form-btn'); // Nosso novo seletor
-
-            openFormButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.preventDefault(); // Previne o comportamento padrão
-                    
-                    // Mostra o formulário
-                    contatoSection.classList.remove('hidden');
-                    
-                    // Rola a tela até o formulário
-                    contatoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    
-                    // Fecha o menu mobile se estiver aberto
-                    if (mobileMenu.classList.contains('open')) {
-                        mobileMenu.classList.remove('open');
-                        mobileMenuButton.classList.remove('open');
-                    }
-                });
-            });
-
 
             // Lógica de Geolocalização (Viabilidade e Formulário)
             const locateViabilityButton = document.getElementById('locate-me-viability-btn');
@@ -1129,3 +1019,4 @@
 
 </body>
 </html>
+
