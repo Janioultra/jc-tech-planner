@@ -49,6 +49,7 @@
         .swiper-container {
             width: 100%;
             overflow: hidden;
+            position: relative; /* ADICIONADO: Para ancorar os botões de navegação */
         }
         .swiper-slide {
             height: auto; /* Permite que o slide ajuste a altura ao conteúdo */
@@ -75,22 +76,26 @@
             w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white;
         }
 
-        /* Oculta os botões de navegação do Swiper por padrão (o JS cuidará disso) */
+        /* Oculta os botões de navegação do Swiper por padrão (mobile) */
         .swiper-button-next, .swiper-button-prev {
             display: none;
         }
         
-        /* Em telas 'md' ou maiores, mostra os botões se o Swiper estiver ativo */
+        /* Em telas 'md' ou maiores, mostra os botões */
         @media (min-width: 768px) {
             .swiper-button-next, .swiper-button-prev {
                  display: flex;
-                 opacity: 0; /* CSS original para hover estava bom */
+                 /* Elas agora são visíveis por padrão (um pouco transparentes) */
+                 opacity: 0.6; 
+                 transition: opacity 0.3s ease;
             }
+            /* Ficam 100% opacas ao passar o mouse */
             .swiper-container:hover .swiper-button-next,
             .swiper-container:hover .swiper-button-prev {
                 opacity: 1;
             }
         }
+
 
         /* NOVO: Estilos para o Marquee (Carrossel Infinito) */
         .marquee-container {
@@ -99,8 +104,8 @@
         }
         .marquee-content {
             display: inline-block; 
-            /* A velocidade é controlada aqui (60s). Pode ajustar se achar muito rápido/lento */
-            animation: marquee-scroll 60s linear infinite; 
+            /* A velocidade é controlada aqui (10s). Pode ajustar se achar muito rápido/lento */
+            animation: marquee-scroll 10s linear infinite; 
         }
         
         /* Pausa a animação no hover */
@@ -230,7 +235,7 @@
                     <div class="flex justify-center items-center gap-4 md:gap-6 flex-wrap px-4 max-w-lg mx-auto">
                         <button class="app-icon-btn" data-app-id="sky"><img src="https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png" alt="Logo Sky+" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Sky%2B';"></button>
                         <button class="app-icon-btn" data-app-id="disney"><img src="https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" alt="Logo Disney+" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Disney%2B';"></button>
-                        <button class="app-icon-btn" data-app-id="max"><img src="https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" alt="Logo Max" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Max';"></button>
+                        <button class="app-icon-btn" data-app-id="max"><img src="https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" alt="Logo Max" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='httpss://placehold.co/64x64/FFFFFF/000000?text=Max';"></button>
                         <button class="app-icon-btn" data-app-id="nba"><img src="https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png" alt="Logo NBA" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=NBA';"></button>
                         <button class="app-icon-btn" data-app-id="deezer"><img src="https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" alt="Logo Deezer" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Deezer';"></button>
                     </div>
@@ -654,12 +659,12 @@
                 <button class="app-icon-btn" data-app-id="klicencas"><img src="https://placehold.co/64x64/6366f1/FFFFFF?text=K" alt="Logo K Licenças" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="hotgo"><img src="https://placehold.co/64x64/dc2626/FFFFFF?text=HotGo" alt="Logo Hotgo" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="curtaon"><img src="https://placehold.co/64x64/1f2937/FFFFFF?text=CurtaOn" alt="Logo CurtaOn" class="h-12 w-12 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="jornalista"><img src="https://placehold.co/64x64/4b5563/FFFFFF?text=Jornal" alt="Logo O Jornalista" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="jornalista"><img src="httpss://placehold.co/64x64/4b5563/FFFFFF?text=Jornal" alt="Logo O Jornalista" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="docway"><img src="https://placehold.co/64x64/10b981/FFFFFF?text=Doc" alt="Logo Docway" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="disney"><img src="https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" alt="Logo Disney+" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Disney%2B';"></button>
                 <button class="app-icon-btn" data-app-id="max"><img src="https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" alt="Logo Max" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Max';"></button>
                 <button class="app-icon-btn" data-app-id="indie"><img src="https://placehold.co/64x64/f59e0b/FFFFFF?text=Indie" alt="Logo Indie" class="h-12 w-12 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="leitura360"><img src="https_://placehold.co/64x64/0891b2/FFFFFF?text=Leitura" alt="Logo Leitura 360" class="h-12 w-12 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="leitura360"><img src="httpss://placehold.co/64x64/0891b2/FFFFFF?text=Leitura" alt="Logo Leitura 360" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="nba"><img src="https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png" alt="Logo NBA" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=NBA';"></button>
                 <button class="app-icon-btn" data-app-id="smartcontent"><img src="https://placehold.co/64x64/ef4444/FFFFFF?text=Smart" alt="Logo SmartContent" class="h-12 w-12 object-contain rounded-md"></button>
                 <button class="app-icon-btn" data-app-id="queima"><img src="https://seeklogo.com/images/Q/queima-diaria-logo-653593254B-seeklogo.com.png" alt="Logo Queima Diária" class="h-12 w-12 object-contain bg-white p-1 rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Queima';"></button>
@@ -922,7 +927,7 @@
                  basico_prata: { name: "Plano Básico Prata - 275 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" } ] },
                  ultra_plus: { name: "Plano Ultra+ - 425 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Looke", img: "https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" } /* 1 Standard */ ] },
                  gold: { name: "Plano Gold - 625 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Deezer", img: "https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" } /* 1 Advanced */ ] },
-                 gold_plus: { name: "Plano Gold+ - 625 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "PlayKids+", img: "https://logospng.org/download/playkids/logo-playkids-2048.png" } /* 1 Standard */, { name: "Deezer", img: "https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" } /* 1 Advanced */ ] },
+                 gold_plus: { name: "Plano Gold+ - 625 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "PlayKids+", img: "https://logospng.org/download/playkids/logo-playkids-2048.png" } /* 1 Standard */, { name: "Deezer", img: "httpsD://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" } /* 1 Advanced */ ] },
                  ultra_gold_wifi6: { name: "Plano Ultra Gold WiFi 6 - 825 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Disney+", img: "https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" } /* 1 Premium */ ] },
                  ultra_premium_wifi6: { name: "Plano Ultra Premium WiFi 6 - 825 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Max", img: "https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" } /* 1 Premium */, { name: "Looke", img: "https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" } /* Standard 1 */, { name: "PlayKids+", img: "https://logospng.org/download/playkids/logo-playkids-2048.png" } /* Standard 2 */, { name: "Deezer", img: "https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" } /* 1 Advanced */ ] }
             };
