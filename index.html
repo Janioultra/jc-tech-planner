@@ -1,52 +1,239 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultra Fibra - A Melhor Conexão</title>
+    <title>Ultra Fibra - Internet Neon</title>
     
-    <!-- Tailwind CSS -->
+    <link rel="icon" type="image/png" href="https://placehold.co/32x32/d946ef/FFFFFF?text=UF">
+    <link rel="apple-touch-icon" href="https://placehold.co/32x32/d946ef/FFFFFF?text=UF">
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Ícones (Lucide) -->
+    <!-- Adicionando Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-
-    <!-- Fontes -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    
+    <!-- Configuração de Cores Customizadas no Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neon: {
+                            purple: '#d946ef', /* Fúcsia vibrante */
+                            green: '#bef264',  /* Verde limão neon */
+                            dark: '#050505',   /* Preto quase absoluto */
+                            card: '#121212'    /* Cinza muito escuro */
+                        }
+                    },
+                    boxShadow: {
+                        'neon-purple': '0 0 15px rgba(217, 70, 239, 0.4)',
+                        'neon-green': '0 0 15px rgba(190, 242, 100, 0.4)',
+                        'neon-card': '0 0 25px rgba(217, 70, 239, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0d1128;
+            background-color: #050505; /* Fundo Ultra Dark */
             color: #e2e8f0;
             scroll-behavior: smooth;
         }
-        .hero-gradient { background: linear-gradient(90deg, #1e1b4b 0%, #4c1d95 100%); }
-        .plan-gradient { background: linear-gradient(160deg, #1e40af, #1e293b); }
+
+        /* Gradiente Hero mais agressivo/vibrante */
+        .hero-gradient {
+            background: radial-gradient(circle at center, #2e1065 0%, #050505 70%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Efeito de vidro para os cartões */
+        .plan-card {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(217, 70, 239, 0.3); /* Borda Lilás sutil */
+            transition: all 0.3s ease;
+        }
+
+        .plan-card:hover {
+            border-color: #d946ef;
+            box-shadow: 0 0 30px rgba(217, 70, 239, 0.25);
+            transform: translateY(-8px);
+        }
+
+        /* Botões Neon Verde */
+        .btn-neon-green {
+            background-color: #bef264;
+            color: #000;
+            font-weight: 800;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(190, 242, 100, 0.3);
+        }
+        .btn-neon-green:hover {
+            background-color: #d9f99d;
+            box-shadow: 0 0 20px rgba(190, 242, 100, 0.6);
+            transform: scale(1.02);
+        }
+
+        /* Botões Outline Lilás */
+        .btn-outline-purple {
+            border: 1px solid #d946ef;
+            color: #d946ef;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-purple:hover {
+            background-color: #d946ef;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(217, 70, 239, 0.5);
+        }
+
+        /* Inputs customizados */
+        input, select, textarea {
+            background-color: #171717 !important;
+            border: 1px solid #333 !important;
+            color: #fff !important;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #d946ef !important;
+            box-shadow: 0 0 10px rgba(217, 70, 239, 0.3) !important;
+            outline: none;
+        }
+
+        /* Placeholder do formulário */
+        ::placeholder {
+            color: #64748b;
+        }
+        /* Cor da data no input date (ícone branco) */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+
+        /* Swiper custom overrides */
+        .swiper-pagination-bullet {
+            background: #fff;
+            opacity: 0.3;
+        }
+        .swiper-pagination-bullet-active {
+            background: #bef264; /* Verde Neon */
+            opacity: 1;
+            box-shadow: 0 0 8px #bef264;
+        }
+        .swiper-button-next, .swiper-button-prev {
+            color: #d946ef; /* Lilás */
+            text-shadow: 0 0 5px rgba(217, 70, 239, 0.8);
+        }
+
+        .swiper-container {
+            width: 100%;
+            overflow: hidden;
+            padding-bottom: 3rem; /* Espaço para sombra */
+            position: relative; /* CORREÇÃO: Prende as setas dentro deste container */
+        }
+        .swiper-slide {
+            height: auto;
+        }
+
+        /* Ícones dos Apps */
+        .app-icon-btn {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            padding: 0.5rem;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .app-icon-btn:hover {
+            transform: scale(1.1);
+            background-color: rgba(217, 70, 239, 0.1);
+            border-color: #d946ef;
+            box-shadow: 0 0 10px rgba(217, 70, 239, 0.3);
+        }
+
+        /* Marquee (Carrossel Infinito) */
+        .marquee-container {
+            width: 100%;
+            white-space: nowrap;
+            background: #000;
+            border-top: 1px solid #222;
+            border-bottom: 1px solid #222;
+        }
+        .marquee-content {
+            display: inline-block; 
+            animation: marquee-scroll 60s linear infinite; 
+        }
+        .marquee-container:hover .marquee-content {
+            animation-play-state: paused;
+        }
+        .marquee-content img {
+            display: inline-block; 
+            vertical-align: middle;
+            transition: all 0.3s ease;
+            max-height: 40px; 
+            margin: 0 2rem;
+            /* Inicia com opacidade levemente reduzida para destacar o brilho no hover */
+            opacity: 0.9;
+            /* Adiciona um brilho sutil em todas as logos (Glow Neon) */
+            filter: drop-shadow(0 0 2px rgba(255,255,255,0.3));
+        }
+        .marquee-content img:hover {
+            /* Aumenta e intensifica o brilho ao passar o mouse */
+            transform: scale(1.15);
+            opacity: 1;
+            filter: drop-shadow(0 0 8px rgba(190, 242, 100, 0.8)); /* Brilho Verde Neon no Hover */
+            z-index: 10;
+            position: relative;
+        }
         
-        /* Animação do Marquee */
-        @keyframes marquee {
+        /* Classe para tornar logos PRETAS em BRANCAS */
+        .logo-white {
+            /* Inverte a cor (Preto vira Branco) e mantem o drop-shadow */
+            filter: brightness(0) invert(1) drop-shadow(0 0 2px rgba(255,255,255,0.5)) !important;
+        }
+        /* No hover da logo branca, mantemos ela branca mas com brilho intenso */
+        .logo-white:hover {
+            filter: brightness(0) invert(1) drop-shadow(0 0 10px rgba(217, 70, 239, 0.8)) !important; /* Brilho Roxo Neon no Hover */
+        }
+
+        @keyframes marquee-scroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
-        .animate-marquee {
-            display: flex;
-            width: fit-content;
-            animation: marquee 30s linear infinite;
-        }
-        
-        /* Scrollbar escondida para carrossel */
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Utilitários de Animação */
-        .fade-in { animation: fadeIn 0.3s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Classe para garantir que a imagem no modal não estoure */
-        .modal-img-container {
-            max-height: 90vh;
-            max-width: 95vw;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d946ef; 
+        }
+
+        /* Navegação Swiper Responsiva */
+        .swiper-button-next, .swiper-button-prev { display: none; }
+        @media (min-width: 768px) {
+            .swiper-button-next, .swiper-button-prev {
+                 display: flex;
+                 opacity: 0.5;
+            }
+            .swiper-container:hover .swiper-button-next,
+            .swiper-container:hover .swiper-button-prev {
+                opacity: 1;
+            }
         }
 
         /* Gradiente Instagram Animado */
@@ -62,367 +249,527 @@
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="text-gray-200">
 
-    <!-- Navbar -->
-    <nav class="bg-slate-900/80 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-slate-800">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <i data-lucide="zap" class="text-yellow-400 w-6 h-6"></i>
-                <span class="text-2xl font-bold text-white tracking-tight">ULTRA FIBRA</span>
-            </div>
+    <!-- Header com fundo Glassmorphism escuro e borda neon sutil -->
+    <header class="fixed w-full top-0 z-50 bg-[#050505]/80 backdrop-blur-md border-b border-white/5">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neon-purple to-purple-400 drop-shadow-[0_0_5px_rgba(217,70,239,0.5)]">
+                ULTRA FIBRA
+            </a>
             
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="#sobre" class="text-gray-300 hover:text-violet-400 transition">Sobre Nós</a>
-                <a href="#planos" class="text-gray-300 hover:text-violet-400 transition">Nossos Planos</a>
-                <a href="#contato" class="text-gray-300 hover:text-violet-400 transition">Contato</a>
-                <a href="https://www.speedtest.net/" target="_blank" class="text-gray-300 hover:text-violet-400 transition flex items-center gap-2">
-                    <i data-lucide="gauge" class="w-4 h-4"></i> Teste de Velocidade
+            <div class="hidden md:flex space-x-8 items-center font-medium">
+                <a href="#planos" class="text-gray-300 hover:text-neon-green transition duration-300 hover:drop-shadow-[0_0_5px_rgba(190,242,100,0.8)]">Nossos Planos</a>
+                
+                <button type="button" class="open-form-btn text-gray-300 hover:text-neon-green transition duration-300 hover:drop-shadow-[0_0_5px_rgba(190,242,100,0.8)]">Contato</button>
+                
+                <a href="https://www.speedtest.net/" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-neon-green transition duration-300 flex items-center space-x-2">
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75 12 12.75l-3.75-6" />
+                    </svg>
+                    <span>Teste Velocidade</span>
                 </a>
-                <a href="https://sistema.ultranetelecom.com.br/central_assinante_web/login" target="_blank" class="bg-violet-600 text-white px-5 py-2 rounded-md hover:bg-violet-700 transition shadow-lg font-medium">
+                
+                <a href="https://sistema.ultranetelecom.com.br/central_assinante_web/login" target="_blank" rel="noopener noreferrer" class="btn-outline-purple px-5 py-2 rounded-full font-bold text-sm">
                     2ª Via Boleto
                 </a>
             </div>
-
-            <!-- Mobile Toggle -->
-            <button id="mobile-menu-btn" class="md:hidden text-white">
-                <i data-lucide="menu" class="w-8 h-8"></i>
+            
+            <button class="md:hidden flex items-center text-neon-purple" id="mobile-menu-button" aria-label="Abrir menu mobile">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
-        </div>
-
-        <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-b border-slate-800">
-            <a href="#sobre" class="block py-3 px-6 text-gray-300 hover:bg-slate-800 border-b border-slate-800">Sobre Nós</a>
-            <a href="#planos" class="block py-3 px-6 text-gray-300 hover:bg-slate-800 border-b border-slate-800">Nossos Planos</a>
-            <a href="#contato" class="block py-3 px-6 text-gray-300 hover:bg-slate-800 border-b border-slate-800">Contato</a>
-            <a href="https://sistema.ultranetelecom.com.br/central_assinante_web/login" target="_blank" class="block py-3 px-6 text-white bg-violet-600 hover:bg-violet-700 font-bold text-center mt-2 mb-2 mx-4 rounded">
-                Área do Assinante
+        </nav>
+        
+        <div class="hidden md:hidden bg-[#0a0a0a] border-b border-neon-purple/30" id="mobile-menu">
+            <a href="#planos" class="block py-3 px-4 text-sm text-gray-300 hover:text-neon-green hover:bg-white/5 mobile-menu-link border-b border-white/5">Nossos Planos</a>
+            
+            <button type="button" class="open-form-btn block w-full text-left py-3 px-4 text-sm text-gray-300 hover:text-neon-green hover:bg-white/5 mobile-menu-link border-b border-white/5">Contato</button>
+            
+            <a href="https://www.speedtest.net/" target="_blank" rel="noopener noreferrer" class="block py-3 px-4 text-sm text-gray-300 hover:text-neon-green hover:bg-white/5 flex items-center space-x-2 mobile-menu-link border-b border-white/5">
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75 12 12.75l-3.75-6" />
+                </svg>
+                <span>Teste de Velocidade</span>
             </a>
-        </div>
-    </nav>
-
-    <!-- Marquee de Marcas -->
-    <div class="bg-slate-900/50 py-4 overflow-hidden relative border-b border-slate-700">
-        <div class="absolute top-0 left-0 bottom-0 w-16 bg-gradient-to-r from-[#0d1128] to-transparent z-10 pointer-events-none"></div>
-        <div class="absolute top-0 right-0 bottom-0 w-16 bg-gradient-to-l from-[#0d1128] to-transparent z-10 pointer-events-none"></div>
-        <div class="animate-marquee flex items-center gap-12 px-4" id="brand-marquee">
-            <!-- Logos inseridas via JS -->
-        </div>
-    </div>
-
-    <!-- Hero Section -->
-    <section class="hero-gradient text-white py-20 lg:py-28 relative overflow-hidden">
-        <div class="container mx-auto px-6 text-center relative z-10">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">A melhor conexão da sua região</h1>
-            <p class="text-lg md:text-xl mb-10 text-violet-200 max-w-2xl mx-auto">
-                Internet 100% Fibra Óptica com ultravelocidade, estabilidade e tecnologia WI-FI 6 para você e sua família.
-            </p>
             
-            <a href="#planos" class="inline-block bg-white text-violet-600 font-bold py-4 px-10 rounded-full hover:bg-gray-100 transition duration-300 transform hover:scale-105 shadow-xl">
-                Planos a partir de R$ 65,00
-            </a>
+            <a href="https://sistema.ultranetelecom.com.br/central_assinante_web/login" target="_blank" rel="noopener noreferrer" class="block py-3 px-4 text-sm text-neon-purple font-bold hover:bg-white/5 mobile-menu-link">2ª Via Boleto</a>
+        </div>
+    </header>
 
-            <div class="mt-16">
-                <p class="text-sm text-violet-300 mb-6 font-medium tracking-wide uppercase">Aproveite seus apps favoritos:</p>
-                <div class="flex justify-center gap-4 flex-wrap max-w-3xl mx-auto" id="hero-apps">
-                    <!-- Ícones de Apps Hero via JS -->
+    <section class="bg-black py-4 overflow-hidden relative border-y border-white/10 mt-16">
+        <div class="absolute top-0 left-0 bottom-0 w-20 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute top-0 right-0 bottom-0 w-20 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
+
+        <div class="marquee-container">
+            <div class="marquee-content">
+                <!-- Logos Coloridas (Sem classe logo-white) -->
+                <img alt="Champions League" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-champions-league.png">
+                <img alt="Leveduca" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-leveduca.png">
+                <img alt="Playkids" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-playkids.png">
+                
+                <!-- Logos que possuem cor (Kaspersky é verde, DC é azul - removido o filtro branco para destacar a cor) -->
+                <img alt="Kaspersky" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-kaspersky.png">
+                
+                <!-- Logos Escuras (Mantendo logo-white para visibilidade) -->
+                <img class="logo-white" alt="Black" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/Black.png">
+                <img class="logo-white" alt="Discovery" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-discovery.png">
+                <img class="logo-white" alt="Harry Potter" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-harrypotter.png">
+                
+                <!-- Colorido -->
+                <img alt="Discovery Kids" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-discovery-kids.png">
+                
+                <!-- Escuro -->
+                <img class="logo-white" alt="Deezer" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-deezer.png">
+                
+                <!-- Coloridos/Originais -->
+                <img alt="DC" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-dc.png">
+                <img alt="Cartoon" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-cartoon.png">
+                <img alt="Logo 859" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/6132217b00feb70004beb7cc.png">
+                
+                <!-- REPETIÇÃO PARA O LOOP -->
+                <img alt="Champions League" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-champions-league.png">
+                <img alt="Leveduca" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-leveduca.png">
+                <img alt="Playkids" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-playkids.png">
+                <img alt="Kaspersky" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-kaspersky.png">
+                <img class="logo-white" alt="Black" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/Black.png">
+                <img class="logo-white" alt="Discovery" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-discovery.png">
+                <img class="logo-white" alt="Harry Potter" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-harrypotter.png">
+                <img alt="Discovery Kids" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-discovery-kids.png">
+                <img class="logo-white" alt="Deezer" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-deezer.png">
+                <img alt="DC" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-dc.png">
+                <img alt="Cartoon" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-cartoon.png">
+                <img alt="Logo 859" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/6132217b00feb70004beb7cc.png">
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero-gradient text-white py-24 relative">
+            <!-- Partículas de fundo (opcional para dar um charme) -->
+            <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#4c1d95 1px, transparent 1px); background-size: 30px 30px;"></div>
+
+            <div class="container mx-auto px-6 text-center relative z-10">
+                <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight tracking-tight">
+                    <span class="block">CONEXÃO</span>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-purple to-purple-500 drop-shadow-lg">ULTRA VELOZ</span>
+                </h1>
+                
+                <p class="text-lg md:text-xl mb-10 text-gray-300 max-w-2xl mx-auto">
+                    Internet 100% Fibra Óptica com tecnologia <span class="text-neon-green font-bold">WI-FI 6</span>. Estabilidade e potência para jogos, streaming e trabalho.
+                </p>
+                
+                <a href="#planos" class="btn-neon-green py-4 px-10 rounded-full inline-block text-lg transform hover:-translate-y-1">
+                    VER PLANOS OFERTA
+                </a>
+                
+                <div class="mt-20">
+                    <p class="text-sm text-neon-purple font-bold tracking-widest uppercase mb-6">Apps Favoritos Inclusos</p>
+                    <div class="flex justify-center items-center gap-4 md:gap-6 flex-wrap px-4 max-w-3xl mx-auto">
+                        <button class="app-icon-btn" data-app-id="sky"><img src="https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png" alt="Logo Sky+" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Sky%2B';"></button>
+                        <button class="app-icon-btn" data-app-id="disney"><img src="https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" alt="Logo Disney+" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Disney%2B';"></button>
+                        <button class="app-icon-btn" data-app-id="max"><img src="https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" alt="Logo Max" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Max';"></button>
+                        <button class="app-icon-btn" data-app-id="nba"><img src="https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png" alt="Logo NBA" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=NBA';"></button>
+                        <button class="app-icon-btn" data-app-id="deezer"><img src="https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" alt="Logo Deezer" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Deezer';"></button>
+                    </div>
+                    <button id="open-all-apps-btn" class="mt-6 text-gray-400 hover:text-neon-green text-sm transition duration-300 underline decoration-neon-green decoration-2 underline-offset-4">
+                        Conhecer todos os aplicativos
+                    </button>
                 </div>
-                <button onclick="openModal('allApps')" class="mt-8 text-violet-300 font-semibold hover:text-white transition duration-300 underline decoration-violet-500 decoration-2 underline-offset-4 cursor-pointer">
-                    Conhecer todos os aplicativos
-                </button>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Planos Section -->
-    <section id="planos" class="py-24">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-white">Os melhores planos que combinam com você</h2>
-            
-            <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-visible scrollbar-hide px-4 -mx-4 md:px-0 md:mx-0" id="plans-container">
-                <!-- Planos inseridos via JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- MUNDO ULTRA (CARROSSEL AUTOMÁTICO) -->
-    <section id="sobre" class="py-20 bg-[#0f1430] border-y border-slate-700 group/carousel">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Mundo Ultra Fibra</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">Muito mais que internet. Somos uma empresa presente, premiada e conectada com a nossa comunidade.</p>
-            </div>
-
-            <!-- Container do Carrossel -->
-            <div class="relative max-w-5xl mx-auto">
-                <!-- Botão Anterior -->
-                <button onclick="scrollCarousel(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 lg:-translate-x-12 z-20 bg-violet-600/80 hover:bg-violet-600 p-3 rounded-full text-white shadow-lg transition transform hover:scale-110 hidden md:flex items-center justify-center">
-                    <i data-lucide="chevron-left" class="w-6 h-6"></i>
-                </button>
-
-                <!-- Botão Próximo -->
-                <button onclick="scrollCarousel(1)" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 lg:translate-x-12 z-20 bg-violet-600/80 hover:bg-violet-600 p-3 rounded-full text-white shadow-lg transition transform hover:scale-110 hidden md:flex items-center justify-center">
-                    <i data-lucide="chevron-right" class="w-6 h-6"></i>
-                </button>
-
-                <!-- Lista do Carrossel -->
-                <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 scrollbar-hide px-4" id="mundo-ultra-carousel">
+        <!-- SEÇÃO PLANOS -->
+        <section id="planos" class="py-20 scroll-mt-20 bg-gradient-to-b from-black to-[#0a0a0a]"> 
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-black text-center mb-16 text-white uppercase tracking-tighter">
+                    Escolha seu <span class="text-neon-purple">Power-Up</span>
+                </h2>
+                
+                <div class="swiper-container group px-4">
+                    <div class="swiper-wrapper py-4"> <!-- Padding Y adicionado para não cortar o hover -->
                     
-                    <!-- ITEM 1: PUBLICIDADE (Instagram Embed COMPLETO) -->
-                    <div class="snap-center shrink-0 w-[300px] md:w-[380px]">
-                        <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 shadow-lg h-full flex flex-col">
-                            <div class="p-2 bg-slate-900 flex-grow flex items-center justify-center min-h-[400px] overflow-hidden">
-                                <!-- Código original do Instagram modificado para fundo escuro -->
-                                <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/C8IaeS9PGUz/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#1e293b; border:0; border-radius:3px; margin: 1px; max-width:540px; min-width:100%; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px); color: white;">
-                                    <div style="padding:16px;"> 
-                                        <a href="https://www.instagram.com/reel/C8IaeS9PGUz/?utm_source=ig_embed&amp;utm_campaign=loading" style="background:#1e293b; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%; color: white;" target="_blank"> 
-                                            <div style="display: flex; flex-direction: row; align-items: center;"> 
-                                                <div style="background-color: #334155; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> 
-                                                <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> 
-                                                    <div style="background-color: #334155; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> 
-                                                    <div style="background-color: #334155; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div>
-                                                </div>
-                                            </div>
-                                            <div style="padding: 19% 0;"></div> 
-                                            <div style="display:block; height:50px; margin:0 auto 12px; width:50px;">
-                                                <i data-lucide="instagram" class="w-12 h-12 text-white"></i>
-                                            </div>
-                                            <div style="padding-top: 8px;"> 
-                                                <div style="color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">Ver essa foto no Instagram</div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </blockquote>
-                            </div>
-                            <div class="p-4 text-center bg-slate-900 border-t border-slate-800 h-24 flex flex-col justify-center">
-                                <h3 class="text-lg font-bold text-white">Ultra Publicidade</h3>
-                                <p class="text-gray-400 text-xs">Divulgue sua marca conosco.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ITEM 2: PRÊMIO (Imagem) -->
-                    <div class="snap-center shrink-0 w-[300px] md:w-[380px]">
-                        <div onclick="openModal('image', 'assets/premio.jpg')" class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 shadow-lg h-full cursor-pointer group relative flex flex-col">
-                            <div class="aspect-[4/5] relative overflow-hidden bg-black flex-grow">
-                                <img src="assets/premio.jpg" onerror="this.src='https://placehold.co/400x500/1e1b4b/FFF?text=Premio+Melhores'" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
-                                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
-                                    <div class="bg-violet-600/90 p-3 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition transform translate-y-4 group-hover:translate-y-0">
-                                        <i data-lucide="zoom-in" class="w-6 h-6 text-white"></i>
-                                    </div>
+                        <!-- PLANO ULTRA PREMIUM -->
+                        <div class="swiper-slide">
+                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full">
+                                <span class="bg-gradient-to-r from-neon-purple to-purple-700 text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase absolute -top-3 left-1/2 transform -translate-x-1/2 shadow-lg shadow-purple-500/30">Premium WiFi 6</span>
+                                
+                                <h3 class="text-xl font-bold mt-6 mb-2 text-white">Ultra Premium</h3>
+                                <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider mb-4">Conexão de Elite</p>
+                                
+                                <p class="text-6xl font-black text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">825<span class="text-2xl font-bold text-gray-400">Mega</span></p>
+                                
+                                <div class="my-6 p-4 bg-white/5 rounded-xl border border-white/5">
+                                    <span class="text-lg align-top text-gray-400">R$</span>
+                                    <span class="text-5xl font-black text-neon-green drop-shadow-[0_0_8px_rgba(190,242,100,0.5)]">149</span>
+                                    <span class="text-2xl text-neon-green">,99</span>
+                                    <div class="text-gray-500 text-xs mt-1">mensais</div>
                                 </div>
-                            </div>
-                            <div class="p-4 text-center bg-slate-900 border-t border-slate-800 h-24 flex flex-col justify-center">
-                                <span class="bg-violet-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase w-max mx-auto mb-1">Reconhecimento</span>
-                                <h3 class="text-lg font-bold text-white">Melhores do Ano</h3>
+                                
+                                <ul class="text-left mb-8 space-y-3 text-gray-300 text-sm flex-grow px-2">
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-neon-green mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador <strong class="text-white ml-1">WiFi 6</strong></li>
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-neon-green mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>App de TV (Canais)</li>
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-neon-purple mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>1 App Premium</li>
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-gray-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>2 Apps Standard</li>
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-gray-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>1 App Advanced</li>
+                                </ul>
+                                
+                                <button data-plan="ultra_premium_wifi6" class="open-modal-btn w-full text-center text-neon-purple text-sm font-semibold hover:text-white mb-4 transition">Ver Apps Inclusos</button>
+                                <button type="button" class="open-form-btn w-full mt-auto btn-neon-green py-3 rounded-xl">ASSINAR AGORA</button>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- ITEM 3: MISS BAHIA (Imagem) -->
-                    <div class="snap-center shrink-0 w-[300px] md:w-[380px]">
-                        <div onclick="openModal('image', 'assets/miss_bahia.jpg')" class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 shadow-lg h-full cursor-pointer group relative flex flex-col">
-                            <div class="aspect-[4/5] relative overflow-hidden bg-black flex-grow">
-                                <img src="assets/miss_bahia.jpg" onerror="this.src='https://placehold.co/400x500/4c1d95/FFF?text=Miss+Bahia'" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
-                                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
-                                    <div class="bg-violet-600/90 p-3 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition transform translate-y-4 group-hover:translate-y-0">
-                                        <i data-lucide="zoom-in" class="w-6 h-6 text-white"></i>
-                                    </div>
+                        <!-- PLANO ULTRA GOLD -->
+                        <div class="swiper-slide">
+                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full">
+                                <span class="bg-yellow-500 text-black text-[10px] font-bold px-4 py-1 rounded-full uppercase absolute -top-3 left-1/2 transform -translate-x-1/2">WiFi 6</span>
+                                
+                                <h3 class="text-xl font-bold mt-6 mb-2 text-white">Ultra Gold</h3>
+                                <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider mb-4">Alta Performance</p>
+                                
+                                <p class="text-6xl font-black text-white">825<span class="text-2xl font-bold text-gray-400">Mega</span></p>
+                                
+                                <div class="my-6 p-4 bg-white/5 rounded-xl border border-white/5">
+                                    <span class="text-lg align-top text-gray-400">R$</span>
+                                    <span class="text-5xl font-black text-neon-green">119</span>
+                                    <span class="text-2xl text-neon-green">,99</span>
+                                    <div class="text-gray-500 text-xs mt-1">mensais</div>
                                 </div>
-                            </div>
-                            <div class="p-4 text-center bg-slate-900 border-t border-slate-800 h-24 flex flex-col justify-center">
-                                <h3 class="text-lg font-bold text-white">Destaque Regional</h3>
-                                <p class="text-gray-300 text-xs">Apoiando a beleza e cultura.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ITEM 4: DIA DAS CRIANÇAS (Instagram Embed COMPLETO) -->
-                    <div class="snap-center shrink-0 w-[300px] md:w-[380px]">
-                        <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 shadow-lg h-full flex flex-col">
-                            <div class="p-2 bg-slate-900 flex-grow flex items-center justify-center min-h-[400px] overflow-hidden">
-                                <!-- Código original do Instagram modificado para fundo escuro -->
-                                <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DPT-xPWDaql/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#1e293b; border:0; border-radius:3px; margin: 1px; max-width:540px; min-width:100%; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px); color: white;">
-                                    <div style="padding:16px;"> 
-                                        <a href="https://www.instagram.com/p/DPT-xPWDaql/?utm_source=ig_embed&amp;utm_campaign=loading" style="background:#1e293b; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%; color: white;" target="_blank"> 
-                                            <div style="display: flex; flex-direction: row; align-items: center;"> 
-                                                <div style="background-color: #334155; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> 
-                                                <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> 
-                                                    <div style="background-color: #334155; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> 
-                                                    <div style="background-color: #334155; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div>
-                                                </div>
-                                            </div>
-                                            <div style="padding: 19% 0;"></div> 
-                                            <div style="display:block; height:50px; margin:0 auto 12px; width:50px;">
-                                                <i data-lucide="instagram" class="w-12 h-12 text-white"></i>
-                                            </div>
-                                            <div style="padding-top: 8px;"> 
-                                                <div style="color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">Ver essa foto no Instagram</div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </blockquote>
-                            </div>
-                            <div class="p-4 text-center bg-slate-900 border-t border-slate-800 h-24 flex flex-col justify-center">
-                                <h3 class="text-lg font-bold text-white">Ação Social</h3>
-                                <p class="text-gray-400 text-xs">Dia das Crianças Ultra Net.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <!-- Script do Instagram -->
-                <script async src="//www.instagram.com/embed.js"></script>
-            </div>
-        </div>
-    </section>
-
-    <!-- Viabilidade Section -->
-    <section class="py-16 bg-slate-800 border-y border-slate-700">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-white">Verifique a Viabilidade na sua Localização</h2>
-            <p class="text-gray-400 mb-8 max-w-xl mx-auto">Clique no botão abaixo para obter suas coordenadas GPS precisas e envie para nossa equipe.</p>
-            
-            <div id="viability-container">
-                <button onclick="handleGetLocation(false)" id="btn-check-geo" class="bg-violet-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-violet-700 transition flex items-center justify-center mx-auto shadow-lg">
-                    <i data-lucide="map-pin" class="w-5 h-5 mr-2"></i> Obter Minha Localização
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contato Section -->
-    <section id="contato" class="py-24 bg-[#0d1128]">
-        <div class="container mx-auto px-4">
-            
-            <div class="max-w-3xl mx-auto">
-                <div class="bg-slate-800 p-8 md:p-10 rounded-2xl shadow-2xl border border-slate-700">
-                    
-                    <div class="flex justify-between items-center mb-8 pb-4 border-b border-slate-700">
-                        <h3 class="text-2xl font-bold text-white flex items-center gap-2">
-                            <i data-lucide="user" class="text-violet-400"></i> Ficha do Cliente
-                        </h3>
-                        <button onclick="openModal('password')" class="text-3xl hover:scale-110 transition transform cursor-pointer" title="Desbloquear Bônus">🎁</button>
-                    </div>
-
-                    <form id="cadastro-form" class="space-y-5">
-                        <!-- Campos Pessoais -->
-                        <div class="grid md:grid-cols-2 gap-5">
-                            <div>
-                                <label class="block text-gray-300 font-medium mb-1 text-sm">🆔 Nome completo:</label>
-                                <input name="full_name" type="text" class="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white" required>
-                            </div>
-                            <div>
-                                <label class="block text-gray-300 font-medium mb-1 text-sm">🏷️ Apelido:</label>
-                                <input name="nickname" type="text" class="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white">
-                            </div>
-                        </div>
-
-                        <div class="grid md:grid-cols-2 gap-5">
-                            <div>
-                                <label class="block text-gray-300 font-medium mb-1 text-sm">🪪 CPF:</label>
-                                <input name="cpf" type="text" class="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white" required>
-                            </div>
-                            <div>
-                                <label class="block text-gray-300 font-medium mb-1 text-sm">🎂 Data de nascimento:</label>
-                                <input name="birth_date" type="date" class="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white [color-scheme:dark]" required>
-                            </div>
-                        </div>
-
-                        <div class="grid md:grid-cols-2 gap-5">
-                            <div>
-                                <label class="block text-gray-300 font-medium mb-1 text-sm">💬 WhatsApp:</label>
-                                <input name="whatsapp" type="tel" class="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white" required>
-                            </div>
-                            <div>
-                                <label class="block text-gray-300 font-medium mb-1 text-sm">✉️ E-mail:</label>
-                                <input name="email" type="email" class="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-300 font-medium mb-1 text-sm">🏡 Endereço:</label>
-                            <input name="address" type="text" class="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white" required>
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-300 font-medium mb-1 text-sm">📍 Geolocalização:</label>
-                            <div class="flex">
-                                <input id="geo-input" name="geolocation" type="text" class="w-full px-4 py-3 border border-slate-600 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white" placeholder="Clique no botão ao lado">
-                                <button type="button" onclick="handleGetLocation(true)" class="bg-violet-600 px-4 rounded-r-lg hover:bg-violet-700 transition text-white">
-                                    <i data-lucide="map-pin"></i>
-                                </button>
+                                
+                                <ul class="text-left mb-8 space-y-3 text-gray-300 text-sm flex-grow px-2">
+                                     <li class="flex items-center"><svg class="w-5 h-5 text-neon-green mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador <strong class="text-white ml-1">WiFi 6</strong></li>
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-neon-green mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>App de TV (Canais)</li>
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-neon-purple mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>1 App Premium</li>
+                                </ul>
+                                
+                                <button data-plan="ultra_gold_wifi6" class="open-modal-btn w-full text-center text-neon-purple text-sm font-semibold hover:text-white mb-4 transition">Ver Apps Inclusos</button>
+                                <button type="button" class="open-form-btn w-full mt-auto btn-neon-green py-3 rounded-xl">ASSINAR AGORA</button>
                             </div>
                         </div>
                         
-                        <div>
-                            <label class="block text-gray-300 font-medium mb-1 text-sm">📌 Ponto de referência:</label>
-                            <input name="reference" type="text" class="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white">
-                        </div>
-
-                        <div class="pt-4 border-t border-slate-700">
-                            <label class="block text-gray-300 font-medium mb-1 text-sm">📃 Plano escolhido:</label>
-                            <select id="plan-select" name="plan" class="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white" required>
-                                <option value="">Selecione um plano</option>
-                                <!-- Opções preenchidas via JS -->
-                            </select>
-                        </div>
-
-                        <!-- Container Apps Dinâmicos -->
-                        <div id="dynamic-apps-container" class="hidden p-4 bg-slate-900/50 rounded-lg border border-slate-700 mt-4">
-                            <h4 class="text-violet-400 font-bold mb-3 text-sm uppercase tracking-wider">Personalize seus Apps</h4>
-                            <div id="dynamic-selectors"></div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-5">
-                            <div>
-                                <label class="block text-gray-300 font-medium mb-1 text-sm">📱 Aparelhos conectados:</label>
-                                <input name="devices" type="number" class="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white">
+                        <!-- PLANO GOLD+ -->
+                        <div class="swiper-slide">
+                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full">
+                                <h3 class="text-xl font-bold mt-6 mb-2 text-white">Plano Gold+</h3>
+                                <p class="text-6xl font-black text-white">625<span class="text-2xl font-bold text-gray-400">Mega</span></p>
+                                
+                                <div class="my-6 p-4 bg-white/5 rounded-xl border border-white/5">
+                                    <span class="text-lg align-top text-gray-400">R$</span>
+                                    <span class="text-5xl font-black text-neon-green">109</span>
+                                    <span class="text-2xl text-neon-green">,99</span>
+                                    <div class="text-gray-500 text-xs mt-1">mensais</div>
+                                </div>
+                                
+                                <ul class="text-left mb-8 space-y-3 text-gray-300 text-sm flex-grow px-2">
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-neon-green mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador Comodato</li>
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-neon-green mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>App de TV (Canais)</li>
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-gray-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>1 App Standard</li>
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-gray-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>1 App Advanced</li>
+                                </ul>
+                                
+                                <button data-plan="gold_plus" class="open-modal-btn w-full text-center text-neon-purple text-sm font-semibold hover:text-white mb-4 transition">Ver Apps Inclusos</button>
+                                <button type="button" class="open-form-btn w-full mt-auto btn-neon-green py-3 rounded-xl">ASSINAR AGORA</button>
                             </div>
+                        </div>
+
+                        <!-- PLANO GOLD -->
+                        <div class="swiper-slide">
+                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full">
+                                <h3 class="text-xl font-bold mt-6 mb-2 text-white">Plano Gold</h3>
+                                <p class="text-6xl font-black text-white">625<span class="text-2xl font-bold text-gray-400">Mega</span></p>
+                                
+                                <div class="my-6 p-4 bg-white/5 rounded-xl border border-white/5">
+                                    <span class="text-lg align-top text-gray-400">R$</span>
+                                    <span class="text-5xl font-black text-neon-green">89</span>
+                                    <span class="text-2xl text-neon-green">,99</span>
+                                    <div class="text-gray-500 text-xs mt-1">mensais</div>
+                                </div>
+                                
+                                <ul class="text-left mb-8 space-y-3 text-gray-300 text-sm flex-grow px-2">
+                                     <li class="flex items-center"><svg class="w-5 h-5 text-neon-green mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador Comodato</li>
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-neon-green mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>App de TV (Canais)</li>
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-gray-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>1 App Advanced</li>
+                                </ul>
+                                
+                                <button data-plan="gold" class="open-modal-btn w-full text-center text-neon-purple text-sm font-semibold hover:text-white mb-4 transition">Ver Apps Inclusos</button>
+                                <button type="button" class="open-form-btn w-full mt-auto btn-neon-green py-3 rounded-xl">ASSINAR AGORA</button>
+                            </div>
+                        </div>
+
+                        <!-- PLANO ULTRA+ (POPULAR) -->
+                        <div class="swiper-slide">
+                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full border-neon-purple shadow-neon-card">
+                                <span class="bg-neon-purple text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase absolute -top-3 left-1/2 transform -translate-x-1/2 shadow-lg shadow-purple-500/50">Mais Popular</span>
+                                
+                                <h3 class="text-xl font-bold mt-6 mb-2 text-white">Plano Ultra+</h3>
+                                <p class="text-6xl font-black text-white">425<span class="text-2xl font-bold text-gray-400">Mega</span></p>
+                                
+                                 <div class="my-6 p-4 bg-white/5 rounded-xl border border-white/5">
+                                    <span class="text-lg align-top text-gray-400">R$</span>
+                                    <span class="text-5xl font-black text-neon-green">79</span>
+                                    <span class="text-2xl text-neon-green">,99</span>
+                                    <div class="text-gray-500 text-xs mt-1">mensais</div>
+                                </div>
+                                
+                                <ul class="text-left mb-8 space-y-3 text-gray-300 text-sm flex-grow px-2">
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-neon-green mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador Comodato</li>
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-neon-green mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>App de TV (Canais)</li>
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-gray-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>1 App Standard</li>
+                                </ul>
+                                
+                                 <button data-plan="ultra_plus" class="open-modal-btn w-full text-center text-neon-purple text-sm font-semibold hover:text-white mb-4 transition">Ver Apps Inclusos</button>
+                                <button type="button" class="open-form-btn w-full mt-auto btn-neon-green py-3 rounded-xl">ASSINAR AGORA</button>
+                            </div>
+                        </div>
+
+                        <!-- PLANO BÁSICO PRATA -->
+                        <div class="swiper-slide">
+                             <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full">
+                                <h3 class="text-xl font-bold mt-6 mb-2 text-white">Básico Prata</h3>
+                                <p class="text-6xl font-black text-white">275<span class="text-2xl font-bold text-gray-400">Mega</span></p>
+                                
+                                 <div class="my-6 p-4 bg-white/5 rounded-xl border border-white/5">
+                                    <span class="text-lg align-top text-gray-400">R$</span>
+                                    <span class="text-5xl font-black text-neon-green">74</span>
+                                    <span class="text-2xl text-neon-green">,99</span>
+                                    <div class="text-gray-500 text-xs mt-1">mensais</div>
+                                </div>
+                                
+                                <ul class="text-left mb-8 space-y-3 text-gray-300 text-sm flex-grow px-2">
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-neon-green mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador Comodato</li>
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-neon-green mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>App de TV (Canais)</li>
+                                </ul>
+                                
+                                 <button data-plan="basico_prata" class="open-modal-btn w-full text-center text-neon-purple text-sm font-semibold hover:text-white mb-4 transition">Ver Apps Inclusos</button>
+                                <button type="button" class="open-form-btn w-full mt-auto btn-neon-green py-3 rounded-xl">ASSINAR AGORA</button>
+                            </div>
+                        </div>
+
+                        <!-- PLANO BÁSICO+ -->
+                        <div class="swiper-slide">
+                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full">
+                                <h3 class="text-xl font-bold mt-6 mb-2 text-white">Básico+</h3>
+                                <p class="text-6xl font-black text-white">225<span class="text-2xl font-bold text-gray-400">Mega</span></p>
+                                
+                                 <div class="my-6 p-4 bg-white/5 rounded-xl border border-white/5">
+                                    <span class="text-lg align-top text-gray-400">R$</span>
+                                    <span class="text-5xl font-black text-neon-green">69</span>
+                                    <span class="text-2xl text-neon-green">,99</span>
+                                    <div class="text-gray-500 text-xs mt-1">mensais</div>
+                                </div>
+                                
+                                <ul class="text-left mb-8 space-y-3 text-gray-300 text-sm flex-grow px-2">
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-neon-green mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador Comodato</li>
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-neon-green mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>App de TV (Canais)</li>
+                                </ul>
+                                
+                                <button data-plan="basico_plus" class="open-modal-btn w-full text-center text-neon-purple text-sm font-semibold hover:text-white mb-4 transition">Ver Apps Inclusos</button>
+                                <button type="button" class="open-form-btn w-full mt-auto btn-neon-green py-3 rounded-xl">ASSINAR AGORA</button>
+                            </div>
+                        </div>
+
+                        <!-- PLANO BÁSICO -->
+                        <div class="swiper-slide">
+                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full">
+                                <h3 class="text-xl font-bold mt-6 mb-2 text-white">Básico</h3>
+                                <p class="text-6xl font-black text-white">125<span class="text-2xl font-bold text-gray-400">Mega</span></p>
+                                
+                                <div class="my-6 p-4 bg-white/5 rounded-xl border border-white/5">
+                                    <span class="text-lg align-top text-gray-400">R$</span>
+                                    <span class="text-5xl font-black text-neon-green">65</span>
+                                    <span class="text-2xl text-neon-green">,00</span>
+                                    <div class="text-gray-500 text-xs mt-1">mensais</div>
+                                </div>
+                                
+                                <ul class="text-left mb-8 space-y-3 text-gray-300 text-sm flex-grow px-2">
+                                    <li class="flex items-center"><svg class="w-5 h-5 text-neon-green mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Roteador Comodato</li>
+                                </ul>
+                                
+                                <button data-plan="basico" class="open-modal-btn w-full text-center text-gray-500 text-sm font-semibold mb-4 invisible cursor-default">Sem Apps</button> 
+                                <button type="button" class="open-form-btn w-full mt-auto btn-neon-green py-3 rounded-xl">ASSINAR AGORA</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="swiper-pagination md:hidden mt-8 !relative"></div>
+                    
+                    <div class="swiper-button-next transition-opacity duration-300"></div>
+                    <div class="swiper-button-prev transition-opacity duration-300"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIABILIDADE -->
+        <section id="viabilidade" class="py-16 bg-[#0c0c0c] border-t border-white/5">
+             <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl font-bold mb-6 text-white">Verifique a Viabilidade na sua Localização</h2>
+                    <p class="text-gray-400 mb-8 max-w-xl mx-auto">Clique no botão abaixo para obter suas coordenadas GPS precisas e envie para nossa equipe.</p>
+                    
+                    <button id="locate-me-viability-btn" class="mb-4 btn-neon-green py-3 px-8 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-green-500/20">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        Obter Minha Localização
+                    </button>
+                    
+                    <div id="location-display-viability" class="mt-4 p-6 bg-[#121212] border border-white/10 rounded-xl max-w-md mx-auto text-center hidden shadow-neon-purple">
+                          <p class="text-gray-300 font-medium mb-2">Coordenadas:</p>
+                          <div class="flex items-center justify-center mt-2">
+                               <code id="coordinates-viability" class="text-lg font-mono bg-black text-neon-purple p-3 rounded-l-md w-full text-center border border-r-0 border-white/10"></code>
+                               <button id="copy-coords-viability-btn" class="bg-neon-purple text-white p-4 rounded-r-md hover:bg-purple-600 transition" aria-label="Copiar coordenadas" disabled>
+                                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                               </button>
+                          </div>
+                          <p id="copy-feedback-viability" class="text-neon-green text-sm mt-2 hidden font-bold">Copiado!</p>
+                          <button id="send-location-btn" class="mt-6 w-full btn-neon-green py-3 px-6 rounded-lg flex items-center justify-center" disabled>
+                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 16 16">
+                                 <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.626-2.957 6.584-6.591 6.584zm-1.13-4.243c-.225.084-1.295.64-1.492.72-.192.08-.343.12-.478.24-.135.12-.27.24-.27.42s-.012.51.05.59c.06.08.27.31.576.62.308.308.552.53.81.73.26.19.51.3.81.42.3.12.57.1.76.02.19-.08 1.13-0.47 1.29-1.26.16-.8.16-1.48.12-1.62-.04-.14-.12-.22-.24-.3s-.27-.24-.42-.32c-.15-.08-.27-.12-.42-.2-.15-.08-.34-.12-.48-.04s-.42.48-.52.56c-.1.08-.2.12-.28.12s-.16-.04-.24-.08c-.08-.04-.36-.12-.66-.36-.3-.24-.55-.52-.66-.73-.11-.21-.03-.33.04-.42.08-.08.16-.2.24-.28.08-.08.12-.16.16-.24.04-.08.02-.16-.02-.24s-.42-1.02-.56-1.4c-.15-.38-.3-.32-.43-.32-.12 0-.27-.01-.4-.01z"/>
+                             </svg>
+                             Enviar Análise via WhatsApp
+                          </button>
+                    </div>
+             </div>
+        </section>
+
+        <!-- FORMULÁRIO -->
+        <section id="contato" class="py-20 hidden scroll-mt-20 bg-black"> 
+            <h2 class="text-3xl font-bold text-center mb-12 text-white">Cadastro Digital</h2>
+            <div class="max-w-2xl mx-auto px-6"> 
+                <div class="w-full bg-[#121212] border border-white/10 p-8 rounded-2xl shadow-neon-card">
+                        
+                        <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                            <h3 class="text-2xl font-bold text-white">Ficha do Cliente</h3>
+                            <button type="button" id="unlock-gift-btn" class="text-3xl hover:scale-110 transition-transform cursor-pointer grayscale hover:grayscale-0" title="Desbloquear Bônus">🎁</button>
+                        </div>
+
+                        <form id="cadastro-form" class="space-y-4">
+                            
                             <div>
-                                <label class="block text-gray-300 font-medium mb-1 text-sm">🗓️ Vencimento:</label>
-                                <select name="due_date" class="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white" required>
-                                    <option value="">Data</option>
-                                    <option value="05">Dia 05</option>
-                                    <option value="10">Dia 10</option>
-                                    <option value="15">Dia 15</option>
-                                    <option value="20">Dia 20</option>
-                                    <option value="25">Dia 25</option>
+                                <label for="full_name" class="block text-neon-purple text-xs font-bold uppercase tracking-wider mb-2">Nome completo</label>
+                                <input type="text" id="full_name" name="full_name" placeholder="Digite seu nome completo" class="w-full px-4 py-3 rounded-lg" required>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="nickname" class="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Apelido (Opcional)</label>
+                                    <input type="text" id="nickname" name="nickname" placeholder="Como gostaria de ser chamado" class="w-full px-4 py-3 rounded-lg">
+                                </div>
+                                <div>
+                                    <label for="cpf" class="block text-neon-purple text-xs font-bold uppercase tracking-wider mb-2">CPF</label>
+                                    <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" class="w-full px-4 py-3 rounded-lg" required>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="birth_date" class="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Data de nascimento</label>
+                                    <input type="date" id="birth_date" name="birth_date" class="w-full px-4 py-3 rounded-lg" required>
+                                </div>
+                                <div>
+                                    <label for="whatsapp" class="block text-neon-green text-xs font-bold uppercase tracking-wider mb-2">WhatsApp</label>
+                                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="(XX) 9XXXX-XXXX" class="w-full px-4 py-3 rounded-lg border-green-900 focus:border-green-500" required>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="email" class="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">E-mail</label>
+                                <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" class="w-full px-4 py-3 rounded-lg" required>
+                            </div>
+
+                            <div>
+                                <label for="address" class="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Endereço</label>
+                                <input type="text" id="address" name="address" placeholder="Rua, Nº, Bairro" class="w-full px-4 py-3 rounded-lg" required>
+                            </div>
+
+                            <div>
+                                <label for="geolocation" class="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Geolocalização</label>
+                                <div class="flex items-center">
+                                    <input type="text" id="geolocation" name="geolocation" placeholder="Clique no botão ao lado" class="w-full px-4 py-3 rounded-l-lg border-r-0">
+                                    <button type="button" id="locate-me-form-btn" class="bg-neon-purple text-white p-3.5 rounded-r-lg hover:bg-fuchsia-600 transition" aria-label="Obter localização atual">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                             <div>
+                                <label for="reference" class="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Ponto de referência</label>
+                                <input type="text" id="reference" name="reference" placeholder="Próximo a..." class="w-full px-4 py-3 rounded-lg">
+                            </div>
+                            
+                             <div>
+                                <label for="plan" class="block text-neon-purple text-xs font-bold uppercase tracking-wider mb-2">Plano escolhido</label>
+                                <select id="plan" name="plan" class="w-full px-4 py-3 rounded-lg" required>
+                                    <option value="" disabled selected>Selecione um plano</option>
+                                    <option value="Plano Ultra Premium WiFi 6 - 825 Mbps">Plano Ultra Premium WiFi 6 - 825 Mbps</option>
+                                    <option value="Plano Ultra Gold WiFi 6 - 825 Mbps">Plano Ultra Gold WiFi 6 - 825 Mbps</option>
+                                    <option value="Plano Gold+ - 625 Mbps">Plano Gold+ - 625 Mbps</option>
+                                    <option value="Plano Gold - 625 Mbps">Plano Gold - 625 Mbps</option>
+                                    <option value="Plano Ultra+ - 425 Mbps">Plano Ultra+ - 425 Mbps</option>
+                                    <option value="Plano Básico Prata - 275 Mbps">Plano Básico Prata - 275 Mbps</option>
+                                    <option value="Plano Básico+ - 225 Mbps">Plano Básico+ - 225 Mbps</option>
+                                    <option value="Plano Básico - 125 Mbps">Plano Básico - 125 Mbps</option>
                                 </select>
                             </div>
-                        </div>
+                            
+                            <div id="included-apps-container" class="hidden space-y-3 p-4 bg-black/30 rounded-lg border border-white/5">
+                                <label class="block text-gray-300 font-bold mb-2">📱 Apps Inclusos (Escolha):</label>
+                                <div id="included-apps-list" class="space-y-3">
+                                    </div>
+                                <input type="hidden" id="included_apps_text" name="included_apps_text">
+                            </div>
 
-                        <!-- Campo Bônus (Escondido) -->
-                        <div id="bonus-field" class="hidden bg-green-900/20 p-4 rounded-lg border border-green-900/50">
-                            <label class="block text-green-400 font-bold mb-1 text-sm">🎁 Teste grátis (Bônus Liberado):</label>
-                            <select name="free_trial" class="w-full px-4 py-3 border border-green-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-slate-800 text-white">
-                                <option value="Não">Não</option>
-                                <option value="15 dias">15 dias</option>
-                                <option value="1 mês">1 mês</option>
-                                <option value="2 meses">2 meses</option>
-                                <option value="3 meses">3 meses</option>
-                            </select>
-                        </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="devices" class="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Aparelhos conectados</label>
+                                    <input type="number" id="devices" name="devices" placeholder="Ex: 3" class="w-full px-4 py-3 rounded-lg" min="1">
+                                </div>
 
-                        <div>
-                            <label class="block text-gray-300 font-medium mb-1 text-sm">📝 Observações:</label>
-                            <textarea name="obs" rows="3" class="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-700 text-white"></textarea>
-                        </div>
+                                <div>
+                                    <label for="due_date" class="block text-neon-green text-xs font-bold uppercase tracking-wider mb-2">Dia de vencimento</label>
+                                    <select id="due_date" name="due_date" class="w-full px-4 py-3 rounded-lg" required>
+                                        <option value="" disabled selected>Selecionar</option>
+                                        <option value="05">Dia 05</option>
+                                        <option value="10">Dia 10</option>
+                                        <option value="15">Dia 15</option>
+                                        <option value="20">Dia 20</option>
+                                        <option value="25">Dia 25</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                        <button type="button" onclick="generateWhatsAppLink()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-xl shadow-lg transition duration-300 flex items-center justify-center text-lg mt-6">
-                            <i data-lucide="send" class="w-6 h-6 mr-2"></i> Enviar Cadastro Completo
-                        </button>
-                    </form>
+                            <div id="free-trial-container" class="hidden p-4 border border-neon-green/30 rounded-lg bg-green-900/10">
+                                <label for="free_trial" class="block text-neon-green font-bold mb-2">🎁 BÔNUS ATIVADO: Teste grátis</label>
+                                <select id="free_trial" name="free_trial" class="w-full px-4 py-3 rounded-lg border-neon-green">
+                                    <option value="Não">Não</option>
+                                    <option value="15 dias">15 dias</option>
+                                    <option value="1 mês">1 mês</option>
+                                    <option value="2 meses">2 meses</option>
+                                    <option value="3 meses">3 meses</option>
+                                </select>
+                            </div>
+
+                             <div>
+                                <label for="obs" class="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Observações</label>
+                                <textarea id="obs" name="obs" rows="3" placeholder="Alguma observação?" class="w-full px-4 py-3 rounded-lg"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full btn-neon-green py-4 px-6 rounded-lg flex items-center justify-center text-lg mt-4 shadow-neon-green">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.626-2.957 6.584-6.591 6.584zm-1.13-4.243c-.225.084-1.295.64-1.492.72-.192.08-.343.12-.478.24-.135.12-.27.24-.27.42s-.012.51.05.59c.06.08.27.31.576.62.308.308.552.53.81.73.26.19.51.3.81.42.3.12.57.1.76.02.19-.08 1.13-0.47 1.29-1.26.16-.8.16-1.48.12-1.62-.04-.14-.12-.22-.24-.3s-.27-.24-.42-.32c-.15-.08-.27-.12-.42-.2-.15-.08-.34-.12-.48-.04s-.42.48-.52.56c-.1.08-.2.12-.28.12s-.16-.04-.24-.08c-.08-.04-.36-.12-.66-.36-.3-.24-.55-.52-.66-.73-.11-.21-.03-.33.04-.42.08-.08.16-.2.24-.28.08-.08.12-.16.16-.24.04-.08.02-.16-.02-.24s-.42-1.02-.56-1.4c-.15-.38-.3-.32-.43-.32-.12 0-.27-.01-.4-.01z"/>
+                                </svg>
+                                ENVIAR VIA WHATSAPP
+                            </button>
+                        </form>
+                    </div>
                 </div>
                 
-                <div class="mt-10 text-center text-gray-400 space-y-4 text-sm flex flex-col items-center">
-                    <p><strong>Endereço:</strong> Rua MAJ. PRAZERES 2-110 - São Felipe/BA</p>
-                    <p><strong>WhatsApp:</strong> (75) 3199-9981</p>
-                    <p><strong>CNPJ:</strong> 36.712.901/0001-53</p>
+                <div class="mt-12 text-center text-gray-400 space-y-4 text-sm flex flex-col items-center">
+                    <p class="text-gray-300"><strong>Endereço:</strong> Rua MAJ. PRAZERES 2-110 - São Felipe/BA</p>
+                    <p class="text-gray-300"><strong>WhatsApp:</strong> (75) 3199-9981</p>
+                    <p class="text-gray-300"><strong>CNPJ:</strong> 36.712.901/0001-53</p>
                     
                     <!-- BOTÃO INSTAGRAM NOVO E CHAMATIVO -->
-                    <a href="https://www.instagram.com/ultranett_?igsh=MTU3ZDk2MTJ6Y2hwYw==" target="_blank" class="group relative inline-flex items-center justify-center gap-3 px-8 py-3.5 insta-gradient rounded-full text-white font-bold text-lg shadow-lg shadow-pink-500/30 hover:shadow-pink-500/50 hover:scale-105 transition duration-300 overflow-hidden mt-6 w-full max-w-xs">
+                    <a href="https://www.instagram.com/ultranett_?igsh=MTU3ZDk2MTJ6Y2hwYw==" target="_blank" class="group relative inline-flex items-center justify-center gap-3 px-8 py-3.5 insta-gradient rounded-full text-white font-bold text-lg shadow-lg shadow-pink-500/30 hover:shadow-pink-500/50 hover:scale-105 transition duration-300 overflow-hidden mt-6 w-full max-w-xs border border-white/10">
                         <!-- Brilho Overlay -->
                         <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
                         <i data-lucide="instagram" class="w-7 h-7"></i>
@@ -430,418 +777,655 @@
                     </a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer (ATUALIZADO COM SELO ANATEL) -->
-    <footer class="bg-slate-900 text-white py-10 border-t border-slate-800">
+    </main>
+
+    <footer class="bg-black text-white py-12 border-t border-white/5">
         <div class="container mx-auto px-6 flex flex-col items-center text-center gap-8">
             
             <!-- Selo Anatel -->
             <div class="flex flex-col items-center justify-center animate-fade-in group">
-                <img 
-                    src="https://lexcom.net.br/wp-content/uploads/anatel.png" 
-                    alt="Homologado pela Anatel" 
-                    class="h-24 md:h-28 object-contain hover:scale-105 transition duration-300 filter drop-shadow-lg opacity-90 group-hover:opacity-100"
-                >
-                <p class="text-[10px] md:text-xs text-gray-500 mt-3 uppercase tracking-widest font-semibold">Empresa Autorizada</p>
+                <div class="bg-white/5 p-4 rounded-xl border border-white/10 hover:bg-white/10 transition duration-300">
+                    <img 
+                        src="https://lexcom.net.br/wp-content/uploads/anatel.png" 
+                        alt="Homologado pela Anatel" 
+                        class="h-24 md:h-28 object-contain hover:scale-105 transition duration-300 filter drop-shadow-lg opacity-90 group-hover:opacity-100"
+                    >
+                </div>
+                <p class="text-[10px] md:text-xs text-gray-500 mt-4 uppercase tracking-widest font-semibold">Empresa Autorizada</p>
             </div>
 
             <!-- Separador -->
-            <div class="w-full h-px bg-slate-800 max-w-xs mx-auto"></div>
+            <div class="w-full h-px bg-white/10 max-w-xs mx-auto"></div>
 
-            <p class="text-gray-400 text-sm">Ultra Fibra &copy; 2024. Todos os direitos reservados.</p>
+            <p class="text-gray-500 text-sm">Ultra Fibra &copy; 2024. Todos os direitos reservados.</p>
         </div>
     </footer>
-
-    <!-- Botão Flutuante -->
-    <a href="https://api.whatsapp.com/send?phone=557531999981" target="_blank" class="fixed bottom-6 right-6 z-40 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-xl transition transform hover:scale-110 md:px-5 md:py-3 flex items-center gap-2">
-        <i data-lucide="message-circle" class="w-6 h-6"></i>
-        <span class="hidden md:inline font-bold">Fale Conosco</span>
-    </a>
-
-    <!-- MODAIS -->
-    <div id="modal-overlay" class="fixed inset-0 bg-black/95 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <!-- Conteúdo injetado via JS -->
-        <div id="modal-content" class="relative flex justify-center items-center w-full h-full pointer-events-none">
-            <!-- O conteúdo interno do modal terá pointer-events-auto para permitir interação -->
+    
+    <!-- MODALS (Mantidos funcionais, apenas re-estilizados) -->
+    
+    <!-- Modal de Apps por Plano -->
+    <div id="apps-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 z-[60] hidden">
+        <div class="bg-[#121212] border border-neon-purple rounded-2xl shadow-neon-card w-full max-w-2xl max-h-[80vh] overflow-y-auto p-6 relative">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white" aria-label="Fechar modal">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 id="modal-title" class="text-2xl font-bold text-white mb-6 border-b border-white/10 pb-4">Apps Inclusos</h3>
+            <div id="modal-apps-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Todos os Apps -->
+    <div id="all-apps-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 z-[60] hidden">
+        <div class="bg-[#121212] border border-neon-purple rounded-2xl shadow-neon-card w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6 relative">
+            <button id="close-all-apps-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white" aria-label="Fechar modal">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-2xl font-bold text-white mb-6 border-b border-white/10 pb-4">Todos os Aplicativos</h3>
+            <div class="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-3 md:gap-4 max-w-4xl mx-auto">
+                 <!-- Botões de apps mantidos idênticos, apenas classes CSS atualizadas acima lidam com o visual -->
+                <button class="app-icon-btn" data-app-id="looke"><img src="https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" alt="Logo Looke" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Looke';"></button>
+                <button class="app-icon-btn" data-app-id="sky"><img src="https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png" alt="Logo Sky+" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Sky%2B';"></button>
+                <button class="app-icon-btn" data-app-id="kiddiepass"><img src="https://placehold.co/64x64/facc15/000000?text=KiddiePass" alt="Logo Kiddie Pass" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="nutri"><img src="https://placehold.co/64x64/22c55e/FFFFFF?text=%2BNutri" alt="Logo +Nutri" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="efit"><img src="https://placehold.co/64x64/3b82f6/FFFFFF?text=E-Fit" alt="Logo E-fit" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="playkids"><img src="https://logospng.org/download/playkids/logo-playkids-2048.png" alt="Logo PlayKids+" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=PlayKids';"></button>
+                <button class="app-icon-btn" data-app-id="hub"><img src="https://placehold.co/64x64/14b8a6/FFFFFF?text=Hub" alt="Logo HUB" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="ubook"><img src="https://placehold.co/64x64/a855f7/FFFFFF?text=Ubook" alt="Logo ubookPLUS" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="estuda"><img src="https://placehold.co/64x64/f97316/FFFFFF?text=Estuda%2B" alt="Logo Estuda+" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="leitores"><img src="https://placehold.co/64x64/ec4899/FFFFFF?text=Leitores" alt="Logo Pequenos Leitores" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="fluid"><img src="https://placehold.co/64x64/6366f1/FFFFFF?text=Fluid" alt="Logo fluid" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="socialcomics"><img src="https://placehold.co/64x64/ef4444/FFFFFF?text=Social" alt="Logo Social Comics" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="revistaria"><img src="https://placehold.co/64x64/d946ef/FFFFFF?text=Revista" alt="Logo revistaria" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="playlist"><img src="https://placehold.co/64x64/8b5cf6/FFFFFF?text=Playlist" alt="Logo Playlist" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="deezer"><img src="https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" alt="Logo Deezer" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Deezer';"></button>
+                <button class="app-icon-btn" data-app-id="klicencas"><img src="https://placehold.co/64x64/6366f1/FFFFFF?text=K" alt="Logo K Licenças" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="hotgo"><img src="https://placehold.co/64x64/dc2626/FFFFFF?text=HotGo" alt="Logo Hotgo" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="curtaon"><img src="https://placehold.co/64x64/1f2937/FFFFFF?text=CurtaOn" alt="Logo CurtaOn" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="jornalista"><img src="https://placehold.co/64x64/4b5563/FFFFFF?text=Jornal" alt="Logo O Jornalista" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="docway"><img src="https://placehold.co/64x64/10b981/FFFFFF?text=Doc" alt="Logo Docway" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="disney"><img src="https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" alt="Logo Disney+" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Disney%2B';"></button>
+                <button class="app-icon-btn" data-app-id="max"><img src="https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" alt="Logo Max" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Max';"></button>
+                <button class="app-icon-btn" data-app-id="indie"><img src="https://placehold.co/64x64/f59e0b/FFFFFF?text=Indie" alt="Logo Indie" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="leitura360"><img src="https_://placehold.co/64x64/0891b2/FFFFFF?text=Leitura" alt="Logo Leitura 360" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="nba"><img src="https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png" alt="Logo NBA" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=NBA';"></button>
+                <button class="app-icon-btn" data-app-id="smartcontent"><img src="https://placehold.co/64x64/ef4444/FFFFFF?text=Smart" alt="Logo SmartContent" class="h-10 w-10 object-contain rounded-md"></button>
+                <button class="app-icon-btn" data-app-id="queima"><img src="https://seeklogo.com/images/Q/queima-diaria-logo-653593254B-seeklogo.com.png" alt="Logo Queima Diária" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Queima';"></button>
+                <button class="app-icon-btn" data-app-id="zen"><img src="https://logodownload.org/wp-content/uploads/2021/04/zen-logo-0.png" alt="Logo Zen" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Zen';"></button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Descrição App Individual -->
+    <div id="app-description-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 z-[65] hidden">
+        <div class="bg-[#121212] border border-neon-purple rounded-2xl shadow-neon-card w-full max-w-md max-h-[90vh] overflow-y-auto p-8 relative">
+            <button id="close-app-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white" aria-label="Fechar modal">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="text-center">
+                <img id="modal-app-img" src="" alt="Logo do App" class="rounded-xl w-32 h-32 mx-auto mb-6 shadow-md bg-white p-2 object-contain ring-4 ring-neon-purple/20">
+                <h3 id="modal-app-title" class="text-3xl font-bold text-white mb-4"></h3>
+                <p id="modal-app-desc" class="text-gray-300 text-left leading-relaxed"></p>
+            </div>
         </div>
     </div>
 
-    <!-- JAVASCRIPT LÓGICA -->
+    <!-- Modal Senha Bônus -->
+    <div id="password-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 z-[70] hidden">
+        <div class="bg-[#121212] border border-neon-green rounded-2xl shadow-neon-green w-full max-w-sm p-6 relative">
+            <button id="close-password-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white" aria-label="Fechar modal">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-xl font-bold text-neon-green mb-4">Desbloquear Bônus</h3>
+            <p class="text-gray-300 mb-4 text-sm">Insira a senha de vendedor:</p>
+            <form id="password-form" class="space-y-4">
+                <div>
+                    <input type="password" id="password-input" class="w-full px-4 py-2 rounded-lg" required placeholder="Senha">
+                    <p id="password-error-msg" class="text-red-500 text-sm mt-2 hidden font-bold">Senha incorreta!</p>
+                </div>
+                <button type="submit" id="submit-password-btn" class="w-full btn-neon-green py-2 px-4 rounded-lg">
+                    Desbloquear
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+    <a href="https://api.whatsapp.com/send?phone=557531999981&text=Olá!%20Vim%20pelo%20site%20Neon%20e%20quero%20assinar." target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-40 bg-neon-green text-black font-extrabold py-3 px-5 rounded-full shadow-[0_0_20px_rgba(190,242,100,0.6)] flex items-center space-x-2 transform hover:scale-110 transition-transform animate-bounce">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.626-2.957 6.584-6.591 6.584zm-1.13-4.243c-.225.084-1.295.64-1.492.72-.192.08-.343.12-.478.24-.135.12-.27.24-.27.42s-.012.51.05.59c.06.08.27.31.576.62.308.308.552.53.81.73.26.19.51.3.81.42.3.12.57.1.76.02.19-.08 1.13-0.47 1.29-1.26.16-.8.16-1.48.12-1.62-.04-.14-.12-.22-.24-.3s-.27-.24-.42-.32c-.15-.08-.27-.12-.42-.2-.15-.08-.34-.12-.48-.04s-.42.48-.52.56c-.1.08-.2.12-.28.12s-.16-.04-.24-.08c-.08-.04-.36-.12-.66-.36-.3-.24-.55-.52-.66-.73-.11-.21-.03-.33.04-.42.08-.08.16-.2.24-.28.08-.08.12-.16.16-.24.04-.08.02-.16-.02-.24s-.42-1.02-.56-1.4c-.15-.38-.3-.32-.43-.32-.12 0-.27-.01-.4-.01z"/>
+        </svg>
+        <span class="hidden sm:inline">Assinar via WhatsApp</span>
+    </a>
+
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-        // Inicializa Ícones
-        lucide.createIcons();
+        document.addEventListener('DOMContentLoaded', () => {
+            // Lógica do Menu Mobile
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
 
-        // --- DADOS ---
-        const PLANS = [
-            { id: 'ultra_premium', name: 'Ultra Premium WiFi 6', speed: '825', price: '149,99', wifi6: true, highlight: 'Premium WiFi 6', color: 'border-violet-500', rules: { premium: 1, standard: 2, advanced: 1, appTv: true }, features: ['Roteador WiFi 6', 'App de TV', '1 Premium', '2 Standard', '1 Advanced'] },
-            { id: 'ultra_gold', name: 'Ultra Gold WiFi 6', speed: '825', price: '119,99', wifi6: true, highlight: 'WiFi 6', color: 'border-slate-600', rules: { premium: 1, standard: 0, advanced: 0, appTv: true }, features: ['Roteador WiFi 6', 'App de TV', '1 Premium'] },
-            { id: 'gold_plus', name: 'Gold+', speed: '625', price: '109,99', wifi6: false, highlight: null, color: 'border-slate-700', rules: { premium: 0, standard: 1, advanced: 1, appTv: true }, features: ['Roteador Comodato', 'App de TV', '1 Standard', '1 Advanced'] },
-            { id: 'gold', name: 'Gold', speed: '625', price: '89,99', wifi6: false, highlight: null, color: 'border-slate-700', rules: { premium: 0, standard: 0, advanced: 1, appTv: true }, features: ['Roteador Comodato', 'App de TV', '1 Advanced'] },
-            { id: 'ultra_plus', name: 'Ultra+', speed: '425', price: '79,99', wifi6: false, highlight: 'Mais Popular', color: 'border-slate-700', rules: { premium: 0, standard: 1, advanced: 0, appTv: true }, features: ['Roteador Comodato', 'App de TV', '1 Standard'] },
-            { id: 'basico_prata', name: 'Básico Prata', speed: '275', price: '74,99', wifi6: false, highlight: null, color: 'border-slate-700', rules: { appTv: true }, features: ['Roteador Comodato', 'App de TV'] },
-            { id: 'basico_plus', name: 'Básico+', speed: '225', price: '69,99', wifi6: false, highlight: null, color: 'border-slate-700', rules: { appTv: true }, features: ['Roteador Comodato', 'App de TV'] },
-            { id: 'basico', name: 'Básico', speed: '125', price: '65,00', wifi6: false, highlight: null, color: 'border-slate-700', rules: {}, features: ['Roteador Comodato'] }
-        ];
-
-        const APPS_LISTS = {
-            standard: ['Looke', 'Sky+ Light', 'Kiddie Pass', '+Nutri', 'E-fit AG', 'PlayKids+', 'HUB', 'UbookPLUS', 'Estuda+', 'Pequenos Leitores', 'Fluid', 'Social Comics', 'Revistaria', 'Playlist'],
-            advanced: ['Sky+ Globo', 'Kiddie Pass Adv', 'Deezer', 'K Licenças Adv', 'Hotgo', 'CurtaOn', 'O Jornalista', 'Docway'],
-            premium: ['Sky+ Amazon', 'Disney+', 'HBO Max', 'Indie', 'Leitura 360', 'NBA', 'SmartContent', 'Queima Diária', 'Zen']
-        };
-
-        // --- RENDERIZAÇÃO ---
-        
-        // 1. Marquee Logos
-        const logos = [
-            "https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-champions-league.png",
-            "https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-leveduca.png",
-            "https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-playkids.png",
-            "https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-kaspersky.png",
-            "https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-discovery.png",
-            "https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-deezer.png",
-            "https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-cartoon.png"
-        ];
-        const marqueeContainer = document.getElementById('brand-marquee');
-        // Duplicar para efeito infinito
-        [...logos, ...logos].forEach(src => {
-            const img = document.createElement('img');
-            img.src = src;
-            img.className = "h-8 md:h-10 object-contain opacity-70 hover:opacity-100 transition";
-            marqueeContainer.appendChild(img);
-        });
-
-        // 2. Planos
-        const plansContainer = document.getElementById('plans-container');
-        const planSelect = document.getElementById('plan-select');
-
-        PLANS.forEach(plan => {
-            // Adiciona ao Select do Form
-            const option = document.createElement('option');
-            option.value = plan.id;
-            option.textContent = `${plan.name} - R$ ${plan.price}`;
-            planSelect.appendChild(option);
-
-            // Cria Card do Plano
-            const card = document.createElement('div');
-            card.className = "snap-center shrink-0 w-[85vw] sm:w-[350px] md:w-auto";
-            card.innerHTML = `
-                <div class="plan-gradient border ${plan.color} rounded-2xl p-8 text-center shadow-lg relative flex flex-col h-full hover:-translate-y-2 transition duration-300">
-                    ${plan.highlight ? `<span class="bg-violet-600 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase absolute -top-4 left-1/2 -translate-x-1/2 shadow-lg">${plan.highlight}</span>` : ''}
-                    <h3 class="text-2xl font-bold my-2 pt-4 text-white">${plan.name}</h3>
-                    <div class="py-4">
-                        <p class="text-6xl font-bold text-violet-400 tracking-tighter">${plan.speed}<span class="text-2xl ml-1 text-violet-200">Mbps</span></p>
-                    </div>
-                    <div class="my-2 text-white bg-slate-900/30 rounded-xl py-2 mx-4 mb-6">
-                        <span class="text-lg align-top">R$</span><span class="text-4xl font-bold">${plan.price.split(',')[0]}</span><span class="text-xl">,${plan.price.split(',')[1]}</span><span class="text-gray-400 text-sm">/mês</span>
-                    </div>
-                    <ul class="text-left mb-8 space-y-2 text-gray-300 text-sm flex-grow px-4">
-                        ${plan.features.map(f => `<li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400"></i> ${f}</li>`).join('')}
-                    </ul>
-                    <a href="#contato" onclick="selectPlan('${plan.id}')" class="w-full mt-auto bg-violet-600 hover:bg-violet-500 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg block">Assinar Agora</a>
-                </div>
-            `;
-            plansContainer.appendChild(card);
-        });
-        lucide.createIcons();
-
-        // 3. Lógica de Apps Hero
-        const heroApps = [
-            {name: 'Sky+', icon: 'https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png'},
-            {name: 'Disney', icon: 'https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png'},
-            {name: 'HBO', icon: 'https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png'},
-            {name: 'Deezer', icon: 'https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png'}
-        ];
-        const heroAppsContainer = document.getElementById('hero-apps');
-        heroApps.forEach(app => {
-            heroAppsContainer.innerHTML += `
-                <div class="bg-white/10 p-2 rounded-xl backdrop-blur-sm border border-white/10">
-                    <img src="${app.icon}" alt="${app.name}" class="h-10 w-10 object-contain bg-white rounded p-0.5">
-                </div>
-            `;
-        });
-
-        // --- INTERATIVIDADE ---
-
-        // Mobile Menu
-        const mobileBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-
-        // Selecionar Plano
-        function selectPlan(id) {
-            planSelect.value = id;
-            updateAppSelectors(id);
-        }
-
-        // Atualizar Seletores de Apps Dinâmicos
-        planSelect.addEventListener('change', (e) => updateAppSelectors(e.target.value));
-
-        function updateAppSelectors(planId) {
-            const container = document.getElementById('dynamic-apps-container');
-            const selectorsDiv = document.getElementById('dynamic-selectors');
-            selectorsDiv.innerHTML = '';
-            
-            const plan = PLANS.find(p => p.id === planId);
-            if(!plan || Object.keys(plan.rules).length === 0) {
-                container.classList.add('hidden');
-                return;
-            }
-
-            container.classList.remove('hidden');
-            
-            if(plan.rules.appTv) {
-                selectorsDiv.innerHTML += `<div class="mb-2"><span class="bg-slate-700 text-xs font-bold px-2 py-1 rounded text-white">App TV Incluso</span></div>`;
-            }
-
-            ['premium', 'advanced', 'standard'].forEach(cat => {
-                const count = plan.rules[cat] || 0;
-                for(let i=0; i<count; i++) {
-                    const label = document.createElement('label');
-                    label.className = "block text-gray-400 text-xs mb-1 capitalize";
-                    label.textContent = `${cat} App ${i+1}:`;
-                    
-                    const select = document.createElement('select');
-                    select.className = "app-selector w-full px-3 py-2 mb-3 border border-slate-600 rounded bg-slate-700 text-white text-sm focus:outline-none focus:ring-1 focus:ring-violet-500";
-                    select.dataset.category = cat;
-                    
-                    select.innerHTML = `<option value="">Escolha...</option>`;
-                    APPS_LISTS[cat].forEach(app => {
-                        select.innerHTML += `<option value="${app}">${app}</option>`;
-                    });
-                    
-                    selectorsDiv.appendChild(label);
-                    selectorsDiv.appendChild(select);
-                }
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
             });
-        }
 
-        // --- GEOLOCALIZAÇÃO ---
-        function handleGetLocation(isForm) {
-            const btn = isForm ? null : document.getElementById('btn-check-geo');
-            const input = document.getElementById('geo-input');
-            
-            if(btn) btn.textContent = "Obtendo...";
-            if(input && isForm) input.value = "Obtendo...";
-
-            if (!navigator.geolocation) {
-                alert("Geolocalização não suportada.");
-                return;
-            }
-
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const coords = `${position.coords.latitude.toFixed(5)}, ${position.coords.longitude.toFixed(5)}`;
-                    if(isForm && input) input.value = coords;
-                    if(!isForm) {
-                        const container = document.getElementById('viability-container');
-                        container.innerHTML = `
-                            <div class="bg-slate-900 p-4 rounded-lg border border-slate-600 max-w-md mx-auto animate-fade-in">
-                                <p class="text-gray-400 text-sm mb-2">Suas coordenadas:</p>
-                                <code class="block bg-black text-green-400 p-2 rounded font-mono text-lg mb-3 select-all">${coords}</code>
-                                <a href="https://api.whatsapp.com/send?phone=557531999981&text=${encodeURIComponent('Olá! Verifique viabilidade para: ' + coords)}" target="_blank" class="block bg-green-500 text-white py-2 rounded font-bold hover:bg-green-600 transition">Enviar no WhatsApp</a>
-                            </div>
-                        `;
-                    }
-                },
-                () => alert("Erro ao obter localização.")
-            );
-        }
-
-        // --- MODAIS ATUALIZADOS COM ZOOM ---
-        function openModal(type, data) {
-            const overlay = document.getElementById('modal-overlay');
-            const content = document.getElementById('modal-content');
-            overlay.classList.remove('hidden');
-            
-            let html = '';
-            const closeBtn = `<button onclick="closeModal()" class="absolute top-4 right-4 text-white bg-black/60 hover:bg-red-600 p-2 rounded-full transition z-50 pointer-events-auto"><i data-lucide="x" class="w-6 h-6"></i></button>`;
-
-            if (type === 'password') {
-                html = `
-                    <div class="bg-slate-800 p-6 rounded-xl shadow-2xl border border-slate-700 w-full max-w-md pointer-events-auto relative">
-                        ${closeBtn}
-                        <h3 class="text-white font-bold mb-4 text-xl">Área Restrita</h3>
-                        <input type="password" id="pass-input" class="w-full px-4 py-3 rounded bg-slate-900 border border-slate-600 text-white mb-4 focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="Senha de Vendedor">
-                        <button onclick="checkPass()" class="w-full bg-violet-600 text-white py-3 rounded font-bold hover:bg-violet-700 transition">Desbloquear</button>
-                    </div>
-                `;
-            } else if (type === 'video') {
-                html = `
-                    <div class="relative bg-black rounded-xl overflow-hidden shadow-2xl w-full max-w-3xl h-[80vh] flex justify-center items-center pointer-events-auto border border-slate-700">
-                        ${closeBtn}
-                        <iframe 
-                            src="https://www.instagram.com/reel/Cb5I4Jtlfe-/embed" 
-                            class="w-full h-full"
-                            frameborder="0" 
-                            scrolling="no" 
-                            allowtransparency="true" 
-                            allowfullscreen
-                        ></iframe>
-                    </div>
-                `;
-            } else if (type === 'allApps') {
-                let appsHtml = '';
-                Object.keys(APPS_LISTS).forEach(cat => {
-                    APPS_LISTS[cat].forEach(app => {
-                        appsHtml += `<span class="bg-slate-700 text-gray-300 px-3 py-1 rounded-full text-sm">${app}</span>`;
-                    });
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
                 });
-                html = `
-                    <div class="bg-slate-800 p-6 rounded-xl shadow-2xl border border-slate-700 max-h-[80vh] overflow-y-auto w-full max-w-xl pointer-events-auto relative">
-                         <div class="flex justify-between mb-4 items-center">
-                            <h3 class="text-white font-bold text-lg">Todos os Aplicativos</h3>
-                            <button onclick="closeModal()" class="text-gray-400 hover:text-white"><i data-lucide="x"></i></button>
-                        </div>
-                        <div class="flex flex-wrap gap-2">${appsHtml}</div>
-                    </div>
-                `;
-            } else if (type === 'image') {
-                // Novo tipo: Imagem com Zoom (Lightbox)
-                const fallback = `https://placehold.co/600x600/1e1b4b/FFF?text=Imagem+Nao+Carregada`;
-                html = `
-                    <div class="relative pointer-events-auto max-w-full max-h-full p-4 flex items-center justify-center">
-                        ${closeBtn}
-                        <img src="${data}" onerror="this.src='${fallback}'" class="modal-img-container rounded-lg shadow-2xl border border-slate-700 bg-black object-contain">
-                    </div>
-                `;
-            }
-
-            content.innerHTML = html;
-            setTimeout(() => lucide.createIcons(), 50);
-        }
-
-        function closeModal() {
-            document.getElementById('modal-overlay').classList.add('hidden');
-            document.getElementById('modal-content').innerHTML = '';
-        }
-
-        function checkPass() {
-            const pass = document.getElementById('pass-input').value;
-            if (pass === '#120488Jc#') {
-                document.getElementById('bonus-field').classList.remove('hidden');
-                closeModal();
-                alert("Bônus Desbloqueado!");
-            } else {
-                alert("Senha incorreta!");
-            }
-        }
-
-        // Fechar modal ao clicar fora
-        document.getElementById('modal-overlay').addEventListener('click', (e) => {
-            if(e.target.id === 'modal-overlay' || e.target.id === 'modal-content') closeModal();
-        });
-
-        // --- GERADOR DE WHATSAPP ---
-        function generateWhatsAppLink() {
-            const form = document.getElementById('cadastro-form');
-            const formData = new FormData(form);
+            });
             
-            let selectedApps = [];
-            document.querySelectorAll('.app-selector').forEach(sel => {
-                if(sel.value) selectedApps.push(`${sel.dataset.category}: ${sel.value}`);
+            // --- Lógica para Abrir o Formulário de Contato ---
+            const contatoSection = document.getElementById('contato');
+            const openFormButtons = document.querySelectorAll('.open-form-btn'); 
+
+            openFormButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    contatoSection.classList.remove('hidden');
+                    contatoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
             });
 
-            const planSelect = document.getElementById('plan-select');
-            const selectedPlanText = planSelect.options[planSelect.selectedIndex] ? planSelect.options[planSelect.selectedIndex].text : 'N/A';
 
-            const text = `
-*Ficha do Cliente*
+            // Lógica de Geolocalização (Viabilidade e Formulário)
+            const locateViabilityButton = document.getElementById('locate-me-viability-btn');
+            const locationDisplayViability = document.getElementById('location-display-viability');
+            const coordinatesViabilityEl = document.getElementById('coordinates-viability');
+            const copyCoordsViabilityBtn = document.getElementById('copy-coords-viability-btn');
+            const copyFeedbackViability = document.getElementById('copy-feedback-viability');
+            const sendLocationBtn = document.getElementById('send-location-btn');
 
-🆔 *Nome:* ${formData.get('full_name')}
-🏷️ *Apelido:* ${formData.get('nickname') || 'N/A'}
-🪪 *CPF:* ${formData.get('cpf')}
-🎂 *Nascimento:* ${formData.get('birth_date')}
-💬 *WhatsApp:* ${formData.get('whatsapp')}
-✉️ *Email:* ${formData.get('email')}
-🏡 *Endereço:* ${formData.get('address')}
-📍 *Geo:* ${formData.get('geolocation')}
-📌 *Ref:* ${formData.get('reference')}
+            const locateFormButton = document.getElementById('locate-me-form-btn');
+            const geolocationInput = document.getElementById('geolocation');
 
-📃 *Plano:* ${selectedPlanText}
-📱 *Apps:* ${selectedApps.join(', ') || 'Padrão'}
-📱 *Aparelhos:* ${formData.get('devices')}
-🗓️ *Vencimento:* Dia ${formData.get('due_date')}
-🎁 *Bônus:* ${formData.get('free_trial') || 'N/A'}
-📝 *Obs:* ${formData.get('obs')}
-            `;
-
-            const url = `https://api.whatsapp.com/send?phone=557531999981&text=${encodeURIComponent(text.trim())}`;
-            window.open(url, '_blank');
-        }
-
-        // --- CARROSSEL AUTOMÁTICO ---
-        const carousel = document.getElementById('mundo-ultra-carousel');
-        let isScrolling = false;
-        let scrollDirection = 1; // 1 para direita, -1 para esquerda
-        let autoScrollInterval;
-
-        function startAutoScroll() {
-            // Limpa qualquer intervalo existente antes de criar um novo
-            if (autoScrollInterval) clearInterval(autoScrollInterval);
-            
-            autoScrollInterval = setInterval(() => {
-                if (isScrolling) return;
-                
-                // Verifica se chegou ao fim
-                if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 50) {
-                    // Se chegou ao fim, volta suavemente ao início ou inverte?
-                    // Vamos fazer voltar ao início suavemente
-                    carousel.scrollTo({ left: 0, behavior: 'smooth' });
+            function getGeoLocation(callbackSuccess, callbackError) {
+                 if ('geolocation' in navigator) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const coordsText = `${position.coords.latitude.toFixed(5)}, ${position.coords.longitude.toFixed(5)}`;
+                            callbackSuccess(coordsText);
+                        },
+                        (error) => {
+                            console.error("Erro ao obter localização: ", error);
+                            let errorMsg = "Não foi possível obter.";
+                            if(error.code === 1) {
+                                errorMsg = "Permissão negada.";
+                            }
+                            callbackError(errorMsg);
+                        },
+                        {
+                            enableHighAccuracy: true,
+                            timeout: 10000, 
+                            maximumAge: 0 
+                        }
+                    );
                 } else {
-                    // Rola para a direita
-                    const cardWidth = carousel.firstElementChild.offsetWidth + 24; // largura + gap
-                    carousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
+                    const errorMsg = "Geolocalização não suportada.";
+                    callbackError(errorMsg);
                 }
-            }, 3500); // 3.5 segundos
-        }
-
-        function scrollCarousel(direction) {
-            const cardWidth = carousel.firstElementChild.offsetWidth + 24;
-            carousel.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
-            // Reinicia o timer quando o usuário interage manualmente
-            startAutoScroll();
-        }
-
-        // Pausar no hover
-        const carouselSection = document.querySelector('.group\\/carousel');
-        if(carouselSection) {
-            carouselSection.addEventListener('mouseenter', () => {
-                isScrolling = true;
-                if (autoScrollInterval) clearInterval(autoScrollInterval);
-            });
-            
-            carouselSection.addEventListener('mouseleave', () => {
-                isScrolling = false;
-                startAutoScroll();
-            });
-            
-            // Mobile touch
-            carouselSection.addEventListener('touchstart', () => {
-                isScrolling = true;
-                if (autoScrollInterval) clearInterval(autoScrollInterval);
-            }, {passive: true});
-            
-            carouselSection.addEventListener('touchend', () => {
-                setTimeout(() => {
-                    isScrolling = false;
-                    startAutoScroll();
-                }, 2000);
-            });
-        }
-
-        // Iniciar
-        startAutoScroll();
-
-        // Iniciar o processamento dos embeds do Instagram manualmente após o carregamento
-        window.onload = function() {
-            if(window.instgrm) {
-                window.instgrm.Embeds.process();
             }
-        };
 
+            // Handler para botão de viabilidade
+            locateViabilityButton.addEventListener('click', () => {
+                coordinatesViabilityEl.textContent = 'Buscando satélites...';
+                coordinatesViabilityEl.classList.remove('text-red-500');
+                locationDisplayViability.classList.remove('hidden');
+                copyCoordsViabilityBtn.disabled = true;
+                sendLocationBtn.disabled = true;
+
+                getGeoLocation(
+                    (coordsText) => {
+                        coordinatesViabilityEl.textContent = coordsText;
+                        copyCoordsViabilityBtn.disabled = false; 
+                        sendLocationBtn.disabled = false; 
+                    },
+                    (errorMsg) => {
+                         coordinatesViabilityEl.textContent = errorMsg;
+                         coordinatesViabilityEl.classList.add('text-red-500');
+                    }
+                );
+            });
+
+            // Handler para botão no formulário
+             locateFormButton.addEventListener('click', () => {
+                 geolocationInput.value = 'Buscando...'; 
+                 getGeoLocation(
+                    (coordsText) => {
+                        geolocationInput.value = coordsText;
+                    },
+                    (errorMsg) => {
+                        geolocationInput.value = errorMsg; 
+                    }
+                );
+             });
+
+
+            // Lógica para copiar coordenadas (Viabilidade)
+            copyCoordsViabilityBtn.addEventListener('click', () => {
+                const textToCopy = coordinatesViabilityEl.textContent;
+                 if (!textToCopy || textToCopy.includes('Não') || textToCopy.includes('Buscando')) return; 
+
+                try {
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        showCopyFeedback(copyFeedbackViability, 'Copiado!', true);
+                    }).catch(() => {
+                         throw new Error('Clipboard API failed');
+                    });
+                } catch (err) {
+                    const textArea = document.createElement("textarea");
+                    textArea.value = textToCopy;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    try {
+                        document.execCommand('copy');
+                        showCopyFeedback(copyFeedbackViability, 'Copiado!', true);
+                    } catch (copyErr) {
+                        showCopyFeedback(copyFeedbackViability, 'Erro!', false);
+                    }
+                    document.body.removeChild(textArea);
+                }
+            });
+
+            function showCopyFeedback(element, message, success) {
+                element.textContent = message;
+                element.classList.remove(success ? 'text-red-500' : 'text-neon-green');
+                element.classList.add(success ? 'text-neon-green' : 'text-red-500');
+                element.classList.remove('hidden');
+                setTimeout(() => element.classList.add('hidden'), 2500);
+            }
+
+             // Lógica para enviar APENAS localização para WhatsApp
+            sendLocationBtn.addEventListener('click', () => {
+                const coords = coordinatesViabilityEl.textContent;
+                if (!coords || coords.includes('Não') || coords.includes('Buscando')) return;
+                
+                const message = `Olá! Gostaria de verificar a viabilidade da instalação na seguinte localização:\n${coords}`;
+                const phoneNumber = "557531999981"; 
+                const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`; 
+                window.open(whatsappUrl, '_blank').focus();
+            });
+
+            // --- Lógica do Bônus (Modal de Senha) ---
+            const unlockGiftBtn = document.getElementById('unlock-gift-btn');
+            const freeTrialContainer = document.getElementById('free-trial-container');
+            const correctPassword = "#120488Jc#";
+            
+            const passwordModal = document.getElementById('password-modal');
+            const closePasswordModalBtn = document.getElementById('close-password-modal-btn');
+            const passwordForm = document.getElementById('password-form');
+            const passwordInput = document.getElementById('password-input');
+            const passwordErrorMsg = document.getElementById('password-error-msg');
+            
+            unlockGiftBtn.addEventListener('click', () => {
+                passwordModal.classList.remove('hidden');
+                passwordInput.focus();
+            });
+
+            function closePasswordModal() {
+                passwordModal.classList.add('hidden');
+                passwordInput.value = ''; 
+                passwordErrorMsg.classList.add('hidden'); 
+            }
+
+            closePasswordModalBtn.addEventListener('click', closePasswordModal);
+            
+            passwordForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const password = passwordInput.value;
+                if(password === correctPassword) {
+                    freeTrialContainer.classList.remove('hidden');
+                    closePasswordModal(); 
+                } else {
+                    passwordErrorMsg.classList.remove('hidden'); 
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            });
+
+            // --- Lógica do Modal de Apps (Planos) ---
+            const appsModal = document.getElementById('apps-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const openModalBtns = document.querySelectorAll('.open-modal-btn');
+            const modalTitle = document.getElementById('modal-title');
+            const modalGrid = document.getElementById('modal-apps-grid');
+            
+            const planApps = {
+                 basico: { name: "Plano Básico - 125 Mbps", apps: [] },
+                 basico_plus: { name: "Plano Básico+ - 225 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" } ] },
+                 basico_prata: { name: "Plano Básico Prata - 275 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" } ] },
+                 ultra_plus: { name: "Plano Ultra+ - 425 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Looke", img: "https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" } ] },
+                 gold: { name: "Plano Gold - 625 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Deezer", img: "https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" } ] },
+                 gold_plus: { name: "Plano Gold+ - 625 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "PlayKids+", img: "https://logospng.org/download/playkids/logo-playkids-2048.png" }, { name: "Deezer", img: "https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" } ] },
+                 ultra_gold_wifi6: { name: "Plano Ultra Gold WiFi 6 - 825 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Disney+", img: "https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" } ] },
+                 ultra_premium_wifi6: { name: "Plano Ultra Premium WiFi 6 - 825 Mbps", apps: [ { name: "App TV", img: "https://placehold.co/100x100/10b981/FFFFFF?text=TV" }, { name: "Max", img: "https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" }, { name: "Looke", img: "https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" }, { name: "PlayKids+", img: "https://logospng.org/download/playkids/logo-playkids-2048.png" }, { name: "Deezer", img: "https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" } ] }
+            };
+
+            function openModal(planKey) {
+                const planData = planApps[planKey];
+                if (!planData || !planData.apps) return;
+
+                if (planKey === 'basico_plus' || planKey === 'basico_prata') {
+                      modalTitle.textContent = `Apps Inclusos: ${planData.name}`;
+                      modalGrid.innerHTML = `<div class="text-center"><img src="${planData.apps[0].img}" alt="${planData.apps[0].name}" class="rounded-lg w-20 h-20 mx-auto mb-2 shadow-md bg-white p-1 object-contain"><p class="text-sm text-gray-300 font-medium">${planData.apps[0].name}</p></div>`;
+                      appsModal.classList.remove('hidden');
+                      return;
+                }
+                
+                if (planData.apps.length > 0) {
+                    modalTitle.textContent = `Apps Inclusos: ${planData.name}`;
+                    modalGrid.innerHTML = '';
+                    planData.apps.forEach(app => {
+                        const fallbackImg = `https://placehold.co/100x100/7c3aed/FFFFFF?text=${encodeURIComponent(app.name.substring(0,3))}`;
+                        modalGrid.insertAdjacentHTML('beforeend', 
+                            `<div class="text-center">
+                                <img src="${app.img}" alt="${app.name}" class="rounded-lg w-20 h-20 mx-auto mb-2 shadow-md bg-white p-1 object-contain" onerror="this.onerror=null;this.src='${fallbackImg}';">
+                                <p class="text-sm text-gray-300 font-medium">${app.name}</p>
+                            </div>`
+                        );
+                    });
+                    appsModal.classList.remove('hidden');
+                }
+            }
+            function closeModal() {
+                appsModal.classList.add('hidden');
+            }
+            openModalBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const planKey = e.currentTarget.dataset.plan;
+                    if (planKey !== 'basico') {
+                        openModal(planKey);
+                    }
+                });
+            });
+            closeModalBtn.addEventListener('click', closeModal);
+            appsModal.addEventListener('click', (e) => { if (e.target === appsModal) closeModal(); });
+
+
+            // --- Lógica do Modal de Descrição de Apps (Hero) ---
+            const appDescriptionModal = document.getElementById('app-description-modal');
+            const closeAppModalBtn = document.getElementById('close-app-modal-btn');
+            
+            const allAppsModal = document.getElementById('all-apps-modal');
+            const closeAllAppsModalBtn = document.getElementById('close-all-apps-btn');
+            const openAllAppsBtn = document.getElementById('open-all-apps-btn');
+
+            const allAppIconBtns = document.querySelectorAll('.app-icon-btn');
+            
+            const allAppInfo = {
+                'looke': { name: 'Looke', img: 'https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png', desc: 'Os melhores filmes e séries de aventura você encontra no Looke. Conheça nossos títulos. No Looke você tem acesso a mais de 10.000 conteúdos entre filmes e séries. Filmes e Séries à Vontade. Quando e Onde Quiser.' },
+                'sky': { name: 'Sky+', img: 'https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png', desc: 'Todo o entretenimento da Sky agora no streaming. Filmes, séries e canais ao vivo para você assistir onde e quando quiser.' },
+                'kiddiepass': { name: 'Kiddie Pass', img: 'https://placehold.co/100x100/facc15/000000?text=KiddiePass', desc: 'Conteúdo infantil seguro e divertido. Desenhos, jogos e atividades educativas para crianças.' },
+                'nutri': { name: '+Nutri', img: 'https://placehold.co/100x100/22c55e/FFFFFF?text=%2BNutri', desc: 'Sua plataforma de saúde e bem-estar. Receitas, dicas de nutrição e treinos para uma vida mais saudável.' },
+                'efit': { name: 'E-fit AG', img: 'https://placehold.co/100x100/3b82f6/FFFFFF?text=E-Fit', desc: 'Seu personal trainer digital. Programas de exercícios para fazer em casa ou na academia.' },
+                'playkids': { name: 'PlayKids+', img: 'https://logospng.org/download/playkids/logo-playkids-2048.png', desc: 'Plataforma educativa com desenhos, jogos e livros para o desenvolvimento infantil.' },
+                'hub': { name: 'HUB', img: 'https://placehold.co/100x100/14b8a6/FFFFFF?text=Hub', desc: 'Um hub de conteúdo digital com diversos serviços e facilidades para o seu dia a dia.' },
+                'ubook': { name: 'UbookPLUS', img: 'https://placehold.co/100x100/a855f7/FFFFFF?text=Ubook', desc: 'Milhares de audiolivros e ebooks para ouvir e ler onde quiser. Histórias, negócios, ficção e mais.' }, 
+                'estuda': { name: 'Estuda+', img: 'https://placehold.co/100x100/f97316/FFFFFF?text=Estuda%2B', desc: 'Plataforma de estudos completa com videoaulas, exercícios e simulados para ENEM e vestibulares.' },
+                'leitores': { name: 'Pequenos Leitores', img: 'https://placehold.co/100x100/ec4899/FFFFFF?text=Leitores', desc: 'Incentive a leitura dos pequenos com um catálogo incrível de livros infantis interativos.' },
+                'fluid': { name: 'Fluid', img: 'https://placehold.co/64x64/6366f1/FFFFFF?text=Fluid', desc: 'Conteúdo variado de streaming para todos os gostos. Filmes, documentários e mais.' },
+                'socialcomics': { name: 'Social Comics', img: 'https://placehold.co/64x64/ef4444/FFFFFF?text=Social', desc: 'O maior serviço de streaming de HQs da América Latina. Milhares de quadrinhos no seu celular.' },
+                'revistaria': { name: 'Revistaria', img: 'https://placehold.co/64x64/d946ef/FFFFFF?text=Revista', desc: 'Acesse centenas de revistas digitais. Notícias, entretenimento, esportes e muito mais.' },
+                'playlist': { name: 'Playlist', img: 'https://placehold.co/64x64/8b5cf6/FFFFFF?text=Playlist', desc: 'Crie e ouça playlists de música selecionadas para todos os momentos do seu dia.' },
+                'deezer': { name: 'Deezer', img: 'https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png', desc: 'Milhões de músicas, podcasts e playlists ao seu alcance. Ouça suas faixas favoritas offline e descubra novos artistas.' },
+                'klicencas': { name: 'K Licenças', img: 'https://placehold.co/100x100/6366f1/FFFFFF?text=K', desc: 'Acesso a licenças de software e antivírus para manter seus dispositivos seguros e atualizados.' },
+                'hotgo': { name: 'Hotgo', img: 'https://placehold.co/100x100/dc2626/FFFFFF?text=HotGo', desc: 'Conteúdo adulto exclusivo para maiores de 18 anos.' },
+                'curtaon': { name: 'CurtaOn', img: 'https://placehold.co/100x100/1f2937/FFFFFF?text=CurtaOn', desc: 'O melhor do cinema e documentários brasileiros. Filmes premiados e séries independentes.' },
+                'jornalista': { name: 'O Jornalista', img: 'https://placehold.co/100x100/4b5563/FFFFFF?text=Jornal', desc: 'Acesso digital a jornais e notícias em tempo real. Mantenha-se informado sobre o Brasil e o mundo.' },
+                'docway': { name: 'Docway', img: 'https://placehold.co/100x100/10b981/FFFFFF?text=Doc', desc: 'Serviço de telemedicina para você e sua família. Consultas médicas por vídeo, 24h por dia.' },
+                'disney': { name: 'Disney+', img: 'https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png', desc: 'O streaming com o entretenimento da Disney, Pixar, Marvel, Star Wars, National Geographic e muito mais.' },
+                'max': { name: 'Max', img: 'https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png', desc: 'O streaming da HBO, Warner Bros, DC, Discovery e muito mais. Séries, filmes e realities imperdíveis.' },
+                'indie': { name: 'Indie', img: 'https://placehold.co/100x100/f59e0b/FFFFFF?text=Indie', desc: 'Plataforma de streaming focada em cinema independente e filmes de arte premiados.' },
+                'leitura360': { name: 'Leitura 360', img: 'https://placehold.co/100x100/0891b2/FFFFFF?text=Leitura', desc: 'Uma biblioteca digital completa com livros, audiobooks e revistas para todos os gostos.' },
+                'nba': { name: 'NBA League Pass', img: 'https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png', desc: 'Assista a todos os jogos da NBA, ao vivo e sob demanda. Acompanhe seu time e jogadores favoritos durante toda a temporada.' },
+                'smartcontent': { name: 'SmartContent', img: 'https://placehold.co/100x100/ef4444/FFFFFF?text=Smart', desc: 'Conteúdo inteligente e educacional para toda a família. Cursos, documentários e muito mais.' },
+                'queima': { name: 'Queima Diária', img: 'https://seeklogo.com/images/Q/queima-diaria-logo-653593254B-seeklogo.com.png', desc: 'A maior plataforma de exercícios e bem-estar em casa da América Latina. Aulas, programas e desafios.' },
+                'zen': { name: 'Zen', img: 'https://logodownload.org/wp-content/uploads/2021/04/zen-logo-0.png', desc: 'Aplicativo de meditação, sono e relaxamento. Encontre sua paz interior e durma melhor.' }
+            };
+
+            function openAppDescriptionModal(event) {
+                const appId = event.currentTarget.dataset.appId;
+                const appData = allAppInfo[appId];
+                if (!appData) return;
+                
+                const fallbackImg = `https://placehold.co/128x128/FFFFFF/000000?text=${encodeURIComponent(appData.name.substring(0,3))}`;
+
+                const modalImg = document.getElementById('modal-app-img');
+                modalImg.src = appData.img;
+                modalImg.onerror = function() { this.onerror = null; this.src = fallbackImg; };
+                
+                document.getElementById('modal-app-title').textContent = appData.name;
+                document.getElementById('modal-app-desc').textContent = appData.desc;
+
+                appDescriptionModal.classList.remove('hidden');
+            }
+
+            function closeAppDescriptionModal() {
+                appDescriptionModal.classList.add('hidden');
+            }
+
+            allAppIconBtns.forEach(btn => {
+                btn.addEventListener('click', openAppDescriptionModal);
+            });
+
+            closeAppModalBtn.addEventListener('click', closeAppDescriptionModal);
+            appDescriptionModal.addEventListener('click', (e) => {
+                if (e.target === appDescriptionModal) {
+                    closeAppDescriptionModal();
+                }
+            });
+            
+            function openAllAppsModal() {
+                allAppsModal.classList.remove('hidden');
+            }
+            function closeAllAppsModal() {
+                allAppsModal.classList.add('hidden');
+            }
+
+            openAllAppsBtn.addEventListener('click', openAllAppsModal);
+            closeAllAppsModalBtn.addEventListener('click', closeAllAppsModal);
+            allAppsModal.addEventListener('click', (e) => {
+                if (e.target === allAppsModal) {
+                    closeAllAppsModal();
+                }
+            });
+
+            // --- Lógica de Apps Dinâmicos no Formulário ---
+
+            const planSelect = document.getElementById('plan');
+            const includedAppsContainer = document.getElementById('included-apps-container');
+            const includedAppsList = document.getElementById('included-apps-list');
+            const includedAppsTextInput = document.getElementById('included_apps_text');
+
+            const standardAppsList = [
+                 { id: 'looke', name: 'Looke' }, { id: 'sky_light', name: 'Sky+ Light' }, { id: 'kiddiepass_std', name: 'Kiddie Pass (Standard)' },
+                 { id: 'nutri', name: '+Nutri' }, { id: 'efit', name: 'E-fit AG' }, { id: 'playkids', name: 'PlayKids+' },
+                 { id: 'hub', name: 'HUB' }, { id: 'ubook', name: 'UbookPLUS' }, { id: 'estuda', name: 'Estuda+' },
+                 { id: 'leitores', name: 'Pequenos Leitores' }, { id: 'fluid', name: 'Fluid' }, { id: 'socialcomics', name: 'Social Comics' },
+                 { id: 'revistaria', name: 'Revistaria' }, { id: 'playlist', name: 'Playlist' }
+            ];
+            const advancedAppsList = [
+                 { id: 'sky_globo', name: 'Sky+ com Globo' }, { id: 'kiddiepass_adv', name: 'Kiddie Pass (Advanced)' }, { id: 'deezer', name: 'Deezer' },
+                 { id: 'klicencas_adv', name: 'K Licenças (Advanced)' }, { id: 'hotgo', name: 'Hotgo' }, { id: 'curtaon', name: 'CurtaOn' },
+                 { id: 'jornalista', name: 'O Jornalista' }, { id: 'docway', name: 'Docway' }
+            ];
+            const premiumAppsList = [
+                 { id: 'sky_amazon', name: 'SKY+ com Amazon' }, { id: 'disney_avulso', name: 'Disney+ (Avulso)' }, { id: 'hbo_avulso', name: 'HBO Max (Avulso)' },
+                 { id: 'indie', name: 'Indie' }, { id: 'leitura360', name: 'Leitura 360' }, { id: 'disney', name: 'Disney+' },
+                 { id: 'max', name: 'Max' }, { id: 'klicencas_prem', name: 'K Licenças (Premium)' }, { id: 'nba', name: 'NBA' },
+                 { id: 'smartcontent', name: 'SmartContent' }, { id: 'queima', name: 'Queima Diária' }, { id: 'zen', name: 'Zen' }
+            ];
+
+            const planRules = {
+                "Plano Ultra Premium WiFi 6 - 825 Mbps": { premium: 1, standard: 2, advanced: 1, appTv: true },
+                "Plano Ultra Gold WiFi 6 - 825 Mbps": { premium: 1, standard: 0, advanced: 0, appTv: true },
+                "Plano Gold+ - 625 Mbps": { premium: 0, standard: 1, advanced: 1, appTv: true },
+                "Plano Gold - 625 Mbps": { premium: 0, standard: 0, advanced: 1, appTv: true },
+                "Plano Ultra+ - 425 Mbps": { premium: 0, standard: 1, advanced: 0, appTv: true },
+                "Plano Básico Prata - 275 Mbps": { appTv: true },
+                "Plano Básico+ - 225 Mbps": { appTv: true },
+                "Plano Básico - 125 Mbps": {}
+            };
+            
+            function createDropdowns(label, count, appArray, categoryName) {
+                for (let i = 0; i < count; i++) {
+                    const labelEl = document.createElement('label');
+                    labelEl.className = 'block text-gray-300 font-medium mb-1 text-sm';
+                    labelEl.textContent = `${label} ${count > 1 ? i + 1 : ''}:`;
+                    
+                    const selectEl = document.createElement('select');
+                    selectEl.name = `${categoryName}_app_${i}`;
+                    selectEl.className = 'app-select w-full px-4 py-2 rounded-lg';
+                    
+                    selectEl.innerHTML = `<option value="">Selecione 1 App ${label}</option>`;
+                    
+                    appArray.forEach(app => {
+                        selectEl.innerHTML += `<option value="${app.name}">${app.name}</option>`;
+                    });
+                    
+                    selectEl.addEventListener('change', updateHiddenAppInput);
+
+                    includedAppsList.appendChild(labelEl);
+                    includedAppsList.appendChild(selectEl);
+                }
+            }
+            
+            function updateHiddenAppInput() {
+                const selects = includedAppsList.querySelectorAll('.app-select');
+                let appNames = [];
+                
+                const tvTag = includedAppsList.querySelector('.app-tv-tag');
+                if (tvTag) {
+                    appNames.push("App de TV (Canais Abertos)");
+                }
+
+                selects.forEach(select => {
+                    if (select.value) {
+                        appNames.push(select.value);
+                    }
+                });
+                includedAppsTextInput.value = appNames.join(', ');
+            }
+
+            planSelect.addEventListener('change', () => {
+                const rules = planRules[planSelect.value];
+                includedAppsList.innerHTML = ''; 
+                includedAppsTextInput.value = ''; 
+
+                if (!rules || (rules.standard === 0 && rules.advanced === 0 && rules.premium === 0 && !rules.appTv)) {
+                    includedAppsContainer.classList.add('hidden'); 
+                    return;
+                }
+                
+                if(rules.appTv) {
+                    const tvTag = `<span class="app-tv-tag bg-neon-purple/20 text-neon-purple border border-neon-purple text-xs font-bold px-3 py-1 rounded-full inline-block mb-3">App de TV (Canais Abertos)</span>`;
+                    includedAppsList.insertAdjacentHTML('beforeend', tvTag);
+                }
+                
+                createDropdowns('Premium', rules.premium || 0, premiumAppsList, 'premium');
+                createDropdowns('Advanced', rules.advanced || 0, advancedAppsList, 'advanced');
+                createDropdowns('Standard', rules.standard || 0, standardAppsList, 'standard');
+
+                updateHiddenAppInput(); 
+                includedAppsContainer.classList.remove('hidden'); 
+            });
+
+            // Lógica para enviar formulário COMPLETO para o WhatsApp
+            const cadastroForm = document.getElementById('cadastro-form');
+            cadastroForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const formData = new FormData(cadastroForm);
+                const planSelect = document.getElementById('plan');
+                const selectedPlanText = planSelect.options[planSelect.selectedIndex].text;
+                
+                const freeTrialSelect = document.getElementById('free_trial');
+                const selectedFreeTrialText = freeTrialSelect.options[freeTrialSelect.selectedIndex].text;
+
+                const getValue = (key) => formData.get(key) || '';
+
+                let messageParts = [
+                    '*Ficha do Cliente (Neon)*', '', 
+                    `🆔 *Nome:* ${getValue('full_name')}`,
+                    `🏷️ *Apelido:* ${getValue('nickname') || 'N/A'}`,
+                    `🪪 *CPF:* ${getValue('cpf')}`,
+                    `🎂 *Nascimento:* ${getValue('birth_date') ? new Date(getValue('birth_date') + 'T00:00:00').toLocaleDateString('pt-BR') : 'N/A'}`, 
+                    `💬 *WhatsApp:* ${getValue('whatsapp')}`,
+                    `✉️ *E-mail:* ${getValue('email')}`,
+                    `🏡 *Endereço:* ${getValue('address')}`,
+                    `📍 *Geo:* ${getValue('geolocation') || 'N/A'}`,
+                    `📌 *Ref:* ${getValue('reference') || 'N/A'}`,
+                    `📃 *Plano:* ${selectedPlanText || 'N/A'}`, 
+                ];
+
+                const appsText = getValue('included_apps_text');
+                if (appsText) {
+                    messageParts.push(`📱 *Apps:* ${appsText}`);
+                }
+
+                messageParts.push(`📱 *Aparelhos:* ${getValue('devices') || 'N/A'}`);
+                messageParts.push(`🗓️ *Vencimento:* Dia ${getValue('due_date') || 'N/A'}`);
+
+                if (!freeTrialContainer.classList.contains('hidden') && getValue('free_trial') !== 'Não') {
+                     messageParts.push(`🎁 *Teste grátis:* ${selectedFreeTrialText}`);
+                }
+
+                messageParts.push(`📝 *OBS:* ${getValue('obs') || 'N/A'}`);
+
+                const message = messageParts.join('\n'); 
+
+                const phoneNumber = "557531999981"; 
+                const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`; 
+                window.open(whatsappUrl, '_blank').focus();
+            });
+
+
+            // --- Inicialização do Swiper Responsiva ---
+            const swiper = new Swiper('.swiper-container', {
+                loop: false, 
+                spaceBetween: 16,
+                slidesPerView: 1.2,
+                centeredSlides: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2.2,
+                        centeredSlides: false,
+                        pagination: { 
+                            el: '.swiper-pagination',
+                            clickable: true,
+                        },
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        centeredSlides: false,
+                        pagination: false, 
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+                    },
+                    1024: {
+                        slidesPerView: 4,
+                        centeredSlides: false,
+                        pagination: false,
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+                    }
+                }
+            });
+
+            // Inicializa os ícones Lucide
+            lucide.createIcons();
+        });
     </script>
 </body>
 </html>
-
