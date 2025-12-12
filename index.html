@@ -239,6 +239,37 @@
             background: #00e1ff; 
         }
 
+        /* Estilo para os cards do modal de sites */
+        .site-card-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background-color: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            text-align: center;
+            color: #e2e8f0;
+            height: 100%;
+        }
+        .site-card-item:hover {
+            background-color: rgba(0, 102, 255, 0.1);
+            border-color: #0066FF;
+            transform: translateY(-2px);
+        }
+        .site-card-item img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+        }
+        .site-card-item span {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
         /* Navegação Swiper Responsiva */
         .swiper-button-next, .swiper-button-prev { display: none; }
         @media (min-width: 768px) {
@@ -738,12 +769,12 @@
                                 class="relative w-full h-full object-cover rounded-[2.5rem] border-2 border-[#121212] shadow-2xl z-10 filter grayscale contrast-125 group-hover:grayscale-0 transition duration-700 ease-in-out"
                             >
                             
-                            <!-- Badge Flutuante -->
-                            <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 z-20 bg-black/90 border border-neon-green px-8 py-3 rounded-full shadow-[0_0_20px_rgba(0,225,255,0.4)] hover:scale-105 transition transform">
-                                <span class="text-neon-green font-black text-sm tracking-[0.2em] whitespace-nowrap flex items-center gap-2">
-                                    <i data-lucide="wifi" class="w-4 h-4"></i> CONEXÃO 100%
+                            <!-- Badge Flutuante (Agora é um Botão) -->
+                            <button id="open-sites-btn" class="absolute -bottom-6 left-1/2 -translate-x-1/2 z-20 bg-black/90 border border-neon-green px-8 py-3 rounded-full shadow-[0_0_20px_rgba(0,225,255,0.4)] hover:scale-110 active:scale-95 transition-all duration-300 group/btn cursor-pointer">
+                                <span class="text-neon-green font-black text-sm tracking-[0.2em] whitespace-nowrap flex items-center gap-2 group-hover/btn:text-white transition-colors">
+                                    <i data-lucide="globe" class="w-4 h-4"></i> TOP SITES BRASIL
                                 </span>
-                            </div>
+                            </button>
                         </div>
                     </div>
 
@@ -1045,6 +1076,161 @@
                     Desbloquear
                 </button>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal Top 30 Sites (NOVO) -->
+    <div id="top-sites-modal" class="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 z-[80] hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-[#0a0f26] border border-neon-blue rounded-2xl shadow-[0_0_50px_rgba(0,102,255,0.3)] w-full max-w-5xl max-h-[90vh] overflow-y-auto relative flex flex-col">
+            
+            <!-- Header do Modal -->
+            <div class="p-6 border-b border-white/10 flex justify-between items-center sticky top-0 bg-[#0a0f26]/95 backdrop-blur z-10">
+                <div>
+                    <h3 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <i data-lucide="globe" class="text-neon-green"></i> Navegação Rápida
+                    </h3>
+                    <p class="text-gray-400 text-sm">Os sites mais acessados do Brasil a um clique.</p>
+                </div>
+                <button id="close-sites-btn" class="text-gray-400 hover:text-red-500 transition-colors p-2 hover:bg-white/5 rounded-full">
+                    <i data-lucide="x" class="w-8 h-8"></i>
+                </button>
+            </div>
+
+            <!-- Grid de Sites -->
+            <div class="p-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                
+                <!-- CATEGORIA: UTILITÁRIOS & BUSCA -->
+                <a href="https://loterias.caixa.gov.br/Paginas/Mega-Sena.aspx" target="_blank" class="flex flex-col items-center justify-center p-4 rounded-xl bg-white/5 border border-white/5 hover:border-neon-green hover:bg-white/10 transition-all group">
+                    <img src="https://www.google.com/s2/favicons?domain=caixa.gov.br&sz=64" alt="Caixa" class="w-10 h-10 mb-2 group-hover:scale-110 transition-transform">
+                    <span class="text-white font-bold text-sm">Mega Sena</span>
+                    <span class="text-xs text-neon-green">Resultados</span>
+                </a>
+                <a href="https://www.google.com.br" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=google.com.br&sz=64" alt="Google">
+                    <span>Google</span>
+                </a>
+                <a href="https://www.youtube.com" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=64" alt="YouTube">
+                    <span>YouTube</span>
+                </a>
+                <a href="https://web.whatsapp.com" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=whatsapp.com&sz=64" alt="WhatsApp">
+                    <span>WhatsApp Web</span>
+                </a>
+                <a href="https://www.gov.br" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=gov.br&sz=64" alt="Gov.br">
+                    <span>Gov.br</span>
+                </a>
+                <a href="https://chatgpt.com/" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=openai.com&sz=64" alt="ChatGPT">
+                    <span>ChatGPT</span>
+                </a>
+
+                <!-- CATEGORIA: NOTÍCIAS -->
+                <a href="https://g1.globo.com" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=g1.globo.com&sz=64" alt="G1">
+                    <span>G1 Notícias</span>
+                </a>
+                <a href="https://www.uol.com.br" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=uol.com.br&sz=64" alt="UOL">
+                    <span>UOL</span>
+                </a>
+                <a href="https://www.cnnbrasil.com.br" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=cnnbrasil.com.br&sz=64" alt="CNN Brasil">
+                    <span>CNN Brasil</span>
+                </a>
+                <a href="https://www.r7.com" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=r7.com&sz=64" alt="R7">
+                    <span>Portal R7</span>
+                </a>
+
+                <!-- CATEGORIA: COMPRAS -->
+                <a href="https://www.mercadolivre.com.br" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=mercadolivre.com.br&sz=64" alt="Mercado Livre">
+                    <span>Mercado Livre</span>
+                </a>
+                <a href="https://www.amazon.com.br" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=amazon.com.br&sz=64" alt="Amazon">
+                    <span>Amazon BR</span>
+                </a>
+                <a href="https://shopee.com.br" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=shopee.com.br&sz=64" alt="Shopee">
+                    <span>Shopee</span>
+                </a>
+                <a href="https://www.magazineluiza.com.br" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=magazineluiza.com.br&sz=64" alt="Magalu">
+                    <span>Magalu</span>
+                </a>
+                <a href="https://pt.aliexpress.com" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=aliexpress.com&sz=64" alt="AliExpress">
+                    <span>AliExpress</span>
+                </a>
+
+                <!-- CATEGORIA: BANCOS -->
+                <a href="https://www.caixa.gov.br" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=caixa.gov.br&sz=64" alt="Caixa">
+                    <span>Caixa Geral</span>
+                </a>
+                <a href="https://nubank.com.br" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=nubank.com.br&sz=64" alt="Nubank">
+                    <span>Nubank</span>
+                </a>
+                <a href="https://www.bb.com.br" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=bb.com.br&sz=64" alt="Banco do Brasil">
+                    <span>Banco do Brasil</span>
+                </a>
+                <a href="https://www.itau.com.br" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=itau.com.br&sz=64" alt="Itaú">
+                    <span>Itaú</span>
+                </a>
+                <a href="https://banco.bradesco" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=banco.bradesco&sz=64" alt="Bradesco">
+                    <span>Bradesco</span>
+                </a>
+                 <a href="https://inter.co" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=inter.co&sz=64" alt="Inter">
+                    <span>Banco Inter</span>
+                </a>
+
+                <!-- CATEGORIA: SOCIAL & ENTRETENIMENTO -->
+                <a href="https://www.instagram.com" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=instagram.com&sz=64" alt="Instagram">
+                    <span>Instagram</span>
+                </a>
+                <a href="https://www.facebook.com" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=facebook.com&sz=64" alt="Facebook">
+                    <span>Facebook</span>
+                </a>
+                <a href="https://www.tiktok.com" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=tiktok.com&sz=64" alt="TikTok">
+                    <span>TikTok</span>
+                </a>
+                <a href="https://twitter.com" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=twitter.com&sz=64" alt="X (Twitter)">
+                    <span>X (Twitter)</span>
+                </a>
+                 <a href="https://www.linkedin.com" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=linkedin.com&sz=64" alt="LinkedIn">
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://www.netflix.com" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64" alt="Netflix">
+                    <span>Netflix</span>
+                </a>
+                <a href="https://globoplay.globo.com" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=globoplay.globo.com&sz=64" alt="Globoplay">
+                    <span>Globoplay</span>
+                </a>
+                <a href="https://www.correios.com.br" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=correios.com.br&sz=64" alt="Correios">
+                    <span>Correios</span>
+                </a>
+                 <a href="https://www.climatempo.com.br" target="_blank" class="site-card-item">
+                    <img src="https://www.google.com/s2/favicons?domain=climatempo.com.br&sz=64" alt="ClimaTempo">
+                    <span>ClimaTempo</span>
+                </a>
+
+            </div>
         </div>
     </div>
 
@@ -1396,6 +1582,37 @@
                     closeAllAppsModal();
                 }
             });
+
+            // --- Lógica do Modal Top Sites (NOVO) ---
+            const topSitesModal = document.getElementById('top-sites-modal');
+            const openSitesBtn = document.getElementById('open-sites-btn');
+            const closeSitesBtn = document.getElementById('close-sites-btn');
+
+            if (openSitesBtn && topSitesModal) {
+                openSitesBtn.addEventListener('click', () => {
+                    topSitesModal.classList.remove('hidden');
+                    // Pequeno delay para a animação de opacidade funcionar
+                    setTimeout(() => {
+                        topSitesModal.classList.remove('opacity-0');
+                    }, 10);
+                });
+
+                const closeSites = () => {
+                    topSitesModal.classList.add('opacity-0');
+                    setTimeout(() => {
+                        topSitesModal.classList.add('hidden');
+                    }, 300); // Espera a animação terminar
+                };
+
+                closeSitesBtn.addEventListener('click', closeSites);
+                
+                // Fechar ao clicar fora
+                topSitesModal.addEventListener('click', (e) => {
+                    if (e.target === topSitesModal) {
+                        closeSites();
+                    }
+                });
+            }
 
             // --- Lógica de Apps Dinâmicos no Formulário ---
 
