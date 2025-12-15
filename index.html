@@ -9,14 +9,11 @@
     <link rel="apple-touch-icon" href="https://placehold.co/32x32/2563eb/FFFFFF?text=UF">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Adicionando Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Fontes: Orbitron para o Logo (Estilo Tech) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     
-    <!-- Configuração de Cores Customizadas no Tailwind -->
     <script>
         tailwind.config = {
             theme: {
@@ -27,20 +24,43 @@
                     },
                     colors: {
                         neon: {
-                            blue: '#0066FF',   /* Azul Principal (Mantido) */
-                            green: '#00e1ff',  /* NOVO: Ciano Elétrico (Substituindo o verde) */
-                            dark: '#010414',   /* NOVO: Azul Noite Profundo (Background principal) */
-                            card: '#0a0f26',   /* Azul Tech Escuro (Cartões) */
+                            blue: '#0066FF',   /* Azul Principal */
+                            green: '#00e1ff',  /* Ciano Elétrico */
+                            dark: '#010414',   /* Azul Noite Profundo */
+                            card: '#0a0f26',   /* Azul Tech Escuro */
                             silver: '#e2e8f0'  /* Prata base */
                         }
                     },
                     boxShadow: {
                         'neon-blue': '0 0 15px rgba(0, 102, 255, 0.4)',
-                        'neon-green': '0 0 15px rgba(0, 225, 255, 0.4)', /* Ajustado para Ciano */
+                        'neon-green': '0 0 15px rgba(0, 225, 255, 0.4)',
                         'neon-card': '0 0 25px rgba(0, 102, 255, 0.15)',
                     },
                     backgroundImage: {
                         'silver-gradient': 'linear-gradient(to bottom, #ffffff 0%, #d1d5db 40%, #9ca3af 100%)',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 3s infinite',
+                        'shimmer': 'shimmer 2.5s infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 15px rgba(0, 225, 255, 0.4)' },
+                            '50%': { boxShadow: '0 0 25px rgba(0, 225, 255, 0.7)' },
+                        },
+                        shimmer: {
+                            '100%': { transform: 'translateX(100%)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
                     }
                 }
             }
@@ -50,9 +70,10 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #010414; /* NOVO: Fundo Azul Profundo */
+            background-color: #010414;
             color: #e2e8f0;
             scroll-behavior: smooth;
+            overflow-x: hidden; /* Previne scroll horizontal indesejado */
         }
 
         /* TEXTO PRATEADO (Efeito Metálico) */
@@ -63,7 +84,7 @@
             filter: drop-shadow(0 0 2px rgba(255,255,255,0.2));
         }
 
-        /* Hero com background "Planeta Conectado" - Ajustado gradiente para azul escuro */
+        /* Hero com background */
         .hero-gradient {
             background: linear-gradient(to bottom, rgba(1,4,20,0.3) 0%, rgba(1,4,20,0.95) 90%, #010414 100%), 
                         url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1920&auto=format&fit=crop');
@@ -76,28 +97,46 @@
 
         /* Efeito de vidro para os cartões */
         .plan-card {
-            background: rgba(10, 15, 38, 0.8); /* Ajustado para tom azulado */
+            background: rgba(10, 15, 38, 0.8);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(0, 102, 255, 0.2);
             transition: all 0.3s ease;
         }
 
         .plan-card:hover {
-            border-color: #00e1ff; /* Ciano no Hover */
+            border-color: #00e1ff;
             box-shadow: 0 0 30px rgba(0, 225, 255, 0.25);
             transform: translateY(-8px);
         }
 
-        /* Botões Neon "Green" (Agora Ciano/Azul Neon) */
+        /* Botões Neon com Efeito Shine */
         .btn-neon-green {
-            background-color: #00e1ff; /* Ciano */
+            background-color: #00e1ff;
             color: #000;
             font-weight: 800;
             transition: all 0.3s ease;
             box-shadow: 0 0 10px rgba(0, 225, 255, 0.3);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .btn-neon-green::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-neon-green:hover::after {
+            left: 100%;
+        }
+
         .btn-neon-green:hover {
-            background-color: #7dd3fc; /* Azul claro */
+            background-color: #7dd3fc;
             box-shadow: 0 0 20px rgba(0, 225, 255, 0.6);
             transform: scale(1.02);
         }
@@ -116,7 +155,7 @@
 
         /* Inputs customizados */
         input, select, textarea {
-            background-color: #0a0f26 !important; /* Azul escuro */
+            background-color: #0a0f26 !important;
             border: 1px solid #1e293b !important;
             color: #fff !important;
         }
@@ -126,40 +165,15 @@
             outline: none;
         }
 
-        /* Placeholder do formulário */
-        ::placeholder {
-            color: #64748b;
-        }
-        /* Cor da data no input date (ícone branco) */
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            filter: invert(1);
-            cursor: pointer;
-        }
+        ::placeholder { color: #64748b; }
+        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
 
         /* Swiper custom overrides */
-        .swiper-pagination-bullet {
-            background: #fff;
-            opacity: 0.3;
-        }
-        .swiper-pagination-bullet-active {
-            background: #00e1ff; /* Ciano */
-            opacity: 1;
-            box-shadow: 0 0 8px #00e1ff;
-        }
-        .swiper-button-next, .swiper-button-prev {
-            color: #0066FF; /* Azul */
-            text-shadow: 0 0 5px rgba(0, 102, 255, 0.8);
-        }
-
-        .swiper-container {
-            width: 100%;
-            overflow: hidden;
-            padding-bottom: 3rem; 
-            position: relative; 
-        }
-        .swiper-slide {
-            height: auto;
-        }
+        .swiper-pagination-bullet { background: #fff; opacity: 0.3; }
+        .swiper-pagination-bullet-active { background: #00e1ff; opacity: 1; box-shadow: 0 0 8px #00e1ff; }
+        .swiper-button-next, .swiper-button-prev { color: #0066FF; text-shadow: 0 0 5px rgba(0, 102, 255, 0.8); }
+        .swiper-container { width: 100%; overflow: hidden; padding-bottom: 3rem; position: relative; }
+        .swiper-slide { height: auto; }
 
         /* Ícones dos Apps */
         .app-icon-btn {
@@ -169,148 +183,130 @@
             padding: 0.5rem;
             transition: all 0.2s ease-in-out;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            text-align: center;
+            height: 100%;
+            cursor: pointer;
         }
         .app-icon-btn:hover {
-            transform: scale(1.1);
-            background-color: rgba(0, 225, 255, 0.1); /* Ciano fraco */
+            transform: scale(1.05);
+            background-color: rgba(0, 225, 255, 0.1);
             border-color: #00e1ff;
             box-shadow: 0 0 10px rgba(0, 225, 255, 0.3);
         }
-
-        /* Marquee (Carrossel Infinito) */
-        .marquee-container {
-            width: 100%;
-            white-space: nowrap;
-            background: #00020a; /* Quase preto azulado */
-            border-top: 1px solid #1e293b;
-            border-bottom: 1px solid #1e293b;
+        .app-icon-btn img {
+            width: 48px; 
+            height: 48px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 4px;
         }
-        .marquee-content {
-            display: inline-block; 
-            animation: marquee-scroll 60s linear infinite; 
-        }
-        .marquee-container:hover .marquee-content {
-            animation-play-state: paused;
-        }
-        .marquee-content img {
-            display: inline-block; 
-            vertical-align: middle;
-            transition: all 0.3s ease;
-            max-height: 40px; 
-            margin: 0 2rem;
-            opacity: 0.9;
-            filter: drop-shadow(0 0 2px rgba(255,255,255,0.3));
-        }
-        .marquee-content img:hover {
-            transform: scale(1.15);
-            opacity: 1;
-            /* Brilho Ciano no Hover das logos */
-            filter: drop-shadow(0 0 8px rgba(0, 225, 255, 0.8)); 
-            z-index: 10;
-            position: relative;
-        }
-        
-        .logo-white {
-            filter: brightness(0) invert(1) drop-shadow(0 0 2px rgba(255,255,255,0.5)) !important;
-        }
-        .logo-white:hover {
-            filter: brightness(0) invert(1) drop-shadow(0 0 10px rgba(0, 225, 255, 0.8)) !important;
-        }
-
-        @keyframes marquee-scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #010414; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1e293b; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #00e1ff; 
-        }
-
-        /* Estilo para os cards do modal de sites */
-        .site-card-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            background-color: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 0.75rem;
-            transition: all 0.3s ease;
-            text-align: center;
+        .app-icon-btn .app-label {
+            font-size: 0.75rem;
             color: #e2e8f0;
-            height: 100%;
-        }
-        .site-card-item:hover {
-            background-color: rgba(0, 102, 255, 0.1);
-            border-color: #0066FF;
-            transform: translateY(-2px);
-        }
-        .site-card-item img {
-            width: 32px;
-            height: 32px;
-            margin-bottom: 0.5rem;
-            border-radius: 4px;
-        }
-        .site-card-item span {
-            font-size: 0.85rem;
             font-weight: 500;
         }
 
-        /* Navegação Swiper Responsiva */
+        /* Marquee */
+        .marquee-container { width: 100%; white-space: nowrap; background: #00020a; border-top: 1px solid #1e293b; border-bottom: 1px solid #1e293b; }
+        .marquee-content { display: inline-block; animation: marquee-scroll 60s linear infinite; }
+        .marquee-container:hover .marquee-content { animation-play-state: paused; }
+        .marquee-content img { display: inline-block; vertical-align: middle; transition: all 0.3s ease; max-height: 40px; margin: 0 2rem; opacity: 0.9; filter: drop-shadow(0 0 2px rgba(255,255,255,0.3)); }
+        .marquee-content img:hover { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 8px rgba(0, 225, 255, 0.8)); z-index: 10; position: relative; }
+        .logo-white { filter: brightness(0) invert(1) drop-shadow(0 0 2px rgba(255,255,255,0.5)) !important; }
+        .logo-white:hover { filter: brightness(0) invert(1) drop-shadow(0 0 10px rgba(0, 225, 255, 0.8)) !important; }
+        @keyframes marquee-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #010414; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00e1ff; }
+
+        /* Estilo para os cards do modal de sites */
+        .site-card-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 0.75rem;
+            transition: all 0.3s ease; text-align: center; color: #e2e8f0; height: 100%;
+            cursor: pointer; /* Adicionado cursor pointer para indicar que é clicável */
+        }
+        .site-card-item:hover { background-color: rgba(0, 102, 255, 0.1); border-color: #0066FF; transform: translateY(-2px); }
+        .site-card-item img { width: 32px; height: 32px; margin-bottom: 0.5rem; border-radius: 4px; }
+        .site-card-item span { font-size: 0.85rem; font-weight: 500; }
+
+        /* Navegação Swiper */
         .swiper-button-next, .swiper-button-prev { display: none; }
         @media (min-width: 768px) {
-            .swiper-button-next, .swiper-button-prev {
-                 display: flex;
-                 opacity: 0.5;
-            }
-            .swiper-container:hover .swiper-button-next,
-            .swiper-container:hover .swiper-button-prev {
-                opacity: 1;
-            }
+            .swiper-button-next, .swiper-button-prev { display: flex; opacity: 0.5; }
+            .swiper-container:hover .swiper-button-next, .swiper-container:hover .swiper-button-prev { opacity: 1; }
         }
 
-        /* Gradiente Instagram Animado */
+        /* Gradiente Instagram */
         .insta-gradient {
             background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
             background-size: 200% 200%;
             animation: gradientMove 3s ease infinite;
         }
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        
+        /* Gradiente para o Portal do Assinante (Azul Neon) - NOVO */
+        .portal-gradient {
+            background: linear-gradient(45deg, #0066FF 0%, #00e1ff 100%); /* Neon Blue to Cyan */
+            background-size: 200% 200%;
+            animation: gradientMove 3s ease infinite;
+        }
+        
+        @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        /* Reveal on Scroll Class */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Estilo específico para o modal de apps do botão TOP APPS BRASIL */
+        .app-category-title {
+            font-size: 1.125rem; /* text-xl */
+            font-weight: 700; /* font-bold */
+            color: #00e1ff; /* neon-green */
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            text-align: left;
+            width: 100%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.25rem;
         }
     </style>
 </head>
 <body class="text-gray-200">
 
-    <!-- Header com fundo Azul Profundo e Blur -->
-    <header class="fixed w-full top-0 z-50 bg-[#010414]/80 backdrop-blur-md border-b border-white/5">
+    <header class="fixed w-full top-0 z-50 bg-[#010414]/80 backdrop-blur-md border-b border-white/5 transition-all duration-300" id="main-header">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
             
-            <!-- LOGO PRATA TIPO IMAGEM -->
-            <a href="#" class="flex flex-col items-start leading-none group">
-                <!-- Efeito metálico prateado no texto -->
-                <div class="font-orbitron font-black text-3xl tracking-wider text-silver-metallic drop-shadow-[0_0_15px_rgba(255,255,255,0.15)]">
-                    ULTRA<span class="text-xl ml-1">FIBRA</span>
+            <a href="#" class="flex flex-col items-center group leading-none relative">
+                <div class="absolute -inset-4 bg-neon-blue/20 blur-xl rounded-full opacity-0 group-hover:opacity-40 transition duration-700"></div>
+                
+                <div class="relative pr-2 z-10">
+                    <h1 class="font-orbitron font-black text-4xl md:text-5xl text-silver-metallic tracking-tighter drop-shadow-lg transform scale-x-125 origin-center py-1 relative overflow-hidden">
+                        ULTRA
+                        <span class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full animate-[shimmer_3s_infinite]"></span>
+                    </h1>
+                    
+                    <div class="absolute -bottom-1.5 right-0 translate-x-[10%] flex justify-end w-full">
+                        <span class="font-orbitron font-bold text-[0.5rem] text-silver-metallic tracking-[0.6em] uppercase block opacity-90 drop-shadow-md">
+                            FIBRA
+                        </span>
+                    </div>
                 </div>
-                <!-- Slogan menor -->
-                <div class="text-[0.65rem] text-gray-400 font-orbitron tracking-[0.2em] font-bold mt-0.5 group-hover:text-white transition-colors uppercase">
-                    A Sua Melhor Conexão
+                
+                <div class="text-[0.45rem] text-gray-400 font-orbitron tracking-[0.35em] font-bold mt-2 group-hover:text-white transition-colors uppercase text-center w-full scale-x-110 z-10">
+                    A SUA MELHOR CONEXÃO
                 </div>
             </a>
             
@@ -337,7 +333,7 @@
             </button>
         </nav>
         
-        <div class="hidden md:hidden bg-[#020617] border-b border-neon-blue/30" id="mobile-menu">
+        <div class="hidden md:hidden bg-[#020617] border-b border-neon-blue/30 backdrop-blur-xl" id="mobile-menu">
             <a href="#planos" class="block py-3 px-4 text-sm text-gray-300 hover:text-neon-green hover:bg-white/5 mobile-menu-link border-b border-white/5">Nossos Planos</a>
             
             <button type="button" class="open-form-btn block w-full text-left py-3 px-4 text-sm text-gray-300 hover:text-neon-green hover:bg-white/5 mobile-menu-link border-b border-white/5">Cadastro</button>
@@ -354,35 +350,12 @@
         </div>
     </header>
 
-    <section class="bg-[#010414] py-4 overflow-hidden relative border-y border-white/10 mt-16">
+    <section class="bg-[#010414] py-4 overflow-hidden relative border-y border-white/10 mt-[6rem] md:mt-[5.5rem]">
         <div class="absolute top-0 left-0 bottom-0 w-20 bg-gradient-to-r from-[#010414] to-transparent z-10 pointer-events-none"></div>
         <div class="absolute top-0 right-0 bottom-0 w-20 bg-gradient-to-l from-[#010414] to-transparent z-10 pointer-events-none"></div>
 
         <div class="marquee-container">
             <div class="marquee-content">
-                <!-- Logos Coloridas (Sem classe logo-white) -->
-                <img alt="Champions League" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-champions-league.png">
-                <img alt="Leveduca" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-leveduca.png">
-                <img alt="Playkids" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-playkids.png">
-                <img alt="Kaspersky" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-kaspersky.png">
-                
-                <!-- Logos Escuras (Mantendo logo-white para visibilidade) -->
-                <img class="logo-white" alt="Black" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/Black.png">
-                <img class="logo-white" alt="Discovery" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-discovery.png">
-                <img class="logo-white" alt="Harry Potter" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-harrypotter.png">
-                
-                <!-- Colorido -->
-                <img alt="Discovery Kids" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-discovery-kids.png">
-                
-                <!-- Escuro -->
-                <img class="logo-white" alt="Deezer" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-deezer.png">
-                
-                <!-- Coloridos/Originais -->
-                <img alt="DC" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-dc.png">
-                <img alt="Cartoon" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-cartoon.png">
-                <img alt="Logo 859" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/6132217b00feb70004beb7cc.png">
-                
-                <!-- REPETIÇÃO PARA O LOOP -->
                 <img alt="Champions League" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-champions-league.png">
                 <img alt="Leveduca" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-leveduca.png">
                 <img alt="Playkids" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-playkids.png">
@@ -391,41 +364,52 @@
                 <img class="logo-white" alt="Discovery" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-discovery.png">
                 <img class="logo-white" alt="Harry Potter" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-harrypotter.png">
                 <img alt="Discovery Kids" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-discovery-kids.png">
-                <img class="logo-white" alt="Deezer" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-deezer.png">
+                <img alt="Deezer" src="https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png">
                 <img alt="DC" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-dc.png">
                 <img alt="Cartoon" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-cartoon.png">
                 <img alt="Logo 859" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/6132217b00feb70004beb7cc.png">
+                <img alt="Champions League" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-champions-league.png">
+                <img alt="Leveduca" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-leveduca.png">
+                <img alt="Playkids" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-playkids.png">
+                <img alt="Kaspersky" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-kaspersky.png">
+                <img class="logo-white" alt="Black" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/Black.png">
+                <img class="logo-white" alt="Discovery" src="https://www.mma.com.br/mma6/wp-content/uploads/2025/03/brand-discovery.png">
             </div>
         </div>
     </section>
 
     <main>
-        <!-- HERO SECTION -->
-        <section class="hero-gradient text-white py-24 relative">
-            <!-- Partículas de fundo (opcional para dar um charme) -->
+        <section class="hero-gradient text-white py-24 relative overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-neon-green rounded-full opacity-50 animate-pulse"></div>
+                <div class="absolute top-3/4 right-1/4 w-1.5 h-1.5 bg-neon-blue rounded-full opacity-60 animate-bounce"></div>
+                <div class="absolute top-1/2 left-3/4 w-2.5 h-2.5 bg-white rounded-full opacity-30 animate-pulse" style="animation-duration: 4s;"></div>
+            </div>
+            
             <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#2563eb 1px, transparent 1px); background-size: 30px 30px;"></div>
 
             <div class="container mx-auto px-6 text-center relative z-10">
-                <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight tracking-tight">
+                <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight tracking-tight animate-fade-in-up">
                     <span class="block">CONEXÃO</span>
-                    <!-- Texto com gradiente Azul -> Branco -> Prata -->
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue via-cyan-400 to-white drop-shadow-lg">ULTRA VELOZ</span>
                 </h1>
                 
-                <p class="text-lg md:text-xl mb-10 text-gray-300 max-w-2xl mx-auto">
+                <p class="text-lg md:text-xl mb-10 text-gray-300 max-w-2xl mx-auto animate-fade-in-up" style="animation-delay: 0.2s; opacity: 0; animation-fill-mode: forwards;">
                     Internet 100% Fibra Óptica com tecnologia <span class="text-neon-green font-bold">WI-FI 6</span>. Estabilidade e potência para jogos, streaming e trabalho.
                 </p>
                 
-                <a href="#planos" class="btn-neon-green py-4 px-10 rounded-full inline-block text-lg transform hover:-translate-y-1">
-                    VER PLANOS OFERTA
-                </a>
+                <div class="animate-fade-in-up" style="animation-delay: 0.4s; opacity: 0; animation-fill-mode: forwards;">
+                    <a href="#planos" class="btn-neon-green py-4 px-10 rounded-full inline-block text-lg transform hover:-translate-y-1 animate-pulse-glow">
+                        VER PLANOS OFERTA
+                    </a>
+                </div>
                 
-                <div class="mt-20">
+                <div class="mt-20 animate-fade-in-up" style="animation-delay: 0.6s; opacity: 0; animation-fill-mode: forwards;">
                     <p class="text-sm text-neon-blue font-bold tracking-widest uppercase mb-6">Apps Favoritos Inclusos</p>
                     <div class="flex justify-center items-center gap-4 md:gap-6 flex-wrap px-4 max-w-3xl mx-auto">
-                        <button class="app-icon-btn" data-app-id="sky"><img src="https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png" alt="Logo Sky+" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Sky%2B';"></button>
-                        <button class="app-icon-btn" data-app-id="disney"><img src="https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" alt="Logo Disney+" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Disney%2B';"></button>
-                        <button class="app-icon-btn" data-app-id="max"><img src="https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" alt="Logo Max" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Max';"></button>
+                        <button class="app-icon-btn" data-app-id="sky_light"><img src="https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png" alt="Logo Sky+" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Sky%2B';"></button>
+                        <button class="app-icon-btn" data-app-id="disney_top"><img src="https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" alt="Logo Disney+" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Disney%2B';"></button>
+                        <button class="app-icon-btn" data-app-id="max_top"><img src="https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" alt="Logo Max" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Max';"></button>
                         <button class="app-icon-btn" data-app-id="nba"><img src="https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png" alt="Logo NBA" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=NBA';"></button>
                         <button class="app-icon-btn" data-app-id="deezer"><img src="https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" alt="Logo Deezer" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Deezer';"></button>
                     </div>
@@ -436,19 +420,15 @@
             </div>
         </section>
 
-        <!-- SEÇÃO PLANOS -->
-        <section id="planos" class="py-20 scroll-mt-20 bg-gradient-to-b from-[#010414] to-[#020617]"> 
+        <section id="planos" class="py-20 scroll-mt-20 bg-gradient-to-b from-[#010414] to-[#020617] reveal"> 
             <div class="container mx-auto px-6">
                 <h2 class="text-4xl font-black text-center mb-16 text-white uppercase tracking-tighter">
                     Escolha seu <span class="text-neon-blue">Power-Up</span>
                 </h2>
                 
                 <div class="swiper-container group px-4">
-                    <div class="swiper-wrapper py-4"> <!-- Padding Y adicionado para não cortar o hover -->
-                    
-                        <!-- PLANO ULTRA PREMIUM -->
-                        <div class="swiper-slide">
-                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full">
+                    <div class="swiper-wrapper py-4"> <div class="swiper-slide">
+                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full hover:z-10">
                                 <span class="bg-gradient-to-r from-neon-blue to-blue-700 text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase absolute -top-3 left-1/2 transform -translate-x-1/2 shadow-lg shadow-blue-500/30">Premium WiFi 6</span>
                                 
                                 <h3 class="text-xl font-bold mt-6 mb-2 text-white">Ultra Premium</h3>
@@ -476,9 +456,8 @@
                             </div>
                         </div>
 
-                        <!-- PLANO ULTRA GOLD -->
                         <div class="swiper-slide">
-                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full">
+                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full hover:z-10">
                                 <span class="bg-yellow-500 text-black text-[10px] font-bold px-4 py-1 rounded-full uppercase absolute -top-3 left-1/2 transform -translate-x-1/2">WiFi 6</span>
                                 
                                 <h3 class="text-xl font-bold mt-6 mb-2 text-white">Ultra Gold</h3>
@@ -504,9 +483,8 @@
                             </div>
                         </div>
                         
-                        <!-- PLANO GOLD+ -->
                         <div class="swiper-slide">
-                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full">
+                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full hover:z-10">
                                 <h3 class="text-xl font-bold mt-6 mb-2 text-white">Plano Gold+</h3>
                                 <p class="text-6xl font-black text-white">625<span class="text-2xl font-bold text-gray-400">Mega</span></p>
                                 
@@ -529,9 +507,8 @@
                             </div>
                         </div>
 
-                        <!-- PLANO GOLD -->
                         <div class="swiper-slide">
-                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full">
+                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full hover:z-10">
                                 <h3 class="text-xl font-bold mt-6 mb-2 text-white">Plano Gold</h3>
                                 <p class="text-6xl font-black text-white">625<span class="text-2xl font-bold text-gray-400">Mega</span></p>
                                 
@@ -553,9 +530,8 @@
                             </div>
                         </div>
 
-                        <!-- PLANO ULTRA+ (POPULAR) -->
                         <div class="swiper-slide">
-                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full border-neon-blue shadow-neon-card">
+                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full border-neon-blue shadow-neon-card hover:z-10">
                                 <span class="bg-neon-blue text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase absolute -top-3 left-1/2 transform -translate-x-1/2 shadow-lg shadow-blue-500/50">Mais Popular</span>
                                 
                                 <h3 class="text-xl font-bold mt-6 mb-2 text-white">Plano Ultra+</h3>
@@ -579,9 +555,8 @@
                             </div>
                         </div>
 
-                        <!-- PLANO BÁSICO PRATA -->
                         <div class="swiper-slide">
-                             <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full">
+                             <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full hover:z-10">
                                 <h3 class="text-xl font-bold mt-6 mb-2 text-white">Básico Prata</h3>
                                 <p class="text-6xl font-black text-white">275<span class="text-2xl font-bold text-gray-400">Mega</span></p>
                                 
@@ -602,9 +577,8 @@
                             </div>
                         </div>
 
-                        <!-- PLANO BÁSICO+ -->
                         <div class="swiper-slide">
-                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full">
+                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full hover:z-10">
                                 <h3 class="text-xl font-bold mt-6 mb-2 text-white">Básico+</h3>
                                 <p class="text-6xl font-black text-white">225<span class="text-2xl font-bold text-gray-400">Mega</span></p>
                                 
@@ -625,9 +599,8 @@
                             </div>
                         </div>
 
-                        <!-- PLANO BÁSICO -->
                         <div class="swiper-slide">
-                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full">
+                            <div class="plan-card rounded-2xl p-6 text-center relative flex flex-col h-full hover:z-10">
                                 <h3 class="text-xl font-bold mt-6 mb-2 text-white">Básico</h3>
                                 <p class="text-6xl font-black text-white">125<span class="text-2xl font-bold text-gray-400">Mega</span></p>
                                 
@@ -656,14 +629,13 @@
             </div>
         </section>
 
-        <!-- VIABILIDADE -->
-        <section id="viabilidade" class="py-16 bg-[#020617] border-t border-white/5">
+        <section id="viabilidade" class="py-16 bg-[#020617] border-t border-white/5 reveal">
              <div class="container mx-auto px-6 text-center">
                     <h2 class="text-3xl font-bold mb-6 text-white">Verifique a Viabilidade na sua Localização</h2>
                     <p class="text-gray-400 mb-8 max-w-xl mx-auto">Clique no botão abaixo para obter suas coordenadas GPS precisas e envie para nossa equipe.</p>
                     
                     <button id="locate-me-viability-btn" class="mb-4 btn-neon-green py-3 px-8 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-cyan-500/20">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                         Obter Minha Localização
                     </button>
                     
@@ -684,17 +656,14 @@
                           </button>
                     </div>
 
-                    <!-- Seção Indicação Premiada (NOVO) -->
-                    <div class="mt-20 relative group max-w-4xl mx-auto">
-                        <!-- Glow effect de fundo -->
+                    <div class="mt-20 relative group max-w-4xl mx-auto animate-float">
                         <div class="absolute -inset-1 bg-gradient-to-r from-neon-green to-neon-blue rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
                         
                         <div class="relative bg-[#0a0f26] border border-white/10 rounded-xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10 shadow-2xl">
                             
-                            <!-- Ícone e Texto -->
                             <div class="flex flex-col md:flex-row items-center text-center md:text-left gap-6">
                                 <div class="bg-neon-green/10 p-4 rounded-full border border-neon-green/20">
-                                    <i data-lucide="banknote" class="text-neon-green w-10 h-10"></i>
+                                    <i data-lucide="banknote" class="w-10 h-10 text-neon-green"></i>
                                 </div>
                                 <div>
                                     <h3 class="text-2xl md:text-3xl font-black text-white uppercase tracking-tight mb-2">
@@ -706,7 +675,6 @@
                                 </div>
                             </div>
                     
-                            <!-- Botão de Ação -->
                             <a href="https://api.whatsapp.com/send?phone=557531999981&text=Ol%C3%A1!%20Gostaria%20de%20saber%20as%20regras%20da%20indica%C3%A7%C3%A3o%20premiada%20(PIX)." target="_blank" class="btn-outline-blue py-3 px-6 rounded-lg font-bold flex items-center gap-2 hover:bg-neon-blue hover:text-white transition-all whitespace-nowrap group-hover:shadow-neon-blue">
                                 <i data-lucide="info" class="w-5 h-5"></i>
                                 Consultar Regras
@@ -717,104 +685,7 @@
              </div>
         </section>
 
-        <!-- NOVA SEÇÃO: Por que escolher a Ultra Net Fibra -->
-        <section class="py-24 bg-[#010414] relative overflow-hidden border-t border-white/5">
-            <!-- Efeito de Fundo (Glow Azul) -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neon-blue/10 blur-[100px] rounded-full pointer-events-none"></div>
-            
-            <div class="container mx-auto px-6 relative z-10">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-5xl font-black text-white uppercase tracking-tight mb-4">
-                        Por que escolher a <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-cyan-500 drop-shadow-[0_0_10px_rgba(0,102,255,0.5)]">Ultra Net Fibra?</span>
-                    </h2>
-                    <div class="h-1 w-24 bg-neon-green mx-auto rounded-full shadow-[0_0_10px_#00e1ff]"></div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
-                    <!-- Coluna Esquerda (Benefícios) -->
-                    <div class="space-y-12">
-                        <!-- Item 1 -->
-                        <div class="group text-center lg:text-right hover:-translate-y-2 transition duration-300">
-                            <a href="https://www.speedtest.net/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center p-4 bg-[#0a0f26] rounded-2xl mb-4 border border-white/10 group-hover:border-neon-blue shadow-lg shadow-black group-hover:shadow-[0_0_20px_rgba(0,102,255,0.3)] transition-all duration-300 cursor-pointer" title="Testar Velocidade Agora">
-                                <i data-lucide="rocket" class="w-8 h-8 text-neon-blue group-hover:scale-110 transition-transform"></i>
-                            </a>
-                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-neon-blue transition-colors">Ultravelocidade</h3>
-                            <p class="text-gray-400 text-sm leading-relaxed">
-                                Navegação com ultravelocidade e estabilidade que você só encontra aqui. Fibra óptica de ponta a ponta para voar na internet.
-                            </p>
-                        </div>
-                        
-                        <!-- Item 2 -->
-                        <div class="group text-center lg:text-right hover:-translate-y-2 transition duration-300">
-                            <a href="https://api.whatsapp.com/send?phone=557531999981&text=Ol%C3%A1!%20Vim%20pelo%20site%20Ultra%20Fibra%20e%20preciso%20de%20Suporte%20T%C3%A9cnico" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center p-4 bg-[#0a0f26] rounded-2xl mb-4 border border-white/10 group-hover:border-neon-blue shadow-lg shadow-black group-hover:shadow-[0_0_20px_rgba(0,102,255,0.3)] transition-all duration-300 cursor-pointer" title="Falar com Suporte Técnico">
-                                <i data-lucide="headset" class="w-8 h-8 text-neon-blue group-hover:scale-110 transition-transform"></i>
-                            </a>
-                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-neon-blue transition-colors">Suporte Técnico VIP</h3>
-                            <p class="text-gray-400 text-sm leading-relaxed">
-                                Qualidade e agilidade de atendimento com equipe treinada. Aqui você é atendido por especialistas, não robôs.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Imagem Central (Estilo Cyberpunk) -->
-                    <div class="relative flex justify-center lg:px-4 order-first lg:order-none mb-12 lg:mb-0">
-                        <div class="relative w-72 h-96 md:w-80 md:h-[450px] group">
-                            <!-- Efeito de borda neon atrás -->
-                            <div class="absolute -inset-1 bg-gradient-to-br from-neon-green via-blue-500 to-neon-blue rounded-[2.5rem] blur opacity-70 group-hover:opacity-100 transition duration-500 animate-pulse"></div>
-                            
-                            <!-- Imagem -->
-                            <img 
-                                src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=1000&auto=format&fit=crop" 
-                                alt="Cliente Ultra Fibra Feliz" 
-                                class="relative w-full h-full object-cover rounded-[2.5rem] border-2 border-[#121212] shadow-2xl z-10 filter grayscale contrast-125 group-hover:grayscale-0 transition duration-700 ease-in-out"
-                            >
-                            
-                            <!-- Badge Flutuante (Agora é um Botão) -->
-                            <button id="open-sites-btn" class="absolute -bottom-6 left-1/2 -translate-x-1/2 z-20 bg-black/90 border border-neon-green px-8 py-3 rounded-full shadow-[0_0_20px_rgba(0,225,255,0.4)] hover:scale-110 active:scale-95 transition-all duration-300 group/btn cursor-pointer">
-                                <span class="text-neon-green font-black text-sm tracking-[0.2em] whitespace-nowrap flex items-center gap-2 group-hover/btn:text-white transition-colors">
-                                    <i data-lucide="globe" class="w-4 h-4"></i> TOP SITES BRASIL
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Coluna Direita (Benefícios) -->
-                    <div class="space-y-12">
-                        <!-- Item 3 -->
-                        <div class="group text-center lg:text-left hover:-translate-y-2 transition duration-300">
-                            <a href="https://ninite.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center p-4 bg-[#0a0f26] rounded-2xl mb-4 border border-white/10 group-hover:border-neon-green shadow-lg shadow-black group-hover:shadow-[0_0_20px_rgba(0,225,255,0.3)] transition-all duration-300 cursor-pointer" title="Instalador de Apps (Ninite)">
-                                <i data-lucide="infinity" class="w-8 h-8 text-neon-green group-hover:scale-110 transition-transform"></i>
-                            </a>
-                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-neon-green transition-colors">Sem Limites</h3>
-                            <p class="text-gray-400 text-sm leading-relaxed">
-                                Não existe franquia limitando sua utilização. Baixe, assista e navegue à vontade, 24 horas por dia, sem redução.
-                            </p>
-                        </div>
-                        
-                        <!-- Item 4 -->
-                        <div class="group text-center lg:text-left hover:-translate-y-2 transition duration-300">
-                            <!-- Container para dois botões (Android e iOS) -->
-                            <div class="flex gap-3 justify-center lg:justify-start mb-4">
-                                <a href="https://play.google.com/store/apps" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center p-4 bg-[#0a0f26] rounded-2xl border border-white/10 group-hover:border-neon-green shadow-lg shadow-black group-hover:shadow-[0_0_20px_rgba(0,225,255,0.3)] transition-all duration-300 cursor-pointer" title="Baixar na Play Store (Android)">
-                                    <i data-lucide="smartphone" class="w-8 h-8 text-neon-green group-hover:scale-110 transition-transform"></i>
-                                </a>
-                                <a href="https://www.apple.com/br/app-store/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center p-4 bg-[#0a0f26] rounded-2xl border border-white/10 group-hover:border-neon-green shadow-lg shadow-black group-hover:shadow-[0_0_20px_rgba(0,225,255,0.3)] transition-all duration-300 cursor-pointer" title="Baixar na App Store (iOS)">
-                                    <i data-lucide="apple" class="w-8 h-8 text-neon-green group-hover:scale-110 transition-transform"></i>
-                                </a>
-                            </div>
-                            
-                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-neon-green transition-colors">Séries, Filmes e Games</h3>
-                            <p class="text-gray-400 text-sm leading-relaxed">
-                                O melhor serviço para assistir streaming em 4K e jogar online. Ping baixo e zero travamentos para sua diversão.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FORMULÁRIO -->
-        <section id="contato" class="py-20 hidden scroll-mt-20 bg-[#00020a]"> 
+        <section id="contato" class="py-20 hidden scroll-mt-20 bg-[#00020a] reveal"> 
             <h2 class="text-3xl font-bold text-center mb-12 text-white">Cadastro Digital</h2>
             <div class="max-w-2xl mx-auto px-6"> 
                 <div class="w-full bg-[#0a0f26] border border-white/10 p-8 rounded-2xl shadow-neon-card">
@@ -873,7 +744,7 @@
                                 <div class="flex items-center">
                                     <input type="text" id="geolocation" name="geolocation" placeholder="Clique no botão ao lado" class="w-full px-4 py-3 rounded-l-lg border-r-0">
                                     <button type="button" id="locate-me-form-btn" class="bg-neon-blue text-white p-3.5 rounded-r-lg hover:bg-blue-600 transition" aria-label="Obter localização atual">
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                     </button>
                                 </div>
                             </div>
@@ -940,7 +811,7 @@
                                 <textarea id="obs" name="obs" rows="3" placeholder="Alguma observação?" class="w-full px-4 py-3 rounded-lg"></textarea>
                             </div>
                             
-                            <button type="submit" class="w-full btn-neon-green py-4 px-6 rounded-lg flex items-center justify-center text-lg mt-4 shadow-neon-green">
+                            <button type="submit" class="w-full btn-neon-green py-4 px-6 rounded-lg flex items-center justify-center text-lg mt-4 shadow-neon-green animate-pulse-glow">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 16 16">
                                     <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.626-2.957 6.584-6.591 6.584zm-1.13-4.243c-.225.084-1.295.64-1.492.72-.192.08-.343.12-.478.24-.135.12-.27.24-.27.42s-.012.51.05.59c.06.08.27.31.576.62.308.308.552.53.81.73.26.19.51.3.81.42.3.12.57.1.76.02.19-.08 1.13-0.47 1.29-1.26.16-.8.16-1.48.12-1.62-.04-.14-.12-.22-.24-.3s-.27-.24-.42-.32c-.15-.08-.27-.12-.42-.2-.15-.08-.34-.12-.48-.04s-.42.48-.52.56c-.1.08-.2.12-.28.12s-.16-.04-.24-.08c-.08-.04-.36-.12-.66-.36-.3-.24-.55-.52-.66-.73-.11-.21-.03-.33.04-.42.08-.08.16-.2.24-.28.08-.08.12-.16.16-.24.04-.08.02-.16-.02-.24s-.42-1.02-.56-1.4c-.15-.38-.3-.32-.43-.32-.12 0-.27-.01-.4-.01z"/>
                                 </svg>
@@ -955,13 +826,100 @@
                     <p class="text-gray-300"><strong>WhatsApp:</strong> (75) 3199-9981</p>
                     <p class="text-gray-300"><strong>CNPJ:</strong> 36.712.901/0001-53</p>
                     
-                    <!-- BOTÃO INSTAGRAM NOVO E CHAMATIVO -->
                     <a href="https://www.instagram.com/ultranett_?igsh=MTU3ZDk2MTJ6Y2hwYw==" target="_blank" class="group relative inline-flex items-center justify-center gap-3 px-8 py-3.5 insta-gradient rounded-full text-white font-bold text-lg shadow-lg shadow-pink-500/30 hover:shadow-pink-500/50 hover:scale-105 transition duration-300 overflow-hidden mt-6 w-full max-w-xs border border-white/10">
-                        <!-- Brilho Overlay -->
                         <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
                         <i data-lucide="instagram" class="w-7 h-7"></i>
                         <span class="relative z-10">Siga nosso Instagram</span>
                     </a>
+                    
+                    <a href="https://www.portaldoassinante.com/ultranetfibra/login" target="_blank" class="group relative inline-flex items-center justify-center gap-3 px-8 py-3.5 portal-gradient rounded-full text-white font-bold text-lg shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 transition duration-300 overflow-hidden mt-6 w-full max-w-xs border border-white/10">
+                        <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                        <i data-lucide="log-in" class="w-7 h-7"></i>
+                        <span class="relative z-10">Portal do Assinante (Ativar Apps)</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 bg-[#010414] relative overflow-hidden border-t border-white/5 reveal">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neon-blue/10 blur-[100px] rounded-full pointer-events-none"></div>
+            
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-5xl font-black text-white uppercase tracking-tight mb-4">
+                        Por que escolher a <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-cyan-500 drop-shadow-[0_0_10px_rgba(0,102,255,0.5)]">Ultra Net Fibra?</span>
+                    </h2>
+                    <div class="h-1 w-24 bg-neon-green mx-auto rounded-full shadow-[0_0_10px_#00e1ff]"></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
+                    <div class="space-y-12">
+                        <div class="group text-center lg:text-right hover:-translate-y-2 transition duration-300">
+                            <a href="https://www.speedtest.net/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center p-4 bg-[#0a0f26] rounded-2xl mb-4 border border-white/10 group-hover:border-neon-blue shadow-lg shadow-black group-hover:shadow-[0_0_20px_rgba(0,102,255,0.3)] transition-all duration-300 cursor-pointer" title="Testar Velocidade Agora">
+                                <i data-lucide="rocket" class="w-8 h-8 text-neon-blue group-hover:scale-110 transition-transform"></i>
+                            </a>
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-neon-blue transition-colors">Ultravelocidade</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                Navegação com ultravelocidade e estabilidade que você só encontra aqui. Fibra óptica de ponta a ponta para voar na internet.
+                            </p>
+                        </div>
+                        
+                        <div class="group text-center lg:text-right hover:-translate-y-2 transition duration-300">
+                            <a href="https://api.whatsapp.com/send?phone=557531999981&text=Ol%C3%A1!%20Vim%20pelo%20site%20Ultra%20Fibra%20e%20preciso%20de%20Suporte%20T%C3%A9cnico" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center p-4 bg-[#0a0f26] rounded-2xl mb-4 border border-white/10 group-hover:border-neon-blue shadow-lg shadow-black group-hover:shadow-[0_0_20px_rgba(0,102,255,0.3)] transition-all duration-300 cursor-pointer" title="Falar com Suporte Técnico">
+                                <i data-lucide="headset" class="w-8 h-8 text-neon-blue group-hover:scale-110 transition-transform"></i>
+                            </a>
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-neon-blue transition-colors">Suporte Técnico VIP</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                Qualidade e agilidade de atendimento com equipe treinada. Aqui você é atendido por especialistas, não robôs.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="relative flex justify-center lg:px-4 order-first lg:order-none mb-12 lg:mb-0">
+                        <div class="relative w-72 h-96 md:w-80 md:h-[450px] group animate-float">
+                            <div class="absolute -inset-1 bg-gradient-to-br from-neon-green via-blue-500 to-neon-blue rounded-[2.5rem] blur opacity-70 group-hover:opacity-100 transition duration-500 animate-pulse"></div>
+                            
+                            <img 
+                                src="https://images.unsplash.com/photo-1614680376593-902f74cf0d41?q=80&w=1000&auto=format&fit=crop" 
+                                alt="Pessoa ouvindo música com fones de ouvido" 
+                                class="relative w-full h-full object-cover rounded-[2.5rem] border-2 border-[#121212] shadow-2xl z-10 filter group-hover:brightness-50 transition duration-700 ease-in-out"
+                            >
+                            
+                            <button id="open-sites-btn" class="open-apps-list-btn absolute -bottom-6 left-1/2 -translate-x-1/2 z-20 bg-black/90 border border-neon-green px-8 py-3 rounded-full shadow-[0_0_20px_rgba(0,225,255,0.4)] hover:scale-110 active:scale-95 transition-all duration-300 group/btn cursor-pointer">
+                                <span class="text-neon-green font-black text-sm tracking-[0.2em] whitespace-nowrap flex items-center gap-2 group-hover/btn:text-white transition-colors">
+                                    <i data-lucide="play-circle" class="w-4 h-4"></i> TEMOS OS MELHORES APPS
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-12">
+                        <div class="group text-center lg:text-left hover:-translate-y-2 transition duration-300">
+                            <a href="https://ninite.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center p-4 bg-[#0a0f26] rounded-2xl mb-4 border border-white/10 group-hover:border-neon-green shadow-lg shadow-black group-hover:shadow-[0_0_20px_rgba(0,225,255,0.3)] transition-all duration-300 cursor-pointer" title="Instalador de Apps (Ninite)">
+                                <i data-lucide="infinity" class="w-8 h-8 text-neon-green group-hover:scale-110 transition-transform"></i>
+                            </a>
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-neon-green transition-colors">Sem Limites</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                Não existe franquia limitando sua utilização. Baixe, assista e navegue à vontade, 24 horas por dia, sem redução.
+                            </p>
+                        </div>
+                        
+                        <div class="group text-center lg:text-left hover:-translate-y-2 transition duration-300">
+                            <div class="flex gap-3 justify-center lg:justify-start mb-4">
+                                <a href="https://play.google.com/store/apps" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center p-4 bg-[#0a0f26] rounded-2xl border border-white/10 group-hover:border-neon-green shadow-lg shadow-black group-hover:shadow-[0_0_20px_rgba(0,225,255,0.3)] transition-all duration-300 cursor-pointer" title="Baixar na Play Store (Android)">
+                                    <i data-lucide="smartphone" class="w-8 h-8 text-neon-green group-hover:scale-110 transition-transform"></i>
+                                </a>
+                                <a href="https://www.apple.com/br/app-store/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center p-4 bg-[#0a0f26] rounded-2xl border border-white/10 group-hover:border-neon-green shadow-lg shadow-black group-hover:shadow-[0_0_20px_rgba(0,225,255,0.3)] transition-all duration-300 cursor-pointer" title="Baixar na App Store (iOS)">
+                                    <i data-lucide="apple" class="w-8 h-8 text-neon-green group-hover:scale-110 transition-transform"></i>
+                                </a>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-neon-green transition-colors">Séries, Filmes e Games</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                O melhor serviço para assistir streaming em 4K e jogar online. Ping baixo e zero travamentos para sua diversão.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -971,7 +929,6 @@
     <footer class="bg-[#00020a] text-white py-12 border-t border-white/5">
         <div class="container mx-auto px-6 flex flex-col items-center text-center gap-8">
             
-            <!-- Selo Anatel -->
             <div class="flex flex-col items-center justify-center animate-fade-in group">
                 <div class="bg-white/5 p-4 rounded-xl border border-white/10 hover:bg-white/10 transition duration-300">
                     <img 
@@ -983,16 +940,12 @@
                 <p class="text-[10px] md:text-xs text-gray-500 mt-4 uppercase tracking-widest font-semibold">Empresa Autorizada</p>
             </div>
 
-            <!-- Separador -->
             <div class="w-full h-px bg-white/10 max-w-xs mx-auto"></div>
 
             <p class="text-gray-500 text-sm">Ultra Fibra &copy; 2024. Todos os direitos reservados.</p>
         </div>
     </footer>
     
-    <!-- MODALS (Mantidos funcionais, apenas re-estilizados) -->
-    
-    <!-- Modal de Apps por Plano -->
     <div id="apps-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 z-[60] hidden">
         <div class="bg-[#0a0f26] border border-neon-blue rounded-2xl shadow-neon-card w-full max-w-2xl max-h-[80vh] overflow-y-auto p-6 relative">
             <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white" aria-label="Fechar modal">
@@ -1004,48 +957,17 @@
         </div>
     </div>
     
-    <!-- Modal Todos os Apps -->
     <div id="all-apps-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 z-[60] hidden">
         <div class="bg-[#0a0f26] border border-neon-blue rounded-2xl shadow-neon-card w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6 relative">
             <button id="close-all-apps-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white" aria-label="Fechar modal">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <h3 class="text-2xl font-bold text-white mb-6 border-b border-white/10 pb-4">Todos os Aplicativos</h3>
-            <div class="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-3 md:gap-4 max-w-4xl mx-auto">
-                 <!-- Botões de apps mantidos idênticos, apenas classes CSS atualizadas acima lidam com o visual -->
-                <button class="app-icon-btn" data-app-id="looke"><img src="https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png" alt="Logo Looke" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Looke';"></button>
-                <button class="app-icon-btn" data-app-id="sky"><img src="https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png" alt="Logo Sky+" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Sky%2B';"></button>
-                <button class="app-icon-btn" data-app-id="kiddiepass"><img src="https://placehold.co/64x64/facc15/000000?text=KiddiePass" alt="Logo Kiddie Pass" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="nutri"><img src="https://placehold.co/64x64/22c55e/FFFFFF?text=%2BNutri" alt="Logo +Nutri" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="efit"><img src="https://placehold.co/64x64/3b82f6/FFFFFF?text=E-Fit" alt="Logo E-fit" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="playkids"><img src="https://logospng.org/download/playkids/logo-playkids-2048.png" alt="Logo PlayKids+" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=PlayKids';"></button>
-                <button class="app-icon-btn" data-app-id="hub"><img src="https://placehold.co/64x64/14b8a6/FFFFFF?text=Hub" alt="Logo HUB" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="ubook"><img src="https://placehold.co/64x64/a855f7/FFFFFF?text=Ubook" alt="Logo ubookPLUS" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="estuda"><img src="https://placehold.co/64x64/f97316/FFFFFF?text=Estuda%2B" alt="Logo Estuda+" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="leitores"><img src="https://placehold.co/64x64/ec4899/FFFFFF?text=Leitores" alt="Logo Pequenos Leitores" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="fluid"><img src="https://placehold.co/64x64/6366f1/FFFFFF?text=Fluid" alt="Logo fluid" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="socialcomics"><img src="https://placehold.co/64x64/ef4444/FFFFFF?text=Social" alt="Logo Social Comics" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="revistaria"><img src="https://placehold.co/64x64/d946ef/FFFFFF?text=Revista" alt="Logo revistaria" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="playlist"><img src="https://placehold.co/64x64/8b5cf6/FFFFFF?text=Playlist" alt="Logo Playlist" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="deezer"><img src="https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png" alt="Logo Deezer" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Deezer';"></button>
-                <button class="app-icon-btn" data-app-id="klicencas"><img src="https://placehold.co/64x64/6366f1/FFFFFF?text=K" alt="Logo K Licenças" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="hotgo"><img src="https://placehold.co/64x64/dc2626/FFFFFF?text=HotGo" alt="Logo Hotgo" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="curtaon"><img src="https://placehold.co/64x64/1f2937/FFFFFF?text=CurtaOn" alt="Logo CurtaOn" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="jornalista"><img src="https://placehold.co/64x64/4b5563/FFFFFF?text=Jornal" alt="Logo O Jornalista" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="docway"><img src="https://placehold.co/64x64/10b981/FFFFFF?text=Doc" alt="Logo Docway" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="disney"><img src="https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png" alt="Logo Disney+" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Disney%2B';"></button>
-                <button class="app-icon-btn" data-app-id="max"><img src="https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png" alt="Logo Max" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Max';"></button>
-                <button class="app-icon-btn" data-app-id="indie"><img src="https://placehold.co/64x64/f59e0b/FFFFFF?text=Indie" alt="Logo Indie" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="leitura360"><img src="https://placehold.co/64x64/0891b2/FFFFFF?text=Leitura" alt="Logo Leitura 360" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="nba"><img src="https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png" alt="Logo NBA" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=NBA';"></button>
-                <button class="app-icon-btn" data-app-id="smartcontent"><img src="https://placehold.co/64x64/ef4444/FFFFFF?text=Smart" alt="Logo SmartContent" class="h-10 w-10 object-contain rounded-md"></button>
-                <button class="app-icon-btn" data-app-id="queima"><img src="https://seeklogo.com/images/Q/queima-diaria-logo-653593254B-seeklogo.com.png" alt="Logo Queima Diária" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Queima';"></button>
-                <button class="app-icon-btn" data-app-id="zen"><img src="https://logodownload.org/wp-content/uploads/2021/04/zen-logo-0.png" alt="Logo Zen" class="h-10 w-10 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/FFFFFF/000000?text=Zen';"></button>
-            </div>
+            <div id="all-apps-grid-content" class="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-3 md:gap-4 max-w-4xl mx-auto">
+                 </div>
         </div>
     </div>
     
-    <!-- Modal Descrição App Individual -->
     <div id="app-description-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 z-[65] hidden">
         <div class="bg-[#0a0f26] border border-neon-blue rounded-2xl shadow-neon-card w-full max-w-md max-h-[90vh] overflow-y-auto p-8 relative">
             <button id="close-app-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white" aria-label="Fechar modal">
@@ -1059,7 +981,6 @@
         </div>
     </div>
 
-    <!-- Modal Senha Bônus -->
     <div id="password-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 z-[70] hidden">
         <div class="bg-[#0a0f26] border border-neon-green rounded-2xl shadow-neon-green w-full max-w-sm p-6 relative">
             <button id="close-password-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white" aria-label="Fechar modal">
@@ -1079,158 +1000,23 @@
         </div>
     </div>
 
-    <!-- Modal Top 30 Sites (NOVO) -->
     <div id="top-sites-modal" class="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 z-[80] hidden opacity-0 transition-opacity duration-300">
         <div class="bg-[#0a0f26] border border-neon-blue rounded-2xl shadow-[0_0_50px_rgba(0,102,255,0.3)] w-full max-w-5xl max-h-[90vh] overflow-y-auto relative flex flex-col">
             
-            <!-- Header do Modal -->
             <div class="p-6 border-b border-white/10 flex justify-between items-center sticky top-0 bg-[#0a0f26]/95 backdrop-blur z-10">
                 <div>
                     <h3 class="text-2xl font-bold text-white flex items-center gap-2">
-                        <i data-lucide="globe" class="text-neon-green"></i> Navegação Rápida
+                        <i data-lucide="star" class="text-neon-green"></i> TOP APPS ULTRA FIBRA
                     </h3>
-                    <p class="text-gray-400 text-sm">Os sites mais acessados do Brasil a um clique.</p>
+                    <p class="text-gray-400 text-sm">Clique em qualquer aplicativo para ver a descrição completa.</p>
                 </div>
                 <button id="close-sites-btn" class="text-gray-400 hover:text-red-500 transition-colors p-2 hover:bg-white/5 rounded-full">
                     <i data-lucide="x" class="w-8 h-8"></i>
                 </button>
             </div>
 
-            <!-- Grid de Sites -->
-            <div class="p-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                
-                <!-- CATEGORIA: UTILITÁRIOS & BUSCA -->
-                <a href="https://loterias.caixa.gov.br/Paginas/Mega-Sena.aspx" target="_blank" class="flex flex-col items-center justify-center p-4 rounded-xl bg-white/5 border border-white/5 hover:border-neon-green hover:bg-white/10 transition-all group">
-                    <img src="https://www.google.com/s2/favicons?domain=caixa.gov.br&sz=64" alt="Caixa" class="w-10 h-10 mb-2 group-hover:scale-110 transition-transform">
-                    <span class="text-white font-bold text-sm">Mega Sena</span>
-                    <span class="text-xs text-neon-green">Resultados</span>
-                </a>
-                <a href="https://www.google.com.br" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=google.com.br&sz=64" alt="Google">
-                    <span>Google</span>
-                </a>
-                <a href="https://www.youtube.com" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=64" alt="YouTube">
-                    <span>YouTube</span>
-                </a>
-                <a href="https://web.whatsapp.com" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=whatsapp.com&sz=64" alt="WhatsApp">
-                    <span>WhatsApp Web</span>
-                </a>
-                <a href="https://www.gov.br" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=gov.br&sz=64" alt="Gov.br">
-                    <span>Gov.br</span>
-                </a>
-                <a href="https://chatgpt.com/" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=openai.com&sz=64" alt="ChatGPT">
-                    <span>ChatGPT</span>
-                </a>
-
-                <!-- CATEGORIA: NOTÍCIAS -->
-                <a href="https://g1.globo.com" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=g1.globo.com&sz=64" alt="G1">
-                    <span>G1 Notícias</span>
-                </a>
-                <a href="https://www.uol.com.br" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=uol.com.br&sz=64" alt="UOL">
-                    <span>UOL</span>
-                </a>
-                <a href="https://www.cnnbrasil.com.br" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=cnnbrasil.com.br&sz=64" alt="CNN Brasil">
-                    <span>CNN Brasil</span>
-                </a>
-                <a href="https://www.r7.com" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=r7.com&sz=64" alt="R7">
-                    <span>Portal R7</span>
-                </a>
-
-                <!-- CATEGORIA: COMPRAS -->
-                <a href="https://www.mercadolivre.com.br" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=mercadolivre.com.br&sz=64" alt="Mercado Livre">
-                    <span>Mercado Livre</span>
-                </a>
-                <a href="https://www.amazon.com.br" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=amazon.com.br&sz=64" alt="Amazon">
-                    <span>Amazon BR</span>
-                </a>
-                <a href="https://shopee.com.br" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=shopee.com.br&sz=64" alt="Shopee">
-                    <span>Shopee</span>
-                </a>
-                <a href="https://www.magazineluiza.com.br" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=magazineluiza.com.br&sz=64" alt="Magalu">
-                    <span>Magalu</span>
-                </a>
-                <a href="https://pt.aliexpress.com" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=aliexpress.com&sz=64" alt="AliExpress">
-                    <span>AliExpress</span>
-                </a>
-
-                <!-- CATEGORIA: BANCOS -->
-                <a href="https://www.caixa.gov.br" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=caixa.gov.br&sz=64" alt="Caixa">
-                    <span>Caixa Geral</span>
-                </a>
-                <a href="https://nubank.com.br" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=nubank.com.br&sz=64" alt="Nubank">
-                    <span>Nubank</span>
-                </a>
-                <a href="https://www.bb.com.br" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=bb.com.br&sz=64" alt="Banco do Brasil">
-                    <span>Banco do Brasil</span>
-                </a>
-                <a href="https://www.itau.com.br" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=itau.com.br&sz=64" alt="Itaú">
-                    <span>Itaú</span>
-                </a>
-                <a href="https://banco.bradesco" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=banco.bradesco&sz=64" alt="Bradesco">
-                    <span>Bradesco</span>
-                </a>
-                 <a href="https://inter.co" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=inter.co&sz=64" alt="Inter">
-                    <span>Banco Inter</span>
-                </a>
-
-                <!-- CATEGORIA: SOCIAL & ENTRETENIMENTO -->
-                <a href="https://www.instagram.com" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=instagram.com&sz=64" alt="Instagram">
-                    <span>Instagram</span>
-                </a>
-                <a href="https://www.facebook.com" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=facebook.com&sz=64" alt="Facebook">
-                    <span>Facebook</span>
-                </a>
-                <a href="https://www.tiktok.com" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=tiktok.com&sz=64" alt="TikTok">
-                    <span>TikTok</span>
-                </a>
-                <a href="https://twitter.com" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=twitter.com&sz=64" alt="X (Twitter)">
-                    <span>X (Twitter)</span>
-                </a>
-                 <a href="https://www.linkedin.com" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=linkedin.com&sz=64" alt="LinkedIn">
-                    <span>LinkedIn</span>
-                </a>
-                <a href="https://www.netflix.com" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64" alt="Netflix">
-                    <span>Netflix</span>
-                </a>
-                <a href="https://globoplay.globo.com" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=globoplay.globo.com&sz=64" alt="Globoplay">
-                    <span>Globoplay</span>
-                </a>
-                <a href="https://www.correios.com.br" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=correios.com.br&sz=64" alt="Correios">
-                    <span>Correios</span>
-                </a>
-                 <a href="https://www.climatempo.com.br" target="_blank" class="site-card-item">
-                    <img src="https://www.google.com/s2/favicons?domain=climatempo.com.br&sz=64" alt="ClimaTempo">
-                    <span>ClimaTempo</span>
-                </a>
-
-            </div>
+            <div id="top-sites-as-apps-grid" class="p-6 grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-4">
+                </div>
         </div>
     </div>
 
@@ -1245,8 +1031,11 @@
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
+        // Variável de controle para saber qual modal de lista estava aberto
+        let activeAppsModalId = null;
+
         document.addEventListener('DOMContentLoaded', () => {
-            // Lógica do Menu Mobile
+            // Lógica do Menu Mobile (Mantida)
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
@@ -1261,10 +1050,10 @@
                 });
             });
             
-            // --- Lógica para Abrir/Fechar o Formulário de Contato ---
+            // --- Lógica para Abrir/Fechar o Formulário de Contato --- (Mantida)
             const contatoSection = document.getElementById('contato');
             const openFormButtons = document.querySelectorAll('.open-form-btn'); 
-            const closeFormBtn = document.getElementById('close-form-btn'); // Novo
+            const closeFormBtn = document.getElementById('close-form-btn'); 
 
             openFormButtons.forEach(button => {
                 button.addEventListener('click', () => {
@@ -1273,7 +1062,6 @@
                 });
             });
             
-            // Listener para fechar
             if (closeFormBtn) {
                 closeFormBtn.addEventListener('click', () => {
                     contatoSection.classList.add('hidden');
@@ -1281,7 +1069,7 @@
             }
 
 
-            // Lógica de Geolocalização (Viabilidade e Formulário)
+            // Lógica de Geolocalização (Viabilidade e Formulário) (Mantida)
             const locateViabilityButton = document.getElementById('locate-me-viability-btn');
             const locationDisplayViability = document.getElementById('location-display-viability');
             const coordinatesViabilityEl = document.getElementById('coordinates-viability');
@@ -1319,7 +1107,6 @@
                 }
             }
 
-            // Handler para botão de viabilidade
             locateViabilityButton.addEventListener('click', () => {
                 coordinatesViabilityEl.textContent = 'Buscando satélites...';
                 coordinatesViabilityEl.classList.remove('text-red-500');
@@ -1340,7 +1127,6 @@
                 );
             });
 
-            // Handler para botão no formulário
              locateFormButton.addEventListener('click', () => {
                  geolocationInput.value = 'Buscando...'; 
                  getGeoLocation(
@@ -1353,8 +1139,6 @@
                 );
              });
 
-
-            // Lógica para copiar coordenadas (Viabilidade)
             copyCoordsViabilityBtn.addEventListener('click', () => {
                 const textToCopy = coordinatesViabilityEl.textContent;
                  if (!textToCopy || textToCopy.includes('Não') || textToCopy.includes('Buscando')) return; 
@@ -1388,7 +1172,6 @@
                 setTimeout(() => element.classList.add('hidden'), 2500);
             }
 
-             // Lógica para enviar APENAS localização para WhatsApp
             sendLocationBtn.addEventListener('click', () => {
                 const coords = coordinatesViabilityEl.textContent;
                 if (!coords || coords.includes('Não') || coords.includes('Buscando')) return;
@@ -1399,7 +1182,7 @@
                 window.open(whatsappUrl, '_blank').focus();
             });
 
-            // --- Lógica do Bônus (Modal de Senha) ---
+            // --- Lógica do Bônus (Modal de Senha) --- (Mantida)
             const unlockGiftBtn = document.getElementById('unlock-gift-btn');
             const freeTrialContainer = document.getElementById('free-trial-container');
             const correctPassword = "#120488Jc#";
@@ -1436,7 +1219,7 @@
                 }
             });
 
-            // --- Lógica do Modal de Apps (Planos) ---
+            // --- Lógica do Modal de Apps (Planos) --- (Mantida)
             const appsModal = document.getElementById('apps-modal');
             const closeModalBtn = document.getElementById('close-modal-btn');
             const openModalBtns = document.querySelectorAll('.open-modal-btn');
@@ -1495,52 +1278,160 @@
             appsModal.addEventListener('click', (e) => { if (e.target === appsModal) closeModal(); });
 
 
-            // --- Lógica do Modal de Descrição de Apps (Hero) ---
+            // --- Lógica do Modal de Descrição de Apps E Geração da Grade de Todos os Apps ---
             const appDescriptionModal = document.getElementById('app-description-modal');
             const closeAppModalBtn = document.getElementById('close-app-modal-btn');
             
             const allAppsModal = document.getElementById('all-apps-modal');
             const closeAllAppsModalBtn = document.getElementById('close-all-apps-btn');
             const openAllAppsBtn = document.getElementById('open-all-apps-btn');
-
-            const allAppIconBtns = document.querySelectorAll('.app-icon-btn');
+            const allAppsGridContent = document.getElementById('all-apps-grid-content');
             
-            const allAppInfo = {
-                'looke': { name: 'Looke', img: 'https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png', desc: 'Os melhores filmes e séries de aventura você encontra no Looke. Conheça nossos títulos. No Looke você tem acesso a mais de 10.000 conteúdos entre filmes e séries. Filmes e Séries à Vontade. Quando e Onde Quiser.' },
-                'sky': { name: 'Sky+', img: 'https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png', desc: 'Todo o entretenimento da Sky agora no streaming. Filmes, séries e canais ao vivo para você assistir onde e quando quiser.' },
-                'kiddiepass': { name: 'Kiddie Pass', img: 'https://placehold.co/100x100/facc15/000000?text=KiddiePass', desc: 'Conteúdo infantil seguro e divertido. Desenhos, jogos e atividades educativas para crianças.' },
-                'nutri': { name: '+Nutri', img: 'https://placehold.co/100x100/22c55e/FFFFFF?text=%2BNutri', desc: 'Sua plataforma de saúde e bem-estar. Receitas, dicas de nutrição e treinos para uma vida mais saudável.' },
-                'efit': { name: 'E-fit AG', img: 'https://placehold.co/100x100/3b82f6/FFFFFF?text=E-Fit', desc: 'Seu personal trainer digital. Programas de exercícios para fazer em casa ou na academia.' },
-                'playkids': { name: 'PlayKids+', img: 'https://logospng.org/download/playkids/logo-playkids-2048.png', desc: 'Plataforma educativa com desenhos, jogos e livros para o desenvolvimento infantil.' },
-                'hub': { name: 'HUB', img: 'https://placehold.co/100x100/14b8a6/FFFFFF?text=Hub', desc: 'Um hub de conteúdo digital com diversos serviços e facilidades para o seu dia a dia.' },
-                'ubook': { name: 'UbookPLUS', img: 'https://placehold.co/100x100/a855f7/FFFFFF?text=Ubook', desc: 'Milhares de audiolivros e ebooks para ouvir e ler onde quiser. Histórias, negócios, ficção e mais.' }, 
-                'estuda': { name: 'Estuda+', img: 'https://placehold.co/100x100/f97316/FFFFFF?text=Estuda%2B', desc: 'Plataforma de estudos completa com videoaulas, exercícios e simulados para ENEM e vestibulares.' },
-                'leitores': { name: 'Pequenos Leitores', img: 'https://placehold.co/100x100/ec4899/FFFFFF?text=Leitores', desc: 'Incentive a leitura dos pequenos com um catálogo incrível de livros infantis interativos.' },
-                'fluid': { name: 'Fluid', img: 'https://placehold.co/64x64/6366f1/FFFFFF?text=Fluid', desc: 'Conteúdo variado de streaming para todos os gostos. Filmes, documentários e mais.' },
-                'socialcomics': { name: 'Social Comics', img: 'https://placehold.co/64x64/ef4444/FFFFFF?text=Social', desc: 'O maior serviço de streaming de HQs da América Latina. Milhares de quadrinhos no seu celular.' },
-                'revistaria': { name: 'Revistaria', img: 'https://placehold.co/64x64/d946ef/FFFFFF?text=Revista', desc: 'Acesse centenas de revistas digitais. Notícias, entretenimento, esportes e muito mais.' },
-                'playlist': { name: 'Playlist', img: 'https://placehold.co/64x64/8b5cf6/FFFFFF?text=Playlist', desc: 'Crie e ouça playlists de música selecionadas para todos os momentos do seu dia.' },
-                'deezer': { name: 'Deezer', img: 'https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png', desc: 'Milhões de músicas, podcasts e playlists ao seu alcance. Ouça suas faixas favoritas offline e descubra novos artistas.' },
-                'klicencas': { name: 'K Licenças', img: 'https://placehold.co/100x100/6366f1/FFFFFF?text=K', desc: 'Acesso a licenças de software e antivírus para manter seus dispositivos seguros e atualizados.' },
-                'hotgo': { name: 'Hotgo', img: 'https://placehold.co/100x100/dc2626/FFFFFF?text=HotGo', desc: 'Conteúdo adulto exclusivo para maiores de 18 anos.' },
-                'curtaon': { name: 'CurtaOn', img: 'https://placehold.co/100x100/1f2937/FFFFFF?text=CurtaOn', desc: 'O melhor do cinema e documentários brasileiros. Filmes premiados e séries independentes.' },
-                'jornalista': { name: 'O Jornalista', img: 'https://placehold.co/100x100/4b5563/FFFFFF?text=Jornal', desc: 'Acesso digital a jornais e notícias em tempo real. Mantenha-se informado sobre o Brasil e o mundo.' },
-                'docway': { name: 'Docway', img: 'https://placehold.co/100x100/10b981/FFFFFF?text=Doc', desc: 'Serviço de telemedicina para você e sua família. Consultas médicas por vídeo, 24h por dia.' },
-                'disney': { name: 'Disney+', img: 'https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png', desc: 'O streaming com o entretenimento da Disney, Pixar, Marvel, Star Wars, National Geographic e muito mais.' },
-                'max': { name: 'Max', img: 'https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png', desc: 'O streaming da HBO, Warner Bros, DC, Discovery e muito mais. Séries, filmes e realities imperdíveis.' },
-                'indie': { name: 'Indie', img: 'https://placehold.co/100x100/f59e0b/FFFFFF?text=Indie', desc: 'Plataforma de streaming focada em cinema independente e filmes de arte premiados.' },
-                'leitura360': { name: 'Leitura 360', img: 'https://placehold.co/100x100/0891b2/FFFFFF?text=Leitura', desc: 'Uma biblioteca digital completa com livros, audiobooks e revistas para todos os gostos.' },
-                'nba': { name: 'NBA League Pass', img: 'https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png', desc: 'Assista a todos os jogos da NBA, ao vivo e sob demanda. Acompanhe seu time e jogadores favoritos durante toda a temporada.' },
-                'smartcontent': { name: 'SmartContent', img: 'https://placehold.co/100x100/ef4444/FFFFFF?text=Smart', desc: 'Conteúdo inteligente e educacional para toda a família. Cursos, documentários e muito mais.' },
-                'queima': { name: 'Queima Diária', img: 'https://seeklogo.com/images/Q/queima-diaria-logo-653593254B-seeklogo.com.png', desc: 'A maior plataforma de exercícios e bem-estar em casa da América Latina. Aulas, programas e desafios.' },
-                'zen': { name: 'Zen', img: 'https://logodownload.org/wp-content/uploads/2021/04/zen-logo-0.png', desc: 'Aplicativo de meditação, sono e relaxamento. Encontre sua paz interior e durma melhor.' }
-            };
+            // Grid para o modal TOP APPS (que substitui o Top Sites)
+            const topSitesAppsGridContent = document.getElementById('top-sites-as-apps-grid');
 
+            // Mapeamento completo de todos os Apps com descrições (baseado na imagem fornecida)
+            const allAppInfo = {
+                // STANDARD
+                'looke': { name: 'Looke', img: 'https://logodownload.org/wp-content/uploads/2020/09/looke-logo.png', desc: 'Plataforma de streaming de filmes e séries para maratonar, com um catálogo diversificado de aventura, romance e clássicos.', category: 'STANDARD' },
+                'sky_light': { name: 'Sky+ Light', img: 'https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png', desc: 'Serviço de streaming que oferece acesso a canais ao vivo, filmes, séries e programas sob demanda.', category: 'STANDARD' },
+                'kiddiepass_std': { name: 'Kiddie Pass', img: 'https://placehold.co/64x64/facc15/000000?text=KiddiePass', desc: 'Conteúdo infantil seguro com desenhos, jogos e atividades educativas para crianças pequenas.', category: 'STANDARD' },
+                'nutri': { name: '+Nutri', img: 'https://placehold.co/64x64/22c55e/FFFFFF?text=%2BNutri', desc: 'Sua plataforma de saúde e bem-estar. Oferece receitas saudáveis, dicas de nutrição e planos alimentares.', category: 'STANDARD' },
+                'efit': { name: 'E-fit', img: 'https://placehold.co/64x64/3b82f6/FFFFFF?text=E-Fit', desc: 'Um personal trainer digital com programas de exercícios personalizados para você treinar em qualquer lugar.', category: 'STANDARD' },
+                'playkids': { name: 'PlayKids+', img: 'https://logospng.org/download/playkids/logo-playkids-2048.png', desc: 'Plataforma educativa com desenhos animados, jogos e livros para o desenvolvimento infantil.', category: 'STANDARD' },
+                'hub': { name: 'Hub', img: 'https://placehold.co/64x64/14b8a6/FFFFFF?text=Hub', desc: 'Um centralizador de serviços e facilidades digitais para otimizar seu dia a dia.', category: 'STANDARD' },
+                'ubook': { name: 'UbookPLUS', img: 'https://placehold.co/64x64/a855f7/FFFFFF?text=Ubook', desc: 'Maior plataforma brasileira de audiolivros e ebooks. Milhares de títulos para ouvir e ler onde quiser.', category: 'STANDARD' },
+                'estuda': { name: 'Estuda+', img: 'https://placehold.co/64x64/f97316/FFFFFF?text=Estuda%2B', desc: 'Plataforma de estudos completa com videoaulas e materiais preparatórios para ENEM e vestibulares.', category: 'STANDARD' },
+                'leitores': { name: 'Pequenos Leitores', img: 'https://placehold.co/64x64/ec4899/FFFFFF?text=Leitores', desc: 'Incentivo à leitura para crianças, com um catálogo de livros infantis interativos e divertidos.', category: 'STANDARD' },
+                'fluid': { name: 'Fluid', img: 'https://placehold.co/64x64/6366f1/FFFFFF?text=Fluid', desc: 'Conteúdo de streaming variado, incluindo filmes, séries e documentários de diferentes gêneros.', category: 'STANDARD' },
+                'socialcomics': { name: 'Social Comics', img: 'https://placehold.co/64x64/ef4444/FFFFFF?text=Social', desc: 'Maior serviço de streaming de quadrinhos da América Latina, com milhares de HQs no seu celular.', category: 'STANDARD' },
+                'revistaria': { name: 'Revistaria', img: 'https://placehold.co/64x64/d946ef/FFFFFF?text=Revista', desc: 'Acesso a centenas de revistas digitais de notícias, entretenimento, esportes e muito mais.', category: 'STANDARD' },
+                'playlist': { name: 'Playlist', img: 'https://placehold.co/64x64/8b5cf6/FFFFFF?text=Playlist', desc: 'Aplicativo para criar e ouvir playlists de música selecionadas para todos os momentos.', category: 'STANDARD' },
+                
+                // ADVANCED
+                'sky_globo': { name: 'Sky+ c/ Globo', img: 'https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png', desc: 'Sky+ com o canal Globo incluso. Seu entretenimento completo com conteúdo nacional.', category: 'ADVANCED' },
+                'kiddiepass_adv': { name: 'Kiddie Pass Advanced', img: 'https://placehold.co/64x64/facc15/000000?text=KiddiePass', desc: 'Versão Advanced do Kiddie Pass, incluindo licenças e acesso a conteúdo exclusivo.', category: 'ADVANCED' },
+                'deezer': { name: 'Deezer', img: 'https://logodownload.org/wp-content/uploads/2017/04/deezer-logo-1.png', desc: 'Milhões de músicas, podcasts e playlists ao seu alcance. Ouça suas faixas favoritas offline e descubra novos artistas.', category: 'ADVANCED' },
+                'klicencas_adv': { name: 'K Licenças (Advanced)', img: 'https://placehold.co/64x64/6366f1/FFFFFF?text=K', desc: 'Acesso a licenças de software e antivírus para manter seus dispositivos seguros e atualizados.', category: 'ADVANCED' },
+                'hotgo': { name: 'Hotgo', img: 'https://placehold.co/64x64/dc2626/FFFFFF?text=HotGo', desc: 'Conteúdo adulto exclusivo para maiores de 18 anos.', category: 'ADVANCED' },
+                'curtaon': { name: 'CurtaOn', img: 'https://placehold.co/64x64/1f2937/FFFFFF?text=CurtaOn', desc: 'O melhor do cinema e documentários brasileiros. Filmes premiados e séries independentes.', category: 'ADVANCED' },
+                'jornalista': { name: 'O Jornalista', img: 'https://placehold.co/64x64/4b5563/FFFFFF?text=Jornal', desc: 'Acesso digital a jornais e notícias em tempo real. Mantenha-se informado sobre o Brasil e o mundo.', category: 'ADVANCED' },
+                'docway': { name: 'Docway', img: 'https://placehold.co/64x64/10b981/FFFFFF?text=Doc', desc: 'Serviço de telemedicina para você e sua família. Consultas médicas por vídeo, 24h por dia.', category: 'ADVANCED' },
+                
+                // TOP (Mudado para PREMIUM na imagem)
+                'sky_amazon': { name: 'SKY+ c/ Amazon', img: 'https://logodownload.org/wp-content/uploads/2022/10/sky-logo-1.png', desc: 'Sky+ com acesso a conteúdos e benefícios exclusivos da Amazon Prime Video. O melhor dos dois mundos.', category: 'TOP' },
+                'disney_top': { name: 'Disney+', img: 'https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png', desc: 'O streaming com o entretenimento da Disney, Pixar, Marvel, Star Wars e National Geographic.', category: 'TOP' },
+                'max_top': { name: 'Max', img: 'https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png', desc: 'O streaming da HBO, Warner Bros, DC, Discovery e muito mais. Séries, filmes e realities imperdíveis.', category: 'TOP' },
+                'indie': { name: 'Indie', img: 'https://placehold.co/64x64/f59e0b/FFFFFF?text=Indie', desc: 'Plataforma de streaming focada em cinema independente e filmes de arte premiados.', category: 'TOP' },
+                'leitura360': { name: 'Leitura 360', img: 'https://placehold.co/64x64/0891b2/FFFFFF?text=Leitura', desc: 'Uma biblioteca digital completa com livros, audiobooks e revistas para todos os gostos.', category: 'TOP' },
+                
+                // PREMIUM (ADICIONADOS OS APPS FALTANTES)
+                'disney_premium': { name: 'Disney+ (Premium)', img: 'https://logodownload.org/wp-content/uploads/2020/11/disney-plus-logo-1.png', desc: 'Acesso premium ao catálogo Disney+ com benefícios extras, como 4K e mais telas simultâneas.', category: 'PREMIUM' }, // Duplicado no TOP, mas mantido para a lista completa
+                'max_premium': { name: 'HBO Max (Premium)', img: 'https://logodownload.org/wp-content/uploads/2023/05/max-logo-0.png', desc: 'Acesso premium ao catálogo Max (antiga HBO Max) com todos os lançamentos e qualidade máxima de imagem.', category: 'PREMIUM' }, // ADICIONADO
+                'klicencas_prem': { name: 'K Licenças (Premium)', img: 'https://placehold.co/64x64/6366f1/FFFFFF?text=K', desc: 'Acesso à licença K Licenças na versão Premium, garantindo mais dispositivos e recursos avançados de segurança.', category: 'PREMIUM' }, // ADICIONADO
+                'nba': { name: 'NBA League Pass', img: 'https://logodownload.org/wp-content/uploads/2017/04/nba-logo-1.png', desc: 'Assista a todos os jogos da NBA, ao vivo e sob demanda. Acompanhe seu time e jogadores favoritos durante toda a temporada.', category: 'PREMIUM' },
+                'smartcontent': { name: 'SmartContent', img: 'https://placehold.co/64x64/ef4444/FFFFFF?text=Smart', desc: 'Conteúdo inteligente e educacional para toda a família. Cursos, documentários e muito mais.', category: 'PREMIUM' },
+                'queima': { name: 'Queima Diária', img: 'https://seeklogo.com/images/Q/queima-diaria-logo-653593254B-seeklogo.com.png', desc: 'A maior plataforma de exercícios e bem-estar em casa da América Latina. Aulas, programas e desafios.', category: 'PREMIUM' },
+                'zen': { name: 'Zen', img: 'https://logodownload.org/wp-content/uploads/2021/04/zen-logo-0.png', desc: 'Aplicativo de meditação, sono e relaxamento. Encontre sua paz interior e durma melhor.', category: 'PREMIUM' }
+            };
+            
+            // Função para agrupar e ordenar os apps
+            function getGroupedApps() {
+                const grouped = {};
+                for (const id in allAppInfo) {
+                    const app = allAppInfo[id];
+                    const category = app.category || 'Outros';
+                    if (!grouped[category]) {
+                        grouped[category] = [];
+                    }
+                    grouped[category].push({ id, ...app });
+                }
+                
+                // Ordem desejada
+                const orderedCategories = ['STANDARD', 'ADVANCED', 'TOP', 'PREMIUM'];
+                const orderedGrouped = {};
+                orderedCategories.forEach(cat => {
+                    if (grouped[cat]) {
+                        orderedGrouped[cat] = grouped[cat];
+                    }
+                });
+                return orderedGrouped;
+            }
+
+            // Função para gerar o HTML do botão do App
+            function createAppButtonHTML(appId, appData) {
+                const fallbackImg = `https://placehold.co/64x64/FFFFFF/000000?text=${encodeURIComponent(appData.name.substring(0,3))}`;
+                const displayName = appData.name.replace(/\s\(.*\)/, '').split(' ')[0]; // Remove (Standard) ou (Avulso) e pega a primeira palavra
+                
+                return `
+                    <button class="app-icon-btn" data-app-id="${appId}">
+                        <img src="${appData.img}" alt="Logo ${appData.name}" class="w-12 h-12 object-contain" onerror="this.onerror=null;this.src='${fallbackImg}';">
+                        <span class="app-label">${displayName}</span>
+                    </button>
+                `;
+            }
+
+            // Função para renderizar a grade de todos os apps (Usado em #all-apps-modal)
+            function renderAllAppsGrid() {
+                allAppsGridContent.innerHTML = ''; 
+                let allAppsHtml = '';
+                
+                for (const appId in allAppInfo) {
+                    allAppsHtml += createAppButtonHTML(appId, allAppInfo[appId]);
+                }
+                
+                allAppsGridContent.innerHTML = allAppsHtml;
+                
+                document.querySelectorAll('#all-apps-grid-content .app-icon-btn').forEach(btn => {
+                    btn.addEventListener('click', openAppDescriptionModal);
+                });
+            }
+            
+            // NOVA FUNÇÃO: Renderiza a grade de apps agrupados para o modal TOP APPS
+            function renderTopSitesAsAppsGrid() {
+                topSitesAppsGridContent.innerHTML = '';
+                let groupedApps = getGroupedApps();
+                let appsHtml = '';
+                
+                for (const category in groupedApps) {
+                    appsHtml += `<div class="app-category-title col-span-full">${category}</div>`;
+                    groupedApps[category].forEach(app => {
+                        appsHtml += createAppButtonHTML(app.id, app);
+                    });
+                }
+                
+                topSitesAppsGridContent.innerHTML = appsHtml;
+                
+                // Reatribui o listener de clique para os novos botões
+                document.querySelectorAll('#top-sites-as-apps-grid .app-icon-btn').forEach(btn => {
+                    btn.addEventListener('click', openAppDescriptionModal);
+                });
+            }
+
+
+            // Função para abrir o modal de descrição (ADICIONADA LÓGICA PARA FECHAR OS MODAIS PAIS)
             function openAppDescriptionModal(event) {
                 const appId = event.currentTarget.dataset.appId;
                 const appData = allAppInfo[appId];
                 if (!appData) return;
                 
+                // 1. Rastreia e fecha o modal de lista que estava aberto
+                activeAppsModalId = null; // Reseta antes de verificar
+
+                const topSitesModal = document.getElementById('top-sites-modal');
+                if (topSitesModal && !topSitesModal.classList.contains('hidden')) {
+                    activeAppsModalId = 'top-sites-modal';
+                    topSitesModal.classList.add('opacity-0');
+                    setTimeout(() => { topSitesModal.classList.add('hidden'); }, 300);
+                }
+
+                const allAppsModal = document.getElementById('all-apps-modal');
+                if (allAppsModal && !allAppsModal.classList.contains('hidden')) {
+                    activeAppsModalId = 'all-apps-modal';
+                    allAppsModal.classList.add('hidden');
+                }
+
+                // 2. Prepara e abre o modal de descrição
                 const fallbackImg = `https://placehold.co/128x128/FFFFFF/000000?text=${encodeURIComponent(appData.name.substring(0,3))}`;
 
                 const modalImg = document.getElementById('modal-app-img');
@@ -1552,29 +1443,37 @@
 
                 appDescriptionModal.classList.remove('hidden');
             }
-
+            
+            // Funções de controle do modal
             function closeAppDescriptionModal() {
                 appDescriptionModal.classList.add('hidden');
+                
+                // 3. Verifica qual modal de lista estava ativo e reabre
+                if (activeAppsModalId === 'top-sites-modal') {
+                    const topSitesModal = document.getElementById('top-sites-modal');
+                    // Garante que o modal está visível (hidden é removido) e o efeito de opacidade é desfeito
+                    topSitesModal.classList.remove('hidden');
+                    // Pequeno delay para reverter a opacidade
+                    setTimeout(() => {
+                        topSitesModal.classList.remove('opacity-0');
+                    }, 10); 
+                } else if (activeAppsModalId === 'all-apps-modal') {
+                    const allAppsModal = document.getElementById('all-apps-modal');
+                    allAppsModal.classList.remove('hidden');
+                }
+                
+                activeAppsModalId = null; // Reseta após a reabertura
             }
 
-            allAppIconBtns.forEach(btn => {
-                btn.addEventListener('click', openAppDescriptionModal);
-            });
-
-            closeAppModalBtn.addEventListener('click', closeAppDescriptionModal);
-            appDescriptionModal.addEventListener('click', (e) => {
-                if (e.target === appDescriptionModal) {
-                    closeAppDescriptionModal();
-                }
-            });
-            
             function openAllAppsModal() {
+                renderAllAppsGrid(); // Garante que a grade está atualizada
                 allAppsModal.classList.remove('hidden');
             }
             function closeAllAppsModal() {
                 allAppsModal.classList.add('hidden');
             }
 
+            // Listeners para abrir e fechar o modal de TODOS os Apps
             openAllAppsBtn.addEventListener('click', openAllAppsModal);
             closeAllAppsModalBtn.addEventListener('click', closeAllAppsModal);
             allAppsModal.addEventListener('click', (e) => {
@@ -1582,14 +1481,28 @@
                     closeAllAppsModal();
                 }
             });
+            
+            // Listener para fechar o modal de descrição de app
+            closeAppModalBtn.addEventListener('click', closeAppDescriptionModal);
+            appDescriptionModal.addEventListener('click', (e) => {
+                if (e.target === appDescriptionModal) {
+                    closeAppDescriptionModal();
+                }
+            });
 
-            // --- Lógica do Modal Top Sites (NOVO) ---
+            // Adiciona listeners aos ícones de apps do HERO (topo da página)
+            document.querySelectorAll('section.hero-gradient .app-icon-btn').forEach(btn => {
+                btn.addEventListener('click', openAppDescriptionModal);
+            });
+            
+            // --- Lógica do Modal TOP APPS (NOVO) ---
             const topSitesModal = document.getElementById('top-sites-modal');
-            const openSitesBtn = document.getElementById('open-sites-btn');
+            const openSitesBtn = document.querySelector('.open-apps-list-btn'); // Botão na imagem
             const closeSitesBtn = document.getElementById('close-sites-btn');
 
             if (openSitesBtn && topSitesModal) {
                 openSitesBtn.addEventListener('click', () => {
+                    renderTopSitesAsAppsGrid(); // RENDERIZA OS APPS ANTES DE ABRIR
                     topSitesModal.classList.remove('hidden');
                     // Pequeno delay para a animação de opacidade funcionar
                     setTimeout(() => {
@@ -1614,7 +1527,7 @@
                 });
             }
 
-            // --- Lógica de Apps Dinâmicos no Formulário ---
+            // --- Lógica de Apps Dinâmicos no Formulário (Mantida) ---
 
             const planSelect = document.getElementById('plan');
             const includedAppsContainer = document.getElementById('included-apps-container');
@@ -1714,7 +1627,7 @@
                 includedAppsContainer.classList.remove('hidden'); 
             });
 
-            // Lógica para enviar formulário COMPLETO para o WhatsApp
+            // Lógica para enviar formulário COMPLETO para o WhatsApp (Mantida)
             const cadastroForm = document.getElementById('cadastro-form');
             cadastroForm.addEventListener('submit', function(event) {
                 event.preventDefault();
@@ -1763,7 +1676,7 @@
             });
 
 
-            // --- Inicialização do Swiper Responsiva ---
+            // --- Inicialização do Swiper Responsiva --- (Mantida)
             const swiper = new Swiper('.swiper-container', {
                 loop: false, 
                 spaceBetween: 16,
@@ -1806,6 +1719,27 @@
 
             // Inicializa os ícones Lucide
             lucide.createIcons();
+
+            // Scroll Reveal Animation Script (Mantido)
+            function reveal() {
+                var reveals = document.querySelectorAll(".reveal");
+                for (var i = 0; i < reveals.length; i++) {
+                    var windowHeight = window.innerHeight;
+                    var elementTop = reveals[i].getBoundingClientRect().top;
+                    var elementVisible = 150;
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveals[i].classList.add("active");
+                    }
+                }
+            }
+            window.addEventListener("scroll", reveal);
+            // Trigger once on load
+            reveal();
+
+            // Renderiza a grade de todos os apps na inicialização
+            renderAllAppsGrid();
+            // Renderiza a grade de apps para o modal TOP APPS na inicialização (prepara o conteúdo)
+            renderTopSitesAsAppsGrid();
         });
     </script>
 </body>
