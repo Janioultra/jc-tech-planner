@@ -706,9 +706,9 @@
                             
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-    <label for="birth_date" class="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Data de nascimento</label>
-    <input type="text" id="birth_date" name="birth_date" class="w-full px-4 py-3 rounded-lg" placeholder="DD/MM/AAAA" maxlength="10" oninput="mascaraData(this)" required>
-</div>
+                                    <label for="birth_date" class="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Data de nascimento</label>
+                                    <input type="text" id="birth_date" name="birth_date" class="w-full px-4 py-3 rounded-lg" placeholder="DD/MM/AAAA" maxlength="10" oninput="mascaraData(this)" required>
+                                </div>
                                 <div>
                                     <label for="whatsapp" class="block text-neon-green text-xs font-bold uppercase tracking-wider mb-2">WhatsApp</label>
                                     <input type="tel" id="whatsapp" name="whatsapp" placeholder="(XX) 9XXXX-XXXX" class="w-full px-4 py-3 rounded-lg border-cyan-900 focus:border-cyan-500" required>
@@ -1629,51 +1629,5 @@
             renderTopSitesAsAppsGrid();
         });
     </script>
-<script>
-    function mascaraData(val) {
-        var pass = val.value;
-        var expr = /[0123456789]/;
-
-        for (i = 0; i < pass.length; i++) {
-            var lchar = val.value.charAt(i);
-            var nchar = val.value.charAt(i + 1);
-
-            if (i == 0) {
-                if ((lchar.search(expr) != 0) || (lchar > 3)) {
-                    val.value = "";
-                }
-            } else if (i == 1) {
-                if (lchar.search(expr) != 0) {
-                    var tst1 = val.value.substring(0, (i));
-                    val.value = tst1;
-                    continue;
-                }
-                if ((nchar != '/') && (nchar != '')) {
-                    var tst1 = val.value.substring(0, (i + 1));
-                    if (nchar.search(expr) != 0)
-                        var tst2 = val.value.substring(i + 2, pass.length);
-                    else
-                        var tst2 = val.value.substring(i + 1, pass.length);
-                    val.value = tst1 + '/' + tst2;
-                }
-            } else if (i == 4) {
-                if (lchar.search(expr) != 0) {
-                    var tst1 = val.value.substring(0, (i));
-                    val.value = tst1;
-                    continue;
-                }
-                if ((nchar != '/') && (nchar != '')) {
-                    var tst1 = val.value.substring(0, (i + 1));
-                    if (nchar.search(expr) != 0)
-                        var tst2 = val.value.substring(i + 2, pass.length);
-                    else
-                        var tst2 = val.value.substring(i + 1, pass.length);
-                    val.value = tst1 + '/' + tst2;
-                }
-            }
-        }
-        val.value = val.value.replace(/[^0-9/]/g, '');
-    }
-</script>
 </body>
 </html>
